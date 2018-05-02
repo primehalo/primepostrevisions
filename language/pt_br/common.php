@@ -39,41 +39,41 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// Observando a mensagem
-	'PRIMEPOSTREVISIONS_VIEW'				=> 'Observar hist&oacute;rico da mensagem..',	// Texto para o link de observar o histórico de revisões
+	'PRIMEPOSTREVISIONS_VIEW'				=> 'Observar histórico da mensagem.',	// Texto para o link de observar o histórico de revisões
 
 	// Observando revisões
-	'PRIMEPOSTREVISIONS_VIEWING'			=> 'Observando hist&oacute;rico da mensagem.',
-	'PRIMEPOSTREVISIONS_VIEWING_EXPLAIN'	=> 'Esta p&aacute;gina mostra todas as vers&otilde;es da mensagem, come&ccedil;ando da mais atual.',
-	'PRIMEPOSTREVISIONS_TITLE'				=> 'Observando hist&oacute;rico da mensagem',
+	'PRIMEPOSTREVISIONS_VIEWING'			=> 'Observando histórico da mensagem.',
+	'PRIMEPOSTREVISIONS_VIEWING_EXPLAIN'	=> 'Esta página mostra todas as versões da mensagem, começando da mais atual.',
+	'PRIMEPOSTREVISIONS_TITLE'				=> 'Observando histórico da mensagem',
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Mensagem original',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Mensagem atual',
-	'PRIMEPOSTREVISIONS_COUNT'				=> 'revis&atilde;o %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Editado por %1$s on %2$s.',
+	'PRIMEPOSTREVISIONS_COUNT'				=> 'revisão %d',
+	#'PRIMEPOSTREVISIONS_INFO'				=> 'Editado por %1$s em %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Editado por',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[sem assunto]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
-	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
+	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'Você não tem as permissões necessárias para visualizar as revisões de mensagem.',
 
 	// Apagar uma revisão
-	'PRIMEPOSTREVISIONS_DELETE'				=> 'Apagar Revis&atilde;o',
-	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> 'Quer realmente apagar esta revis&atilde;o?',
-	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'Voc&ecirc; n&atilde;o tem as permiss&otilde;es necess&aacute;rias para eliminar esta revis&atilde;o.',
+	'PRIMEPOSTREVISIONS_DELETE'				=> 'Excluir Revisão',
+	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> 'Quer realmente apagar esta revisão?',
+	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'Você não tem as permissões necessárias para remover esta revisão.',
 	'PRIMEPOSTREVISIONS_DELETE_FAILED'		=> 'Ocorreu um erro ao tentar apagar a revisão.',
-	'PRIMEPOSTREVISIONS_DELETE_SUCCESS'		=> 'Revis&atilde;o removida com sucesso.',
-	'PRIMEPOSTREVISIONS_DELETE_INVALID'		=> 'Nenhuma revis&atilde;o selecionada para remo&ccedil;&atilde;o.',
+	'PRIMEPOSTREVISIONS_DELETE_SUCCESS'		=> 'Revisão removida com sucesso.',
+	'PRIMEPOSTREVISIONS_DELETE_INVALID'		=> 'Nenhuma revisão selecionada para remoção.',
 
 	// Apagar todas revisões
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Excluir revisões selecionadas',
-	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Quer realmente apagar estas revis&otilde;es?',
-	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Voc&ecirc; n&atilde;o tem as permiss&otilde;es necess&aacute;rias para remover estas revis&otilde;es.',
-	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Ocorreu um erro ao tentar apagar estas revis&otilde;es.',
-	'PRIMEPOSTREVISIONS_DELETES_SUCCESS'	=> 'Revis&otilde;es removidas com sucesso.',
-	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Nenhuma revis&atilde;o selecionada para remo&ccedil;&atilde;o.',
+	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Quer realmente apagar estas revisões?',
+	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Você não tem as permissões necessárias para remover estas revisões.',
+	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Ocorreu um erro ao tentar apagar estas revisões.',
+	'PRIMEPOSTREVISIONS_DELETES_SUCCESS'	=> 'Revisões removidas com sucesso.',
+	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Nenhuma revisão selecionada para remoção.',
 
 	// Restore a revision
-	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restore Revision',
-	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Are you sure you want to restore this revision?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'You lack the necessary permissions to restore this revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'An error occurred while attempting to restore the revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'The post has been successfully restored.',
+	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restaurar revisão',
+	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Quer realmente restaurar esta revisão?',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'Você não tem as permissões necessárias para restaurar esta revisão.',
+	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Ocorreu um erro ao tentar restaurar a revisão.',
+	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'A mensagem foi restaurada com sucesso.',
 ));
