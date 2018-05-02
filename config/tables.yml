@@ -1,0 +1,2 @@
+parameters:
+    primehalo.primepostrevisions.tables.primepostrev: %core.table_prefix%primepostrev

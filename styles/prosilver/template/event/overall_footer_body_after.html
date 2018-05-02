@@ -1,0 +1,26 @@
+<script>
+{% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
+$post_list = $('#revisions_form div.post');
+for (var i = 0, len = $post_list.length; i < len - 1; i++) {
+	var $post_a	= $post_list.eq(i);
+	var $post_b	= $post_list.eq(i + 1);
+	var html_a	= $post_a.find('div.content').html();
+	var html_b	= $post_b.find('div.content').html();
+	var dmp		= new diff_match_patch();
+	var diffs	= dmp.diff_main(html_b, html_a)
+	//var html	= dmp.diff_prettyHtml(diffs).replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+	var html	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
+	var cmpId	= 'cmp-' + i + '-' + (i + 1);
+	var cmpIcon	= '<i class="icon fa-balance-scale fa-fw"><span>{L_PRIMEPOSTREVISIONS_COMPARE}</span></i>';
+	var cmpBtn	= '<span class="button icon-button compare" data-cmp="' + cmpId + '" title="{L_PRIMEPOSTREVISIONS_COMPARE}">' + cmpIcon + '</span>';
+	var downArr	= '<i class="fa fa-arrow-up fa-5x"></i>';
+	var sidebox	= '<div class="postprofile" style="text-align:center;display:flex;flex-direction:column;justify-content:center;">' + downArr + '</div>';
+
+	$post_a.after('<div class="post comparison" id="' + cmpId + '" style="display:none;"><div class="inner">' + sidebox + html + '</div></div>');
+	$post_b.find('.post-buttons').prepend('<li>' + cmpBtn + '</li>');
+}
+$('div.post').on('click', 'span.button.compare', function() {
+	var cmpId = $(this).data('cmp');
+	$('#' + cmpId).slideToggle();
+});
+</script>

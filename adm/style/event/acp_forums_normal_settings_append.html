@@ -1,0 +1,9 @@
+		<dl>
+			<dt><label for="primepostrev_enable">{L_ACP_PRIMEPOSTREVISIONS_ENABLE}{L_COLON}</label><br /><span>{L_ACP_PRIMEPOSTREVISIONS_ENABLE_EXPLAIN}</span></dt>
+			<dd><label><input type="radio" class="radio" name="primepostrev_enable" value="1"<!-- IF S_PRIMEPOSTREV_ENABLE --> id="primepostrev_enable" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="primepostrev_enable" value="0"<!-- IF not S_PRIMEPOSTREV_ENABLE --> id="primepostrev_enable" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+		</dl>
+		<dl>
+			<dt><label for="primepostrev_autoprune">{L_ACP_PRIMEPOSTREVISIONS_AUTOPRUNE}{L_COLON}</label><br /><span>{L_ACP_PRIMEPOSTREVISIONS_AUTOPRUNE_EXPLAIN}</span></dt>
+			<dd><input type="number" id="primepostrev_autoprune" name="primepostrev_autoprune" value="{PRIMEPOSTREV_AUTOPRUNE}" min="0" max="9999" /></dd>
+		</dl>

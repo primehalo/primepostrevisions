@@ -1,0 +1,29 @@
+imports:
+    - { resource: cron.yml }
+    - { resource: tables.yml }
+services:
+    primehalo.primepostrevisions.controller:
+        class: primehalo\primepostrevisions\controller\controller
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%primehalo.primepostrevisions.tables.primepostrev%'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    primehalo.primepostrevisions.listener:
+        class: primehalo\primepostrevisions\event\listener
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%primehalo.primepostrevisions.tables.primepostrev%'
+        tags:
+            - { name: event.listener }
