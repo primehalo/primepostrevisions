@@ -2,7 +2,7 @@
 	"name": "primehalo/primepostrevisions",
 	"type": "phpbb-extension",
 	"description": "Keeps a revision history of all posts edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions.",
-	"homepage": "http://www.absoluteanime.com/_phpbb-extensions_/",
+	"homepage": "https://github.com/primehalo/primepostrevisions",
 	"version": "1.0.0-beta1",
 	"time": "2018-05-02",
 	"license": "GPL-2.0",
