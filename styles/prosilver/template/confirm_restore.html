@@ -1,13 +1,21 @@
 <!-- IF S_AJAX_REQUEST -->
-	<form action="{S_CONFIRM_ACTION}" method="post">
-		<h3>{MESSAGE_TITLE}</h3>
-		<p>{MESSAGE_TEXT}</p>
+<form action="{S_CONFIRM_ACTION}" method="post">
+	<h3>{MESSAGE_TITLE}</h3>
+	<p>{MESSAGE_TEXT}</p>
 
-		<fieldset class="submit-buttons">
-			<input type="button" name="confirm" value="{L_YES}" class="button2" />&nbsp;
-			<input type="button" name="cancel" value="{L_NO}" class="button2" />
-		</fieldset>
-	</form>
+	<fieldset class="fields1">
+		<dl>
+			<dt><label for="post_edit_reason">{L_EDIT_REASON}{L_COLON}</label></dt>
+			<dd><input type="text" name="post_edit_reason" id="post_edit_reason" value="{POST_EDIT_REASON}" class="inputbox autowidth" maxlength="120" size="45" /></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="submit-buttons">
+		{S_HIDDEN_FIELDS}
+		<input type="button" name="confirm" value="{L_YES}" class="button2" />&nbsp;
+		<input type="button" name="cancel" value="{L_NO}" class="button2" />
+	</fieldset>
+</form>
 
 <!-- ELSE -->
 

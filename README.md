@@ -14,3 +14,6 @@ A phpBB 3.2 extension that keeps a revision history of all posts edits. These re
 ## License
 
 [GPLv2](license.txt)
+
+## Donations
+If you like this extension and have the desire to express your thanks through a donation you may do so via PayPal. My PayPal ID is primehalo@gmail.com. The suggested donation amount for this extension is $10.00 but any amount is appreciated.
