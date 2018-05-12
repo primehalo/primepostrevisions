@@ -51,8 +51,8 @@ $lang = array_merge($lang, array(
 	#'PRIMEPOSTREVISIONS_INFO'				=> 'Aangepast door %1$s op %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Aangepast door',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[geen onderwerp]',
-	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
-	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
+	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Vergelijk',
+	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'U mist de nodige rechten om deze post revisies te bekijken.',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Verwijder revisie',
@@ -71,9 +71,9 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Geen revisie berichten geselecteerd om te verwijderen.',
 
 	// Restore a revision
-	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restore Revision',
-	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Are you sure you want to restore this revision?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'You lack the necessary permissions to restore this revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'An error occurred while attempting to restore the revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'The post has been successfully restored.',
+	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Revisie herstellen',
+	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Weet je zeker dat je deze revisie wilt herstellen?',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'U mist de nodige rechten om deze revisie te herstellen.',
+	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Er is een fout opgetreden bij een poging de revisie te herstellen.',
+	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Het bericht is succesvol hersteld.',
 ));

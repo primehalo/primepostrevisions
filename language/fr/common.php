@@ -51,8 +51,8 @@ $lang = array_merge($lang, array(
 	#'PRIMEPOSTREVISIONS_INFO'				=> 'Édité par %1$s le %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Édité par',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[sans sujet]',
-	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
-	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
+	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Comparer',
+	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'Vous ne disposez pas des autorisations nécessaires pour afficher ces révisions post.',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Effacer édition',
@@ -71,9 +71,9 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Aucune édition n’a été sélectionnée pour être supprimée.',
 
 	// Restore a revision
-	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restore Revision',
-	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Are you sure you want to restore this revision?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'You lack the necessary permissions to restore this revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'An error occurred while attempting to restore the revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'The post has been successfully restored.',
+	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restaurer la révision',
+	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Êtes-vous sûr de vouloir restaurer cette révision?',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'Vous n’avez pas les autorisations nécessaires pour restaurer cette révision.',
+	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Une erreur s’est produite lors de la tentative de restauration de la révision.',
+	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Le message a été restauré avec succès.',
 ));
