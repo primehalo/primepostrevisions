@@ -32,7 +32,7 @@ class install_schema extends \phpbb\db\migration\migration
 					'primepostrev_autoprune'	=> array('UINT:8', 0),
 				),
 				POSTS_TABLE	=> array(
-					'primepost_edit_time'		=> array('UINT:11', 0),
+					'primepost_edit_time'		=> array('TIMESTAMP', 0),
 					'primepost_edit_user'		=> array('UINT:10', 0),
 					'primepost_edit_count'		=> array('UINT:4', 0),
 				),
@@ -51,7 +51,7 @@ class install_schema extends \phpbb\db\migration\migration
 						'post_edit_reason'		=> array('VCHAR:255', ''),
 						'post_edit_user'		=> array('UINT:10', 0),
 						'post_edit_count'		=> array('UINT:4', 0),
-						'primepost_edit_time'	=> array('UINT:11', 0),
+						'primepost_edit_time'	=> array('TIMESTAMP', 0),
 						'primepost_edit_user'	=> array('UINT:10', 0),
 						'primepost_edit_count'	=> array('UINT:4', 0),
 					),
