@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 BETA 4] - 2018-06-06
+### Fixed
+- A bug introduced in the previous update that removed auto-incrementing the primary key in the revisions database table.
+
 ## [1.0.0 BETA 3] - 2018-06-05
 ### Fixed
 - Revisions would fail to save for very long messages due to different column types (using TEXT instead of MTEXT_UNI). I updated types for some other columns as well to keep them consistent with the posts table columns.
