@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 BETA 5] - 2018-06-07
+### Fixed
+- On the post revision history page, the alternative text for action buttons which are supposed to be hidden would sometimes show up because I forgot to added the sr-only class.
+
+### Added
+- German language files for the ACP and permissions
+
+### Changed
+- Changed JavaScript variables from snake_case formatting to camelCase formatting
+- Moved HTML strings out of JavaScript variables and into JavaScript template tags for easier readability
+- Updated German language files
+
 ## [1.0.0 BETA 4] - 2018-06-06
 ### Fixed
 - A bug introduced in the previous update that removed auto-incrementing the primary key in the revisions database table.

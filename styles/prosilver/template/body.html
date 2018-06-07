@@ -78,12 +78,12 @@
 				<ul class="post-buttons">
 					<!-- IF postrow.U_RESTORE -->
 					<li>
-						<a href="{postrow.U_RESTORE}" title="{L_PRIMEPOSTREVISIONS_RESTORE}" class="button button-icon-only"><i class="icon fa-undo fa-fw"><span>{L_PRIMEPOSTREVISIONS_RESTORE}</span></i></a>
+						<a href="{postrow.U_RESTORE}" title="{L_PRIMEPOSTREVISIONS_RESTORE}" class="button button-icon-only"><i class="icon fa-undo fa-fw"><span class="sr-only">{L_PRIMEPOSTREVISIONS_RESTORE}</span></i></a>
 					</li>
 					<!-- ENDIF -->
 					<!-- IF postrow.U_DELETE -->
 					<li>
-						<a href="{postrow.U_DELETE}" title="{L_PRIMEPOSTREVISIONS_DELETE}" class="button button-icon-only"><i class="icon fa-trash fa-fw"><span>{L_PRIMEPOSTREVISIONS_DELETE}</span></i></a>
+						<a href="{postrow.U_DELETE}" title="{L_PRIMEPOSTREVISIONS_DELETE}" class="button button-icon-only"><i class="icon fa-trash fa-fw"><span class="sr-only">{L_PRIMEPOSTREVISIONS_DELETE}</span></i></a>
 					</li>
 					{% if DELETABLE_CNT > 1 %}
 					<li>
