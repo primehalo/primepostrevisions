@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* prime_post_revisions [German]
+* prime_post_revisions [German — Sie]
 *
 * @copyright (c) 2018 Ken F. Innes IV <https://www.absoluteanime.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
@@ -52,28 +52,28 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Editiert von',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[Kein Titel]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Vergleichen',
-	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'Du besitzt nicht die erforderlichen Rechte zum Anschauen dieser Beitragsversionen.',
+	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'Sie besitzen nicht die erforderlichen Rechte zum Anschauen dieser Beitragsversionen.',
 
 	// Delete a revision
-	'PRIMEPOSTREVISIONS_DELETE'				=> 'Lösche die ausgewählte Version',
-	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> 'Bist du sicher, dass Du diese Beitragsversion löschen willst?',
-	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'Du besitzt nicht die erforderlichen Rechte zur Löschung dieser Beitragsversion.',
+	'PRIMEPOSTREVISIONS_DELETE'				=> 'Lösche diese Version',
+	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> 'Sind Sie sicher, dass Sie diese Beitragsversion löschen wollen?',
+	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'Sie besitzen nicht die erforderlichen Rechte zur Löschung dieser Beitragsversion.',
 	'PRIMEPOSTREVISIONS_DELETE_FAILED'		=> 'Beim Versuch die Beitragsversion zu löschen ist ein Fehler aufgetreten.',
 	'PRIMEPOSTREVISIONS_DELETE_SUCCESS'		=> 'Die Beitragsversion wurde erfolgreich gelöscht.',
 	'PRIMEPOSTREVISIONS_DELETE_INVALID'		=> 'Es wurde keine Beitragsversion für die Löschung ausgewählt.',
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Lösche die ausgewählten Versionen',
-	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Bist Du sicher, dass Du diese Beitragsversionen löschen willst?',
-	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Du besitzt nicht die erforderlichen Rechte zur Löschung dieser Beitragsversionen.',
+	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Sind Sie sicher, dass Sie diese Beitragsversionen löschen wollen?',
+	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Sie besitzen nicht die erforderlichen Rechte zur Löschung dieser Beitragsversionen.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Beim Versuch die Beitragsversionen zu löschen ist ein Fehler aufgetreten.',
 	'PRIMEPOSTREVISIONS_DELETES_SUCCESS'	=> 'Die Beitragsversionen wurden erfolgreich gelöscht.',
 	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Es wurden keine Beitragsversionen für die Löschung ausgewählt.',
 
 	// Restore a revision
 	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Beitragsversion wiederherstellen',
-	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Bist Du sicher, dass Du diese Beitragsversion wiederherstellen willst?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'Du besitzt nicht die erforderlichen Rechte zur Wiederherstellung dieser Beitragsversion.',
+	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Sind Sie sicher, dass Sie diese Beitragsversionen wiederherstellen wollen?',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'Sie besitzen nicht die erforderlichen Rechte zur Wiederherstellung dieser Beitragsversion.',
 	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Beim Versuch die Beitragsversion wiederherzustellen ist ein Fehler aufgetreten.',
-	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Die Beitragversion wurde erfolgreich wiederhergestellt.',
+	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Die Beitragsversion wurde erfolgreich wiederhergestellt.',
 ));
