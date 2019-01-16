@@ -2,7 +2,7 @@
 /**
 *
 * Prime Post Revisions extension for the phpBB Forum Software package.
-*
+* Brazilian Portuguese translation by eunaumtenhoid [2019][ver 1.0.0-beta5] (https://github.com/phpBBTraducoes)
 * @copyright (c) 2018 Ken F. Innes IV <https://www.absoluteanime.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
@@ -38,10 +38,10 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Can view post revisions',
-	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Can delete post revisions',
-	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Can restore post revisions',
-	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Can view own post’s revisions',
-	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Can delete own post’s revisions',
-	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Can restore own post’s revisions',
+	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Pode ver revisões de post',
+	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Pode excluir revisões de post',
+	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Pode restaurar revisões de post',
+	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Pode ver o próprio revisões de post',
+	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Pode excluir o próprio revisões de post',
+	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Pode restaurar o próprio revisões de post',
 ));

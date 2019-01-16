@@ -1,9 +1,9 @@
 <?php
 /**
 *
-* Pages extension for the phpBB Forum Software package.
+* Prime Post Revisions extension for the phpBB Forum Software package.
 *
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
+* @copyright (c) 2018 Ken F. Innes IV <https://www.absoluteanime.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
