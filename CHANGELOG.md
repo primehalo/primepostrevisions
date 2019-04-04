@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 BETA 6] - 2019-01-15
+### Fixed
+- Header information on the Brazilian translation files
+
+### Added
+- Remaining Brazilian files that had not been translated
+
 ## [1.0.0 BETA 5] - 2018-06-07
 ### Fixed
 - On the post revision history page, the alternative text for action buttons which are supposed to be hidden would sometimes show up because I forgot to added the sr-only class.
