@@ -64,9 +64,12 @@ class prune_post_revisions extends \phpbb\cron\task\base
 		}
 		$this->db->sql_freeresult($result);
 
-		// Log the auto-pruning result
-		$this->user->add_lang_ext('primehalo/primepostrevisions', 'info_acp_main');
-		$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, array($del_cnt));
+		if ($del_cnt > 0)
+		{
+			// Log the auto-pruning result
+			$this->user->add_lang_ext('primehalo/primepostrevisions', 'info_acp_main');
+			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, array($del_cnt));
+		}
 
 		// Update the cron task run time here if it hasn't
 		// already been done by your cron actions.
