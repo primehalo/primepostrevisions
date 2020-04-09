@@ -44,5 +44,5 @@ $lang = array_merge($lang, array(
 	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> 'Beitragsversionen automatisch löschen',
 	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE_EXPLAIN'	=> 'Löscht automatisch alle Beitragsversionen, welche älter als die angebene Anzahl an Tagen sind. Benutze 0 zur Deaktivierung.',
 
-	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> '<strong>Automatische Löschung von Beitragsversionen</strong><br />» Beitragsversionen gelöscht: %d',
+	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> '<strong>Automatische Löschung von Beitragsversionen</strong><br />» Beitragsversionen gelöscht: %d » %s',
 ));

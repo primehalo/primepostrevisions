@@ -54,21 +54,27 @@ class prune_post_revisions extends \phpbb\cron\task\base
 	public function run()
 	{
 		// Run your cron actions here...
-		$del_cnt	= 0;
-		$sql		= 'SELECT forum_id, primepostrev_autoprune FROM ' . FORUMS_TABLE . ' WHERE primepostrev_autoprune > 0';
+		$del_total	= 0;
+		$sql		= 'SELECT forum_id, forum_name, primepostrev_autoprune FROM ' . FORUMS_TABLE . ' WHERE primepostrev_autoprune > 0';
 		$result		= $this->db->sql_query($sql);
+		$log_forums	= array(); // Array of strings, each one indicating which forum had revisions pruned
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$del_cnt += $this->prune_forum($row['forum_id'], $row['primepostrev_autoprune']);
+			$del_count = $this->prune_forum($row['forum_id'], $row['primepostrev_autoprune']);
+			if ($del_count > 0)
+			{
+				$log_forums[] = $row['forum_name'];
+			}
+			$del_total += $del_count;
 		}
 		$this->db->sql_freeresult($result);
 
-		if ($del_cnt > 0)
+		if ($del_total > 0)
 		{
 			// Log the auto-pruning result
 			$this->user->add_lang_ext('primehalo/primepostrevisions', 'info_acp_main');
-			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, array($del_cnt));
+			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, array($del_total, implode(', ', $log_forums)));
 		}
 
 		// Update the cron task run time here if it hasn't

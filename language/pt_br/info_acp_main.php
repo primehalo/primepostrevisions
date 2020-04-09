@@ -44,5 +44,5 @@ $lang = array_merge($lang, array(
 	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> 'Auto-limpeza revisões',
 	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE_EXPLAIN'	=> 'Excluir automaticamente as revisões de posts anteriores ao número de dias especificado. Defina como 0 para desativar.',
 
-	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> '<strong>Auto-limpou revisões de post</strong><br />» Revisões excluidas: %d',
+	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> '<strong>Auto-limpou revisões de post</strong><br />» Revisões excluidas: %d » %s',
 ));

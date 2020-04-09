@@ -1,16 +1,16 @@
 {
 	"name": "primehalo/primepostrevisions",
 	"type": "phpbb-extension",
-	"description": "Keeps a revision history of all posts edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions.",
+	"description": "Keeps a revision history of all post edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions.",
 	"homepage": "https://github.com/primehalo/primepostrevisions",
-	"version": "1.0.0-beta7",
-	"time": "2020-03-26",
+	"version": "1.0.0-beta8",
+	"time": "2020-04-09",
 	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Ken F. Innes IV",
 			"email": "primehalo@gmail.com",
-			"homepage": "http://www.absoluteanime.com/",
+			"homepage": "https://www.absoluteanime.com/",
 			"role": "Lead Developer"
 		}
 	],

@@ -44,5 +44,5 @@ $lang = array_merge($lang, array(
 	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> 'Auto-prune revisions',
 	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE_EXPLAIN'	=> 'Automatically delete post revisions older than the given number of days. Set to 0 to disable.',
 
-	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> '<strong>Auto-pruned post revisions</strong><br />» Revisions deleted: %d',
+	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'			=> '<strong>Auto-pruned post revisions</strong><br />» Revisions deleted: %d » %s',
 ));

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 BETA 8] - 2020-04-09
+### Fixed
+- The cron job for removing old revisions would run too often because I failed to declare the primepostrev_cron_last_run config variable as Dynamic
+
+### Added
+- In the cron results log, list the forums from which revisions were deleted
+
 ## [1.0.0 BETA 7] - 2020-03-26
 ### Changed
 - Only log cron results if any revisions were actually pruned

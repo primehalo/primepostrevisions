@@ -8,6 +8,6 @@ services:
             - '@user'
             - '%primehalo.primepostrevisions.tables.primepostrev%'
         calls:
-            - [set_name, [cron.task.primepostrevisions.prune]]
+            - ['set_name', ['cron.task.primepostrevisions.prune']]
         tags:
             - { name: cron.task }
