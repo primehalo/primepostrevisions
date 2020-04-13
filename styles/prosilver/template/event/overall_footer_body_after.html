@@ -13,23 +13,35 @@
 	</span>
 </li>
 </script>
-<script>
 {% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
+<script>
 $postList = $('#revisions_form div.post');
-for (var i = 0, len = $postList.length; i < len - 1; i++) {
-	var $postA	= $postList.eq(i);
-	var $postB	= $postList.eq(i + 1);
-	var dmp		= new diff_match_patch();
-	var diffs	= dmp.diff_main($('div.content', $postB).html(), $('div.content', $postA).html())
-	var cmpHtml	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
-	var cmpId	= 'cmp-' + i + '-' + (i + 1);
-	var cmpBtn	= $('#ppr-cmpbtn-tpl').html().replace(/<<:cmpId>>/g, cmpId);
-	var cmpOut	= $('#ppr-cmpout-tpl').html().replace(/<<:cmpId>>/g, cmpId).replace(/<<:cmpHtml>>/g, cmpHtml);
+for (let i = 0, len = $postList.length; i < len - 1; i++) {
+	let $postA	= $postList.eq(i);
+	let $postB	= $postList.eq(i + 1);
+	let $htmlA	= $('div.content', $postA).html().replace(/<br>/g, '');
+	let $htmlB	= $('div.content', $postB).html().replace(/<br>/g, '');
+	let dmp		= new diff_match_patch();
+	let diffs	= dmp.diff_main($htmlB, $htmlA);
+
+	let cmpHtml	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
+	let matches = cmpHtml.match(/<ins [^>]+>(.*?)<\/ins>|<del [^>]+>(.*?)<\/del>/g)
+	if (matches != null)
+	{
+		matches.map(function(val) {
+			cmpHtml = cmpHtml.replace(val, val.replace(/&para;/g, '&crarr;'));
+		});
+	}
+	cmpHtml = cmpHtml.replace(/&para;/g, '');
+
+	let cmpId	= 'cmp-' + i + '-' + (i + 1);
+	let cmpBtn	= $('#ppr-cmpbtn-tpl').html().replace(/<<:cmpId>>/g, cmpId);
+	let cmpOut	= $('#ppr-cmpout-tpl').html().replace(/<<:cmpId>>/g, cmpId).replace(/<<:cmpHtml>>/g, cmpHtml);
 	$postA.after(cmpOut);
 	$postB.find('.post-buttons').prepend(cmpBtn);
 }
 $('div.post').on('click', 'span.button.compare', function() {
-	var cmpId = $(this).data('cmp');
+	let cmpId = $(this).data('cmp');
 	$('#' + cmpId).slideToggle();
 });
 </script>
