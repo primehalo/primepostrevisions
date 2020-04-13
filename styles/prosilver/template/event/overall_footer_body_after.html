@@ -1,8 +1,16 @@
 <script id="ppr-cmpout-tpl" type="text/x-jsrender">
-<div class="post comparison" id="<<:cmpId>>" style="display:none;">
+<div class="post has-profile bg3 comparison" id="<<:cmpId>>" style="display:none;">
 	<div class="inner">
-		<div class="postprofile" style="text-align:center;display:flex;flex-direction:column;justify-content:center;"><i class="fa fa-arrow-up fa-5x"></i></div>
-		<<:cmpHtml>>
+		<dl class="postprofile">
+			<dt class="has-avatar">
+				<div style="text-align:center;display:flex;flex-direction:column;justify-content:center;font-size:10vmin;">
+					<i class="fa fa-arrow-up"></i>
+				</div>
+			</dt>
+		</dl>
+		<div class="postbody">
+			<div class="content"><<:cmpHtml>></div>
+		</div>
 	</div>
 </div>
 </script>
