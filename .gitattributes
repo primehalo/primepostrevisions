@@ -1,2 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Declare files that will always have LF line endings on checkout.
+*.php	text eol=lf
+*.html	text eol=lf
+*.js	text eol=lf
+*.json	text eol=lf
+*.yml	text eol=lf
