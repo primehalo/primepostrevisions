@@ -1,3 +1,4 @@
+{% if REVISIONS %}
 <script id="ppr-cmpout-tpl" type="text/x-jsrender">
 <div class="post has-profile bg3 comparison" id="<<:cmpId>>" style="display:none;">
 	<div class="inner">
@@ -9,7 +10,8 @@
 			</dt>
 		</dl>
 		<div class="postbody">
-			<div class="content"><<:cmpHtml>></div>
+			<h3>{L_PRIMEPOSTREVISIONS_COMPARISON}: <a href="#<<:cmpId>>"><<:cmpSubj>></a></h3>
+			<div class="content"><<:cmpText>></div>
 		</div>
 	</div>
 </div>
@@ -23,33 +25,42 @@
 </script>
 {% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
 <script>
+function cmpData($textA, $textB) {
+	let dmp		= new diff_match_patch();
+	let diffs	= dmp.diff_main($textA, $textB);
+
+	let cmpText	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
+	let matches = cmpText.match(/<ins [^>]+>(.*?)<\/ins>|<del [^>]+>(.*?)<\/del>/g)
+	if (matches != null)
+	{
+		matches.map(function(val) {
+			cmpText = cmpText.replace(val, val.replace(/&para;/g, '&crarr;'));
+		});
+	}
+
+	return cmpText.replace(/&para;/g, '');
+}
+
 $postList = $('#revisions_form div.post');
 for (let i = 0, len = $postList.length; i < len - 1; i++) {
 	let $postA	= $postList.eq(i);
 	let $postB	= $postList.eq(i + 1);
-	let $htmlA	= $('div.content', $postA).html().replace(/<br>/g, '');
-	let $htmlB	= $('div.content', $postB).html().replace(/<br>/g, '');
-	let dmp		= new diff_match_patch();
-	let diffs	= dmp.diff_main($htmlB, $htmlA);
-
-	let cmpHtml	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
-	let matches = cmpHtml.match(/<ins [^>]+>(.*?)<\/ins>|<del [^>]+>(.*?)<\/del>/g)
-	if (matches != null)
-	{
-		matches.map(function(val) {
-			cmpHtml = cmpHtml.replace(val, val.replace(/&para;/g, '&crarr;'));
-		});
-	}
-	cmpHtml = cmpHtml.replace(/&para;/g, '');
-
+	let $subjA	= $('h3 a', $postA).html().replace(/<br>/g, '');
+	let $subjB	= $('h3 a', $postB).html().replace(/<br>/g, '');
+	let $textA	= $('div.bbcode', $postA).html().replace(/<br>/g, '');
+	let $textB	= $('div.bbcode', $postB).html().replace(/<br>/g, '');
+	let cmpSubj	= cmpData($subjB, $subjA);
+	let cmpText	= cmpData($textB, $textA);
 	let cmpId	= 'cmp-' + i + '-' + (i + 1);
 	let cmpBtn	= $('#ppr-cmpbtn-tpl').html().replace(/<<:cmpId>>/g, cmpId);
-	let cmpOut	= $('#ppr-cmpout-tpl').html().replace(/<<:cmpId>>/g, cmpId).replace(/<<:cmpHtml>>/g, cmpHtml);
+	let cmpOut	= $('#ppr-cmpout-tpl').html().replace(/<<:cmpId>>/g, cmpId).replace(/<<:cmpSubj>>/g, cmpSubj).replace(/<<:cmpText>>/g, cmpText);
 	$postA.after(cmpOut);
 	$postB.find('.post-buttons').prepend(cmpBtn);
 }
+
 $('div.post').on('click', 'span.button.compare', function() {
 	let cmpId = $(this).data('cmp');
 	$('#' + cmpId).slideToggle();
 });
 </script>
+{% endif %}
