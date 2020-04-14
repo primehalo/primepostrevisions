@@ -142,10 +142,11 @@ class controller
 		// Add the current version of the post to the list
 		array_unshift($revisions, $post_data);
 
-		// Include the file necessary for obtaining user rank
-		if (!function_exists('phpbb_get_user_rank'))
+		// Include the file necessary for obtaining user rank & also for generation of text for display & edit
+		if (!function_exists('phpbb_get_user_rank') || !function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit'))
 		{
-			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
+			include_once($this->root_path . 'includes/functions_display.' . $this->php_ext);
+			include_once($this->root_path . 'includes/functions_content.' . $this->php_ext);
 		}
 
 		// Loop through the revisions and generate the template variables
@@ -203,6 +204,7 @@ class controller
 			$edit_count_str	= empty($row['primepost_edit_count']) ? $this->user->lang['PRIMEPOSTREVISIONS_FIRST'] : $edit_count_str;
 			$edit_count_str	= empty($revision_id) ? $this->user->lang['PRIMEPOSTREVISIONS_FINAL'] : $edit_count_str;
 			$deletable_cnt	+= $delete_url ? 1 : 0;
+			$bbcode_text	= generate_text_for_edit($row['post_text'], $row['bbcode_uid'], 0)['text'];
 
 			$this->template->assign_block_vars('postrow',array(
 				'REVISION_ID'		=> $revision_id,
@@ -217,6 +219,7 @@ class controller
 				'EDIT_REASON'		=> $reason,
 				'EDIT_COUNT_STR'	=> $edit_count_str,
 				'REVISION_CNT'		=> $revision_cnt,
+				'BBCODE_TEXT'		=> $bbcode_text,
 
 				// Poster
 				'POST_AUTHOR_FULL'		=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_full'] : get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
@@ -240,6 +243,7 @@ class controller
 		// Assign some global template variables
 		add_form_key('revisions_form');
 		$this->template->assign_vars(array(
+			'REVISIONS'			=> true,
 			'POST_SUBJECT'		=> $post_data['post_subject'],
 			'U_POST'			=> $post_url,
 			'POST_ID'			=> $post_id,
