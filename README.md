@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-A phpBB 3.2 extension that keeps a revision history of all posts edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions. Other features include the ability to enable/disable for specific forums and auto-pruning to remove old revisions. These options are set on the page for editing forum settings in ACP. This extension can be used with phpBB 3.1.3+ but due to a change of how button icons are displayed between 3.1 and 3.2 the template styling won't match completely.
+A phpBB 3.2/3.3 extension that keeps a revision history of all posts edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions. Other features include the ability to enable/disable for specific forums and auto-pruning to remove old revisions. These options are set on the page for editing forum settings in ACP. This extension can be used with phpBB 3.1.3+ but due to a change of how button icons are displayed between 3.1 and 3.2 the template styling won't match completely.
 
 ## Installation
 
