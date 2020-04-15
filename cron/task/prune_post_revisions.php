@@ -77,8 +77,7 @@ class prune_post_revisions extends \phpbb\cron\task\base
 			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, array($del_total, implode(', ', $log_forums)));
 		}
 
-		// Update the cron task run time here if it hasn't
-		// already been done by your cron actions.
+		// Update the cron task run time here if it hasn't already been done by your cron actions.
 		$this->config->set('primepostrev_cron_last_run', time(), false);
 	}
 
@@ -127,7 +126,7 @@ class prune_post_revisions extends \phpbb\cron\task\base
 	*/
 	public function is_runnable()
 	{
-		return true;
+		return $this->config['primepostrev_enable_autoprune'];
 	}
 
 	/**

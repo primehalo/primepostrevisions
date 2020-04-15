@@ -22,12 +22,13 @@ class listener implements EventSubscriberInterface
 	/**
 	* Service Containers
 	*/
-	protected $auth;
-	protected $db;
-    protected $helper;
-    protected $request;
-	protected $template;
-	protected $user;
+	protected $auth;		// @var \phpbb\auth\auth
+	protected $config;		// @var \phpbb\config\config
+	protected $db;			// @var \phpbb\db\driver\driver_interface
+	protected $helper;		// @var \phpbb\controller\helper
+	protected $request;		// @var \phpbb\request\request_interface
+	protected $template;	// @var \phpbb\template\template
+	protected $user;		// @var \phpbb\user
 
 	/**
 	* Variables
@@ -56,7 +57,8 @@ class listener implements EventSubscriberInterface
 	* Constructor
 	*
 	* @param \phpbb\auth\auth					$auth				Auth object
- 	* @param \phpbb\db\driver\driver_interface	$db					Database connection
+	* @param \phpbb\config\config				$config				Config object
+	* @param \phpbb\db\driver\driver_interface	$db					Database connection
 	* @param \phpbb\controller\helper			$controller_helper	Controller helper object
 	* @param \phpbb\request\request_interface	$request			Request object
 	* @param \phpbb\template\template			$template			Template object
@@ -65,6 +67,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
+		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\controller\helper $helper,
 		\phpbb\request\request_interface $request,
@@ -73,10 +76,11 @@ class listener implements EventSubscriberInterface
 		$revisions_table)
 	{
 		$this->auth				= $auth;
+		$this->config			= $config;
 		$this->db				= $db;
-        $this->helper			= $helper;
+		$this->helper			= $helper;
 		$this->request			= $request;
-        $this->template			= $template;
+		$this->template			= $template;
 		$this->user				= $user;
 		$this->revisions_table	= $revisions_table;
 
@@ -132,7 +136,6 @@ class listener implements EventSubscriberInterface
 
 		if (!empty($event['post_list']))
 		{
-			#$sql	= "SELECT post_id FROM {$this->revisions_table} WHERE post_id IN(" . implode(', ', $event['post_list']) . ') GROUP BY post_id';
 			$sql	= "SELECT post_id FROM {$this->revisions_table} WHERE " . $this->db->sql_in_set('post_id', $event['post_list']) . ' GROUP BY post_id';
 			$result	= $this->db->sql_query($sql);
 			while ($row = $this->db->sql_fetchrow($result))
@@ -140,7 +143,6 @@ class listener implements EventSubscriberInterface
 				$this->posts_with_revisions[] = $row['post_id'];
 			}
 			$this->db->sql_freeresult($result);
-
 		}
 	}
 
@@ -157,8 +159,6 @@ class listener implements EventSubscriberInterface
 		$row		= $event['row'];
 		$post_row	= $event['post_row'];
 		$forum_id	= $row['forum_id'];
-		#$is_poster	= $event['poster_id'] == $this->user->data['user_id'];
-		#$is_auth	= $this->auth->acl_get('m_primepostrev_view', $forum_id) || ($is_poster && $this->auth->acl_get('f_primepostrev_view', $forum_id));
 		$is_auth	= $this->core->is_auth('view', $forum_id,  $event['poster_id']);
 
 		if ($is_auth && in_array($row['post_id'], $this->posts_with_revisions))
@@ -182,14 +182,13 @@ class listener implements EventSubscriberInterface
 
 		// Determine if we should store a revision
 		$unchanged	= empty($event['update_message']) && empty($event['update_subject']);
-		$disabled	= empty($event['post_data']['primepostrev_enable']);
+		$disabled	= empty($this->config['primepostrev_enable_general']) || empty($event['post_data']['primepostrev_enable']);
 		if ($event['mode'] !== 'edit' || $unchanged || $disabled)
 		{
 			return;
 		}
 
-		$post_id = $event['post_id'];
-		$this->revision_saved = $this->core->save_revision($post_id);
+		$this->revision_saved = $this->core->save_revision($event['post_id']);
 	}
 
 
@@ -208,7 +207,6 @@ class listener implements EventSubscriberInterface
 		}
 
 		$sql_data	= $event['sql_data'];
-
 		$data		= $event['data'];
 		$cur_time	= !empty($data['post_time']) ? $data['post_time'] : time();
 		$sql_data[POSTS_TABLE]['sql'] = empty($sql_data[POSTS_TABLE]['sql']) ? array() : $sql_data[POSTS_TABLE]['sql'];

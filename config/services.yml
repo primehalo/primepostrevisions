@@ -19,6 +19,7 @@ services:
         class: primehalo\primepostrevisions\event\listener
         arguments:
             - '@auth'
+            - '@config'
             - '@dbal.conn'
             - '@controller.helper'
             - '@request'

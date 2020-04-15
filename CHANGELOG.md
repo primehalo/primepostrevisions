@@ -4,9 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 BETA 9] - 2020-04-14
+### Added
+- Admin Control Panel module to more quickly and easily access the individual forums settings in one place
+- Global setting to enable/disable the saving of post revisions
+- Global setting to enable/disable auto-pruning
+
+### Changed
+- When compare revisions it now shows them as they would be seen when composing in an editor, with BBCodes instead of with HTML (Thanks Dark❶!)
+- Moved template files from "prosilver" to "all" to make compatiblity with prosilver-based themes simpler (Thanks Dark❶!)
+- Use the unicode character ↵ to represent line ending changes in comparisons (Thanks Dark❶!)
+- Changed "var" to "let" in the JavaScript
+- Minor code cleanup
+
 ## [1.0.0 BETA 8] - 2020-04-09
 ### Fixed
-- The cron job for removing old revisions would run too often because I failed to declare the primepostrev_cron_last_run config variable as Dynamic
+- The cron job for removing old revisions would run too often because I failed to declare the primepostrev_cron_last_run config variable as Dynamic (Thanks Dark❶!)
 
 ### Added
 - In the cron results log, list the forums from which revisions were deleted

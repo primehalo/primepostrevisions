@@ -1,0 +1,90 @@
+<!-- INCLUDE overall_header.html -->
+<style type="text/css" scoped>
+#acp_board a.edit img {
+  filter: grayscale(100%);
+}
+#acp_board dl:hover a.edit img {
+  filter: grayscale(50%);
+}
+#acp_board dl:hover a.edit img:hover {
+  filter: none;
+}</style>
+
+<h1>{L_ACP_PRIMEPOSTREVISIONS_TITLE}</h1>
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+	<fieldset>
+		<legend>{L_ACP_PRIMEPOSTREVISIONS_BASIC_SETTINGS}</legend>
+		<dl>
+			<dt><label for="primepostrev_enable_general">{L_ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL}{L_COLON}</label><br /><span>{L_ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL_EXPLAIN}</span></dt>
+			<dd><input type="radio" class="radio" name="primepostrev_enable_general" id="primepostrev_enable_general" value="1" <!-- IF PRIMEPOSTREVISIONS_ENABLE_GENERAL -->checked="checked" <!-- ENDIF --> /> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="primepostrev_enable_general" value="0" <!-- IF not PRIMEPOSTREVISIONS_ENABLE_GENERAL -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="primepostrev_enable_autoprune">{L_ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE}{L_COLON}</label><br /><span>{L_ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE_EXPLAIN}</span></dt>
+			<dd><input type="radio" class="radio" name="primepostrev_enable_autoprune" value="1" <!-- IF PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE -->checked="checked" <!-- ENDIF -->id="primepostrev_enable_autoprune" /> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="primepostrev_enable_autoprune" value="0" <!-- IF not PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset id="primepostrevisions_enable_section">
+		<legend>{L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS}</legend>
+		<p>{L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN}</p>
+		<!-- BEGIN forums -->
+		<dl>
+			<dt><label for="primepostrev_enable_{forums.FORUM_ID}"><a href="{forums.U_EDIT}" class="edit">{ICON_EDIT}</a> {forums.FORUM_NAME}{L_COLON}</label></dt>
+			<dd><label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forums.FORUM_ID}]" id="primepostrev_enable_{forums.FORUM_ID}" value="1"<!-- IF forums.S_PRIMEPOSTREV_ENABLE --> id="primepostrev_enable" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forums.FORUM_ID}]" value="0"<!-- IF not forums.S_PRIMEPOSTREV_ENABLE --> id="primepostrev_enable" checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				<label class="forum-autoprune-area">[ {L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE}{L_COLON} <input type="number" id="primepostrev_autoprune_{forums.FORUM_ID}" name="primepostrev_autoprune[{forums.FORUM_ID}]" value="{forums.PRIMEPOSTREV_AUTOPRUNE}" min="0" max="9999" /> {L_DAYS} ]</label></dd>
+		</dl>
+		<!-- END forums -->
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_ACP_SUBMIT_CHANGES}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		</p>
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+<script>
+// Dim the sections that that aren't used based on the general settings.
+// Don't actually disable because we still want to allow the user to make changes
+// even though the changes won't have any effect until the setting is enabled.
+
+function updateEnableSection() {
+	let enabled = document.getElementById('primepostrev_enable_general').checked;
+	let elements = document.getElementsByClassName('forum-enable-area');
+	for (let element of elements) {
+		element.style.opacity = enabled ? 1 : 0.5;
+	}
+}
+
+function updateAutopruneeSection() {
+	let enabled = document.getElementById('primepostrev_enable_autoprune').checked;
+	let elements = document.getElementsByClassName('forum-autoprune-area');
+	for (let element of elements) {
+		element.style.opacity = enabled ? 1 : 0.5;
+	}
+}
+
+const enableGeneralInputs = document.querySelectorAll('input[name="primepostrev_enable_general"]');
+for (let input of enableGeneralInputs) {
+	input.addEventListener('change', function(event) {
+		updateEnableSection();
+	});
+}
+
+const enableAutopruneInputs = document.querySelectorAll('input[name="primepostrev_enable_autoprune"]');
+for (let input of enableAutopruneInputs) {
+	input.addEventListener('change', function(event) {
+		updateAutopruneeSection();
+	});
+}
+
+updateEnableSection();
+updateAutopruneeSection();
+</script>
+<!-- INCLUDE overall_footer.html -->
