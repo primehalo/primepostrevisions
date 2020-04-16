@@ -1,6 +1,6 @@
 <!-- INCLUDE overall_header.html -->
-<h2>{L_PRIMEPOSTREVISIONS_TITLE}</h2>
-<p>{L_PRIMEPOSTREVISIONS_VIEWING_EXPLAIN}{% if U_POST %} <strong><em><a href="{U_POST}">{L_VIEW_LATEST_POST}</a></em></strong>{% endif %}</p>
+<h2><!-- IF COMPARISONS -->{L_PRIMEPOSTREVISIONS_TITLE}<!-- ELSE -->{L_PRIMEPOSTREVISIONS_COMPARING}<!-- ENDIF --></h2>
+<p><!-- IF COMPARISONS -->{L_PRIMEPOSTREVISIONS_VIEWING_EXPLAIN}<!-- ELSE -->{L_PRIMEPOSTREVISIONS_COMPARING_EXPLAIN}<!-- ENDIF -->{% if U_POST %} <strong><em><a href="{U_POST}">{L_VIEW_LATEST_POST}</a></em></strong>{% endif %}</p>
 
 <form id="revisions_form" name="revisions_form" method="post" action="{S_FORM_ACTION}">
 <!-- BEGIN postrow -->
@@ -112,7 +112,8 @@
 
 {% if DELETABLE_CNT > 1 %}
 <fieldset class="display-actions">
-	<input class="button1" type="submit" name="delete_revisions_submit" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
+	<!-- IF COMPARISONS --><input class="button2" type="submit" name="compare" value="{L_PRIMEPOSTREVISIONS_COMPARES}" /><!-- ENDIF -->
+	<input class="button1" type="submit" name="delete" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
 	<div><a href="#" onclick="marklist('revisions_form', 'revision', true); return false;">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('revisions_form', 'revision', false); return false;">{L_UNMARK_ALL}</a></div>
 {S_HIDDEN_FIELDS}
 {S_FORM_TOKEN}

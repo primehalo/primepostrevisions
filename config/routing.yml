@@ -1,17 +1,18 @@
 primehalo_primepostrevisions_view:
     path: /revisions/view/{post_id}
-    defaults: { _controller: primehalo.primepostrevisions.controller:view }
+    defaults: { _controller: primehalo.primepostrevisions.controller:view, post_id: 0, revision_id: false }
     requirements:
         post_id: \d+
+        revision_id: \d+|false
 
 primehalo_primepostrevisions_delete:
     path: /revisions/delete/{revision_id}
-    defaults: { _controller: primehalo.primepostrevisions.controller:delete }
+    defaults: { _controller: primehalo.primepostrevisions.controller:delete, revision_id: 0, s_hidden_fields: '' }
     requirements:
         revision_id: \d+
 
 primehalo_primepostrevisions_restore:
     path: /revisions/restore/{revision_id}
-    defaults: { _controller: primehalo.primepostrevisions.controller:restore }
+    defaults: { _controller: primehalo.primepostrevisions.controller:restore, revision_id: 0 }
     requirements:
         revision_id: \d+

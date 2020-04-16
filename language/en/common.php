@@ -48,12 +48,14 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Original post',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Current post',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Revision %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Edited by %1$s on %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Edited by',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[no subject]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
-	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
+	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing two post history',
+	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between two versions of the post.',
+	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected two revisions',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Delete Revision',
