@@ -51,6 +51,8 @@ $lang = array_merge($lang, array(
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS'				=> 'Forum Settings',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN'		=> 'Mantenha um histórico de revisão de todas as edições de posts. Auto-limpeza excluir automaticamente as revisões de posts anteriores ao número de dias especificado. Defina como 0 para desativar.',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE'	=> 'Auto-prune',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_NAME'					=> 'Forum Name',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_ENABLE'				=> 'Enable',
 
 	'ACP_PRIMEPOSTREVISIONS_SETTINGS_SAVED'				=> 'Prime Post Revisions settings have been saved successfully!',
 	'ACP_PRIMEPOSTREVISIONS_SETTINGS_LOG'				=> '<strong>Altered Prime Post Revisions settings</strong>',
