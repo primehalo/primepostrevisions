@@ -48,7 +48,6 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'المشاركة الأصلية',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'المشاركة الحالية',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'التعديل %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'تم التعديل بواسطة %1$s في %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'تم التعديل بواسطة',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[لا عنوان]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',

@@ -49,7 +49,6 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Первоначальный текст',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Текущий текст',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Версия %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Отредактировано %1$s %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Отредактировано',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[нет заголовка]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',

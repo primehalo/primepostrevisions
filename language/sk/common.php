@@ -48,7 +48,6 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Original prispevok',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Aktuálny prispevok',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Uprava %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Upravil %1$s on %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Upravil',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[no subject]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',

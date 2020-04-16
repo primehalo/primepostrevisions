@@ -49,7 +49,6 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Mensaje original',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Mensaje actual',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Revisión %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Editado por %1$s en %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Editado por',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[sin asunto]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',

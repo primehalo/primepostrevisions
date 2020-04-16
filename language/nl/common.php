@@ -48,7 +48,6 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Origineel bericht',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Huidig bericht',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Revisie %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Aangepast door %1$s op %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Aangepast door',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[geen onderwerp]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Vergelijk',
