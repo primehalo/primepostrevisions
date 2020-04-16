@@ -45,13 +45,11 @@
 					{% for forumrow in loops.forumrow %}
 						{% if forumrow.S_IS_CAT %}
 							<tr>
-								<td class="col1" colspan="4">{{ forumrow.FORUM_NAME }}</td>
+								<td class="col1" colspan="4"><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span>{{ forumrow.FORUM_NAME }}</td>
 							</tr>
 						{% else %}
 							<tr>
-								<td class="col1">
-									{{ forumrow.FORUM_NAME }}
-								</td>
+								<td class="col1"><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span>{{ forumrow.FORUM_NAME }}</td>
 								<td class="col1">
 									<label><a href="{forumrow.U_EDIT}" class="edit">{{ ICON_EDIT ~ ' ' ~ lang('EDIT') }}</a></label>
 								</td>
