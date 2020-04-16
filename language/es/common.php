@@ -54,6 +54,10 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[sin asunto]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
+	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing two post history',
+	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between two versions of the post.',
+	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected two revisions',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Eliminar revisión',
