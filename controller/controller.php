@@ -90,9 +90,7 @@ class controller
 	{
 		if ($revision_id !== false)
 		{
-			$rev_min	= min($revision_id);
-			$rev_max	= max($revision_id);
-			$rev_list	= array(($rev_min != $rev_max) ? $rev_min : 0 , $rev_max);
+			$rev_list	= is_array($revision_id) ? $revision_id : array(0, $revision_id);
 		}
 
 		// Obtain the current version of the post
