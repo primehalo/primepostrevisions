@@ -1,12 +1,12 @@
 <!-- INCLUDE overall_header.html -->
 <style type="text/css" scoped>
-#acp_board a.edit img {
+#acp_board td a.edit img {
   filter: grayscale(100%);
 }
-#acp_board dl:hover a.edit img {
+#acp_board td:hover a.edit img {
   filter: grayscale(50%);
 }
-#acp_board dl:hover a.edit img:hover {
+#acp_board td:hover a.edit img:hover {
   filter: none;
 }</style>
 
@@ -30,14 +30,46 @@
 	<fieldset id="primepostrevisions_enable_section">
 		<legend>{L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS}</legend>
 		<p>{L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN}</p>
-		<!-- BEGIN forums -->
-		<dl>
-			<dt><label for="primepostrev_enable_{forums.FORUM_ID}"><a href="{forums.U_EDIT}" class="edit">{ICON_EDIT}</a> {forums.FORUM_NAME}{L_COLON}</label></dt>
-			<dd><label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forums.FORUM_ID}]" id="primepostrev_enable_{forums.FORUM_ID}" value="1"<!-- IF forums.S_PRIMEPOSTREV_ENABLE --> id="primepostrev_enable" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-				<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forums.FORUM_ID}]" value="0"<!-- IF not forums.S_PRIMEPOSTREV_ENABLE --> id="primepostrev_enable" checked="checked"<!-- ENDIF --> /> {L_NO}</label>
-				<label class="forum-autoprune-area">[ {L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE}{L_COLON} <input type="number" id="primepostrev_autoprune_{forums.FORUM_ID}" name="primepostrev_autoprune[{forums.FORUM_ID}]" value="{forums.PRIMEPOSTREV_AUTOPRUNE}" min="0" max="9999" /> {L_DAYS} ]</label></dd>
-		</dl>
-		<!-- END forums -->
+		<br>
+		<table class="table1 responsive">
+			<thead>
+				<tr>
+					<th>{{ lang('ACP_PRIMEPOSTREVISIONS_FORUM_NAME') }}</th>
+					<th>{{ lang('ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS') }}</th>
+					<th>{{ lang('ACP_PRIMEPOSTREVISIONS_FORUM_ENABLE') }}</th>
+					<th>{{ lang('ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE') }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if loops.forumrow|length %}
+					{% for forumrow in loops.forumrow %}
+						{% if forumrow.S_IS_CAT %}
+							<tr>
+								<td class="col1" colspan="4">{{ forumrow.FORUM_NAME }}</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td class="col1">
+									{{ forumrow.FORUM_NAME }}
+								</td>
+								<td class="col1">
+									<label><a href="{forumrow.U_EDIT}" class="edit">{{ ICON_EDIT ~ ' ' ~ lang('EDIT') }}</a></label>
+								</td>
+								<td class="col1">
+									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forumrow.FORUM_ID}]" id="primepostrev_enable_{forumrow.FORUM_ID}" value="1" {% if forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forumrow.FORUM_ID}]" value="0" {% if not forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+								</td>
+								<td class="col1">
+									<label class="forum-autoprune-area"><input type="number" id="primepostrev_autoprune_{forumrow.FORUM_ID}" name="primepostrev_autoprune[{forumrow.FORUM_ID}]" value="{{ forumrow.PRIMEPOSTREV_AUTOPRUNE }}" min="0" max="9999" /> {{ lang('DAYS') }}</label>
+								</td>
+							</tr>
+						{% endif %}
+					{% else %}
+					<strong>{{ lang('NO_FORUMS') }}</strong>
+					{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
 	</fieldset>
 
 	<fieldset>

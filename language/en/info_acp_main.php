@@ -51,6 +51,8 @@ $lang = array_merge($lang, array(
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS'				=> 'Forum Settings',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN'		=> 'Keep a revision history of all posts edits. Auto-prune will automatically delete revisions older than the given number of days. Set to 0 to disable.',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE'	=> 'Auto-prune',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_NAME'					=> 'Forum Name',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_ENABLE'				=> 'Enable',
 
 	'ACP_PRIMEPOSTREVISIONS_SETTINGS_SAVED'				=> 'Prime Post Revisions settings have been saved successfully!',
 	'ACP_PRIMEPOSTREVISIONS_SETTINGS_LOG'				=> '<strong>Altered Prime Post Revisions settings</strong>',
