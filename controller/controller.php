@@ -90,7 +90,7 @@ class controller
 	{
 		if ($revision_id !== false)
 		{
-			$rev_list	= is_array($revision_id) ? $revision_id : array(0, $revision_id);
+			$rev_list	= is_array($revision_id) ? (count($revision_id) > 1 ? $revision_id : array_merge(array(0), $revision_id)) : array(0, $revision_id);
 		}
 
 		// Obtain the current version of the post
@@ -109,16 +109,31 @@ class controller
 		$post_url	= $this->core->build_post_url($post_id);
 		$post_link	= "<a href=\"{$post_url}\">{$this->user->lang['VIEW_LATEST_POST']}</a>";
 		$s_hidden_fields = build_hidden_fields(array(
-			'revision_list'	=> array_filter($this->request->variable('revision_list', array(0))),
+			'revision_list_compare'	=> array_filter($this->request->variable('revision_list_compare', array(0))),
+			'revision_list_delete'	=> array_filter($this->request->variable('revision_list_delete', array(0)))
 		));
 
-		// Delete or Compare button was pressed
-		if ($this->request->is_set_post('delete') || ($this->request->is_set_post('compare') && $revision_id === false))
+		// Compare button was pressed
+		if ($this->request->is_set_post('compare') && $revision_id === false)
 		{
-			$revision_list = array_filter($this->request->variable('revision_list', array(0)));
-			if (!empty($revision_list) && check_form_key('revisions_form'))
+			$revision_list_compare = array_filter($this->request->variable('revision_list_compare', array(0)));
+			if (!empty($revision_list_compare) && check_form_key('revisions_form'))
 			{
-				return ($this->request->is_set_post('delete')) ? $this->delete($revision_list, $s_hidden_fields) : $this->view($post_id, $revision_list);
+				return $this->view($post_id, $revision_list_compare);
+			}
+			else
+			{
+				trigger_error('FORM_INVALID', E_USER_WARNING);
+			}
+		}
+
+		// Delete button was pressed
+		if ($this->request->is_set_post('delete'))
+		{
+			$revision_list_delete = array_filter($this->request->variable('revision_list_delete', array(0)));
+			if (!empty($revision_list_delete) && check_form_key('revisions_form'))
+			{
+				return $this->delete($revision_list_delete, $s_hidden_fields);
 			}
 			else
 			{
@@ -134,7 +149,7 @@ class controller
 
 		// Prepare some variables
 		$user_cache		= array();
-		$selectable_cnt	= $revision_cnt	= 0;
+		$deletable_cnt	= $revision_cnt	= 0;
 		$page_name		= ($revision_id !== false) ? $this->user->lang['PRIMEPOSTREVISIONS_COMPARING'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'];
 		$can_delete		= $this->core->is_auth('delete', $forum_id, $post_data['poster_id']);
 		$can_restore	= $this->core->is_auth('restore', $forum_id, $post_data['poster_id']);
@@ -215,7 +230,7 @@ class controller
 			$edit_count_str	= empty($row['primepost_edit_count']) ? $this->user->lang['PRIMEPOSTREVISIONS_FIRST'] : $edit_count_str;
 			$edit_count_str	= empty($post_rev_id) ? $this->user->lang['PRIMEPOSTREVISIONS_FINAL'] : $edit_count_str;
 			$bbcode_text	= generate_text_for_edit($row['post_text'], $row['bbcode_uid'], 0)['text'];
-			$selectable_cnt	+= $delete_url ? 1 : 0;
+			$deletable_cnt	+= $delete_url ? 1 : 0;
 
 			$this->template->assign_block_vars('postrow',array(
 				'REVISION_ID'		=> $post_rev_id,
@@ -261,7 +276,7 @@ class controller
 			'POST_ID'			=> $post_id,
 			'S_FORM_ACTION'		=> $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $post_id)),
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
-			'SELECTABLE_CNT'	=> $selectable_cnt,
+			'DELETABLE_CNT'		=> $deletable_cnt,
 		));
 
 		return $this->helper->render('body.html', $page_name);

@@ -70,22 +70,41 @@ $('div.post').on('click', 'span.button.compare', function() {
 	$('#' + cmpId).slideToggle();
 });
 
-// Enable or disable the action buttons depending on if any of the checkboxes are checked
-function updatePrimePostRevActionBtns() {
-	let checkedCnt = $('#revisions_form input[name="revision_list[]"]:checkbox:checked').length;
-	let $btns = $('#revisions_form .display-actions input[type="submit"]');
+// Enable or disable the delete action buttons depending on if any of the delete checkboxes are checked
+function updatePrimePostRevDelActionBtn() {
+	let checkedCnt = $('#revisions_form input[name="revision_list_delete[]"]:checkbox:checked').length;
+	let $btn = $('#revisions_form .display-actions input[name="delete"]');
 	if (checkedCnt > 0) {
-		$btns.removeAttr('disabled').removeClass('disabled');
+		$btn.removeAttr('disabled').removeClass('disabled');
 	} else {
-		$btns.attr('disabled', 'disabled').addClass('disabled');
+		$btn.attr('disabled', 'disabled').addClass('disabled');
 	}
 }
 
-// Watch each checkbox to update the action buttons status when a change occurs
-$('#revisions_form input[name="revision_list[]"]').change(function() {
-	updatePrimePostRevActionBtns();
+// Enable or disable the compare action buttons depending on if any of the compare checkboxes are checked
+function updatePrimePostRevCmpActionBtn() {
+	let checkedCnt = $('#revisions_form input[name="revision_list_compare[]"]:checkbox:checked').length;
+	let $btn = $('#revisions_form .display-actions input[name="compare"]');
+	if (checkedCnt > 0) {
+		$btn.removeAttr('disabled').removeClass('disabled');
+	} else {
+		$btn.attr('disabled', 'disabled').addClass('disabled');
+	}
+}
+
+// Watch each checkbox to update the delete action buttons status when a change occurs
+$('#revisions_form input[name="revision_list_delete[]"]').change(function() {
+	updatePrimePostRevDelActionBtn();
 });
-updatePrimePostRevActionBtns();
+
+// Watch each checkbox to update the compare action buttons status when a change occurs
+$('#revisions_form input[name="revision_list_compare[]"]').change(function() {
+	updatePrimePostRevCmpActionBtn();
+});
+
+// Run both once
+updatePrimePostRevDelActionBtn();
+updatePrimePostRevCmpActionBtn();
 
 </script>
 {% endif %}

@@ -88,12 +88,15 @@
 					<li>
 						<a href="{postrow.U_DELETE}" title="{L_PRIMEPOSTREVISIONS_DELETE}" class="button button-icon-only"><i class="icon fa-trash fa-fw"><span class="sr-only">{L_PRIMEPOSTREVISIONS_DELETE}</span></i></a>
 					</li>
-					{% if SELECTABLE_CNT > 1 %}
+					{% if DELETABLE_CNT > 1 %}
 					<li>
-						<label class="button button-icon-only" style="padding-left:0.5em;padding-right:0.5em;"><input type="checkbox" id="revision_list_select_{postrow.REVISION_ID}" name="revision_list[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></label>
+						<label class="button button-icon"><i class="icon fa-trash fa-fw" style="padding-left:0.2em;padding-right:0.8em;">&nbsp;<input type="checkbox" id="revision_list_delete_{postrow.REVISION_ID}" name="revision_list_delete[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></i></label>
 					</li>
 					{% endif %}
 					<!-- ENDIF -->
+					<li>
+						<label class="button button-icon"><i class="icon fa-balance-scale fa-fw" style="padding-left:0.2em;padding-right:1.3em;">&nbsp;<input type="checkbox" id="revision_list_compare_{postrow.REVISION_ID}" name="revision_list_compare[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></i></label>
+					</li>
 				</ul>
 				<p class="author">
 					<span class="responsive-hide"><!-- IF postrow.EDIT_COUNT > 0 -->{L_PRIMEPOSTREVISIONS_EDIT_BY}<!-- ELSE -->{L_POST_BY_AUTHOR}<!-- ENDIF --> <strong>{postrow.POST_AUTHOR_FULL}</strong> &raquo; </span>{postrow.POST_DATE}
@@ -113,11 +116,30 @@
 <hr class="divider" />
 <!-- END postrow -->
 
-{% if SELECTABLE_CNT > 1 or COMPARISONS %}
+{% if DELETABLE_CNT > 1 or COMPARISONS %}
 <fieldset class="display-actions">
-	<!-- IF COMPARISONS --><input class="button2" type="submit" name="compare" value="{L_PRIMEPOSTREVISIONS_COMPARES}" /><!-- ENDIF -->
-	<input class="button1" type="submit" name="delete" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
-	<div><a href="#" onclick="marklist('revisions_form', 'revision', true); return false;">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('revisions_form', 'revision', false); return false;">{L_UNMARK_ALL}</a></div>
+	{% if COMPARISONS %}
+		<dl>
+			<dd>
+				<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', true); updatePrimePostRevCmpActionBtn(); return false;">{L_MARK_ALL}</a>
+				&nbsp;{L_COLON}{L_COLON}&nbsp;
+				<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', false); updatePrimePostRevCmpActionBtn(); return false;">{L_UNMARK_ALL}</a>
+				&nbsp;{L_COLON}{L_COLON}&nbsp;
+				<input class="button2" type="submit" name="compare" value="{L_PRIMEPOSTREVISIONS_COMPARES}" />
+			</dd>
+		</dl>
+	{% endif %}
+	{% if DELETABLE_CNT > 1 %}
+		<dl>
+			<dd>
+				<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', true); updatePrimePostRevDelActionBtn(); return false;">{L_MARK_ALL}</a>
+				&nbsp;{L_COLON}{L_COLON}&nbsp;
+				<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', false); updatePrimePostRevDelActionBtn(); return false;">{L_UNMARK_ALL}</a>
+				&nbsp;{L_COLON}{L_COLON}&nbsp;
+				<input class="button1" type="submit" name="delete" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
+			</dd>
+		</dl>
+	{% endif %}
 {S_HIDDEN_FIELDS}
 {S_FORM_TOKEN}
 </fieldset>
