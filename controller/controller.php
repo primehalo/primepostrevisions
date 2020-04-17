@@ -270,7 +270,7 @@ class controller
 		add_form_key('revisions_form');
 		$this->template->assign_vars(array(
 			'REVISIONS'			=> true,
-			'COMPARISONS'		=> ($revision_id !== false) ? false : true,
+			'COMPARISONS'		=> $revision_id === false,
 			'POST_SUBJECT'		=> $post_data['post_subject'],
 			'U_POST'			=> $post_url,
 			'POST_ID'			=> $post_id,
