@@ -43,7 +43,7 @@ $lang = array_merge($lang, array(
 	'ACP_PRIMEPOSTREVISIONS_BASIC_SETTINGS'				=> 'General Settings',
 
 	'ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL'				=> 'Enable Post Revisions',
-	'ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL_EXPLAIN'		=> 'Enables the ability to store post revisions. Disabling this will not delete existing post revisions, it only prevents new revisions from being stored.',
+	'ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL_EXPLAIN'		=> 'Enables the ability to store post revisions. Storing revisions must be set on a per-forum basis. Disabling this will not delete existing post revisions, it only prevents new revisions from being stored.',
 
 	'ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE'			=> 'Enable Auto-prune',
 	'ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE_EXPLAIN'	=> 'Enables the ability to auto-prune revisions. Pruning frequency must be set on a per-forum basis.',
@@ -51,6 +51,8 @@ $lang = array_merge($lang, array(
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS'				=> 'Forum Settings',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN'		=> 'Keep a revision history of all posts edits. Auto-prune will automatically delete revisions older than the given number of days. Set to 0 to disable.',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE'	=> 'Auto-prune',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_NAME'					=> 'Forum Name',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_ENABLE'				=> 'Enable',
 
 	'ACP_PRIMEPOSTREVISIONS_SETTINGS_SAVED'				=> 'Prime Post Revisions settings have been saved successfully!',
 	'ACP_PRIMEPOSTREVISIONS_SETTINGS_LOG'				=> '<strong>Altered Prime Post Revisions settings</strong>',
