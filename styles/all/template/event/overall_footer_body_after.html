@@ -62,5 +62,23 @@ $('div.post').on('click', 'span.button.compare', function() {
 	let cmpId = $(this).data('cmp');
 	$('#' + cmpId).slideToggle();
 });
+
+// Enable or disable the action buttons depending on if any of the checkboxes are checked
+function updatePrimePostRevActionBtns() {
+	let checkedCnt = $('#revisions_form input[name="revision_list[]"]:checkbox:checked').length;
+	let $btns = $('#revisions_form .display-actions input[type="submit"]');
+	if (checkedCnt > 0) {
+		$btns.removeAttr('disabled').removeClass('disabled');
+	} else {
+		$btns.attr('disabled', 'disabled').addClass('disabled');
+	}
+}
+
+// Watch each checkbox to update the action buttons status when a change occurs
+$('#revisions_form input[name="revision_list[]"]').change(function() {
+	updatePrimePostRevActionBtns();
+});
+updatePrimePostRevActionBtns();
+
 </script>
 {% endif %}

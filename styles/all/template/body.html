@@ -110,7 +110,7 @@
 <hr class="divider" />
 <!-- END postrow -->
 
-{% if DELETABLE_CNT > 1 %}
+{% if DELETABLE_CNT > 1 or COMPARISONS %}
 <fieldset class="display-actions">
 	<!-- IF COMPARISONS --><input class="button2" type="submit" name="compare" value="{L_PRIMEPOSTREVISIONS_COMPARES}" /><!-- ENDIF -->
 	<input class="button1" type="submit" name="delete" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
