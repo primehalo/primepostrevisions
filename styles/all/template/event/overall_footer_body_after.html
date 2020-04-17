@@ -70,41 +70,30 @@ $('div.post').on('click', 'span.button.compare', function() {
 	$('#' + cmpId).slideToggle();
 });
 
-// Enable or disable the delete action buttons depending on if any of the delete checkboxes are checked
-function updatePrimePostRevDelActionBtn() {
-	let checkedCnt = $('#revisions_form input[name="revision_list_delete[]"]:checkbox:checked').length;
-	let $btn = $('#revisions_form .display-actions input[name="delete"]');
+// Enable or disable the action buttons depending on if any of the checkboxes are checked
+function updatePrimePostRevActionBtn(type) {
+	let checkedCnt = $('#revisions_form input[name="revision_list_'+type+'[]"]:checkbox:checked').length;
+	let $btn = $('#revisions_form .display-actions input[name="'+type+'"]');
 	if (checkedCnt > 0) {
 		$btn.removeAttr('disabled').removeClass('disabled');
 	} else {
 		$btn.attr('disabled', 'disabled').addClass('disabled');
 	}
 }
-
-// Enable or disable the compare action buttons depending on if any of the compare checkboxes are checked
-function updatePrimePostRevCmpActionBtn() {
-	let checkedCnt = $('#revisions_form input[name="revision_list_compare[]"]:checkbox:checked').length;
-	let $btn = $('#revisions_form .display-actions input[name="compare"]');
-	if (checkedCnt > 0) {
-		$btn.removeAttr('disabled').removeClass('disabled');
-	} else {
-		$btn.attr('disabled', 'disabled').addClass('disabled');
-	}
-}
-
-// Watch each checkbox to update the delete action buttons status when a change occurs
-$('#revisions_form input[name="revision_list_delete[]"]').change(function() {
-	updatePrimePostRevDelActionBtn();
-});
 
 // Watch each checkbox to update the compare action buttons status when a change occurs
 $('#revisions_form input[name="revision_list_compare[]"]').change(function() {
-	updatePrimePostRevCmpActionBtn();
+	updatePrimePostRevActionBtn('compare');
+});
+
+// Watch each checkbox to update the delete action buttons status when a change occurs
+$('#revisions_form input[name="revision_list_delete[]"]').change(function() {
+	updatePrimePostRevActionBtn('delete');
 });
 
 // Run both once
-updatePrimePostRevDelActionBtn();
-updatePrimePostRevCmpActionBtn();
+updatePrimePostRevActionBtn('compare');
+updatePrimePostRevActionBtn('delete');
 
 </script>
 {% endif %}
