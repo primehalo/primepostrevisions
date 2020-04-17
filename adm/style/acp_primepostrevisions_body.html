@@ -48,11 +48,11 @@
 					{% for forumrow in loops.forumrow %}
 						{% if forumrow.S_IS_CAT %}
 							<tr>
-								<td class="row3" colspan="3"><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span>{{ forumrow.FORUM_NAME }}</td>
+								<td class="row3" colspan="3"><label><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span>{{ forumrow.FORUM_NAME }}</label></td>
 							</tr>
 						{% else %}
 							<tr class="forum-row" title="{{ forumrow.FORUM_NAME }}">
-								<td class="row1"><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span><a href="{forumrow.U_EDIT}" class="edit">{{ ICON_EDIT }}</a> {{ forumrow.FORUM_NAME }}</td>
+								<td class="row1"><label for="primepostrev_enable_{forumrow.FORUM_ID}"><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span><a href="{forumrow.U_EDIT}" class="edit">{{ ICON_EDIT }}</a> {{ forumrow.FORUM_NAME }}</label></td>
 								<td class="row1">
 									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forumrow.FORUM_ID}]" id="primepostrev_enable_{forumrow.FORUM_ID}" value="1" {% if forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forumrow.FORUM_ID}]" value="0" {% if not forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('NO') }}</label>
