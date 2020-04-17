@@ -134,8 +134,7 @@ class controller
 
 		// Prepare some variables
 		$user_cache		= array();
-		$deletable_cnt	= 0;
-		$revision_cnt	= 0;
+		$selectable_cnt	= $revision_cnt	= 0;
 		$page_name		= ($revision_id !== false) ? $this->user->lang['PRIMEPOSTREVISIONS_COMPARING'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'];
 		$can_delete		= $this->core->is_auth('delete', $forum_id, $post_data['poster_id']);
 		$can_restore	= $this->core->is_auth('restore', $forum_id, $post_data['poster_id']);
@@ -215,8 +214,8 @@ class controller
 			$edit_count_str	= sprintf($this->user->lang['PRIMEPOSTREVISIONS_COUNT'], $row['primepost_edit_count']);
 			$edit_count_str	= empty($row['primepost_edit_count']) ? $this->user->lang['PRIMEPOSTREVISIONS_FIRST'] : $edit_count_str;
 			$edit_count_str	= empty($post_rev_id) ? $this->user->lang['PRIMEPOSTREVISIONS_FINAL'] : $edit_count_str;
-			$deletable_cnt	+= $delete_url ? 1 : 0;
 			$bbcode_text	= generate_text_for_edit($row['post_text'], $row['bbcode_uid'], 0)['text'];
+			$selectable_cnt	+= $delete_url ? 1 : 0;
 
 			$this->template->assign_block_vars('postrow',array(
 				'REVISION_ID'		=> $post_rev_id,
@@ -262,7 +261,7 @@ class controller
 			'POST_ID'			=> $post_id,
 			'S_FORM_ACTION'		=> $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $post_id)),
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
-			'DELETABLE_CNT'		=> $deletable_cnt,
+			'SELECTABLE_CNT'	=> $selectable_cnt,
 		));
 
 		return $this->helper->render('body.html', $page_name);

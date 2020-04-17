@@ -25,6 +25,11 @@
 </script>
 {% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
 <script>
+/**
+ * Prime Post Revisions, JavaScript for revision comparison.
+ */
+
+// Compare 2 revisions
 function cmpData($textA, $textB) {
 	let dmp		= new diff_match_patch();
 	let diffs	= dmp.diff_main($textA, $textB);
@@ -41,6 +46,7 @@ function cmpData($textA, $textB) {
 	return cmpText.replace(/&para;/g, '');
 }
 
+// Compare all revisions with the adjacent post
 $postList = $('#revisions_form div.post');
 for (let i = 0, len = $postList.length; i < len - 1; i++) {
 	let $postA	= $postList.eq(i);
@@ -58,6 +64,7 @@ for (let i = 0, len = $postList.length; i < len - 1; i++) {
 	$postB.find('.post-buttons').prepend(cmpBtn);
 }
 
+// Toggle Diff post on click of compare button
 $('div.post').on('click', 'span.button.compare', function() {
 	let cmpId = $(this).data('cmp');
 	$('#' + cmpId).slideToggle();
