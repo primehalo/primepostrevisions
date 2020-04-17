@@ -94,9 +94,11 @@
 					</li>
 					{% endif %}
 					<!-- ENDIF -->
+					{% if COMPARISONS %}
 					<li>
 						<label class="button button-icon"><i class="icon fa-balance-scale fa-fw" style="padding-left:0.2em;padding-right:1.3em;">&nbsp;<input type="checkbox" id="revision_list_compare_{postrow.REVISION_ID}" name="revision_list_compare[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></i></label>
 					</li>
+					{% endif %}
 				</ul>
 				<p class="author">
 					<span class="responsive-hide"><!-- IF postrow.EDIT_COUNT > 0 -->{L_PRIMEPOSTREVISIONS_EDIT_BY}<!-- ELSE -->{L_POST_BY_AUTHOR}<!-- ENDIF --> <strong>{postrow.POST_AUTHOR_FULL}</strong> &raquo; </span>{postrow.POST_DATE}
