@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-  // Viewing posts
+	// Viewing posts
 	'PRIMEPOSTREVISIONS_VIEW'				=> 'Zobacz historię postu.',	// Text for the link to view the revision history
 
 	// Viewing revisions
@@ -53,9 +53,12 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
 	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+
+	// Compare selected revisions
 	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
 	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
 	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARES_SELECT'	=> 'Select for comparison',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Usuń zmianę',
@@ -67,6 +70,7 @@ $lang = array_merge($lang, array(
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Usuń wybrane zmiany',
+	'PRIMEPOSTREVISIONS_DELETES_SELECT'		=> 'Select for deletion',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Jesteś pewny(a), że chcesz usunąć te zmiany?',
 	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Nie masz niezbędnych uprawnień, by usunąć te zmiany.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Wystąpił błąd podczas próby usunięcia tych zmian.',
@@ -76,7 +80,7 @@ $lang = array_merge($lang, array(
 	// Restore a revision
 	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restore Revision',
 	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Are you sure you want to restore this revision?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'	=> 'You lack the necessary permissions to restore this revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_FAILED'	=> 'An error occurred while attempting to restore the revision.',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'You lack the necessary permissions to restore this revision.',
+	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'An error occurred while attempting to restore the revision.',
 	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'The post has been successfully restored.',
 ));

@@ -53,9 +53,12 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
 	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+
+	// Compare selected revisions
 	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
 	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
 	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARES_SELECT'	=> 'Select for comparison',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Delete Revision',
@@ -67,6 +70,7 @@ $lang = array_merge($lang, array(
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Delete selected revisions',
+	'PRIMEPOSTREVISIONS_DELETES_SELECT'		=> 'Select for deletion',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Are you sure you want to delete these revisions?',
 	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'You lack the necessary permissions to delete these revisions.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'An error occurred while attempting to delete these revisions.',
@@ -79,6 +83,4 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'You lack the necessary permissions to restore this revision.',
 	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'An error occurred while attempting to restore the revision.',
 	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'The post has been successfully restored.',
-	'PRIMEPOSTREVISIONS_RESTORE_INVALID'	=> 'No post revision has been selected for restoration.',
-
 ));

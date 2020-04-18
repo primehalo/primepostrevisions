@@ -33,7 +33,6 @@
 function cmpData($textA, $textB) {
 	let dmp		= new diff_match_patch();
 	let diffs	= dmp.diff_main($textA, $textB);
-
 	let cmpText	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
 	let matches = cmpText.match(/<ins [^>]+>(.*?)<\/ins>|<del [^>]+>(.*?)<\/del>/g)
 	if (matches != null)
@@ -42,7 +41,6 @@ function cmpData($textA, $textB) {
 			cmpText = cmpText.replace(val, val.replace(/&para;/g, '&crarr;'));
 		});
 	}
-
 	return cmpText.replace(/&para;/g, '');
 }
 
@@ -73,7 +71,7 @@ $('div.post').on('click', 'span.button.compare', function() {
 // Enable or disable the action buttons depending on if any of the checkboxes are checked
 function updatePrimePostRevActionBtn(type) {
 	let checkedCnt = $('#revisions_form input[name="revision_list_'+type+'[]"]:checkbox:checked').length;
-	let $btn = $('#revisions_form .display-actions input[name="'+type+'"]');
+	let $btn = $('#revisions_form input[type="submit"][name="'+type+'"]');
 	if (checkedCnt > 0) {
 		$btn.removeAttr('disabled').removeClass('disabled');
 	} else {
@@ -81,12 +79,12 @@ function updatePrimePostRevActionBtn(type) {
 	}
 }
 
-// Watch each checkbox to update the compare action buttons status when a change occurs
+// Watch each checkbox to update the compare action button status when a change occurs
 $('#revisions_form input[name="revision_list_compare[]"]').change(function() {
 	updatePrimePostRevActionBtn('compare');
 });
 
-// Watch each checkbox to update the delete action buttons status when a change occurs
+// Watch each checkbox to update the delete action button status when a change occurs
 $('#revisions_form input[name="revision_list_delete[]"]').change(function() {
 	updatePrimePostRevActionBtn('delete');
 });

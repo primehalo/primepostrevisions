@@ -53,9 +53,12 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
 	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+
+	// Compare selected revisions
 	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
 	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
 	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARES_SELECT'	=> 'Select for comparison',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Odstrániť Upravu',
@@ -67,6 +70,7 @@ $lang = array_merge($lang, array(
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Odstrániť vybraté úpravy',
+	'PRIMEPOSTREVISIONS_DELETES_SELECT'		=> 'Select for deletion',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Ste si istí, že chcete zmazať tieto upravy?',
 	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Nemate potrebné povolenia na odstránenie tejto upravy.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Došlo k chybe pri pokuse o vymazanie upravy.',

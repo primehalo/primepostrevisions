@@ -90,13 +90,13 @@
 					</li>
 					{% if DELETABLE_CNT > 1 %}
 					<li>
-						<label class="button button-icon"><i class="icon fa-trash fa-fw" style="padding-left:0.2em;padding-right:0.8em;">&nbsp;<input type="checkbox" id="revision_list_delete_{postrow.REVISION_ID}" name="revision_list_delete[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></i></label>
+						<label class="button button-icon" title="{L_PRIMEPOSTREVISIONS_DELETES_SELECT}"><i class="icon fa-trash fa-fw" style="padding-left:0.2em;padding-right:0.8em;">&nbsp;<input type="checkbox" id="revision_list_delete_{postrow.REVISION_ID}" name="revision_list_delete[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></i></label>
 					</li>
 					{% endif %}
 					<!-- ENDIF -->
 					{% if COMPARISONS %}
 					<li>
-						<label class="button button-icon"><i class="icon fa-balance-scale fa-fw" style="padding-left:0.2em;padding-right:1.3em;">&nbsp;<input type="checkbox" id="revision_list_compare_{postrow.REVISION_ID}" name="revision_list_compare[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></i></label>
+						<label class="button button-icon" title="{L_PRIMEPOSTREVISIONS_COMPARES_SELECT}"><i class="icon fa-balance-scale fa-fw" style="padding-left:0.2em;padding-right:1.3em;">&nbsp;<input type="checkbox" id="revision_list_compare_{postrow.REVISION_ID}" name="revision_list_compare[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> /></i></label>
 					</li>
 					{% endif %}
 				</ul>
@@ -119,32 +119,43 @@
 <!-- END postrow -->
 
 {% if DELETABLE_CNT > 1 or COMPARISONS %}
-<fieldset class="display-actions">
-	{% if COMPARISONS %}
-		<dl>
-			<dd>
-				<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', true); updatePrimePostRevCmpActionBtn(); return false;">{L_MARK_ALL}</a>
-				&nbsp;{L_COLON}{L_COLON}&nbsp;
-				<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', false); updatePrimePostRevCmpActionBtn(); return false;">{L_UNMARK_ALL}</a>
-				&nbsp;{L_COLON}{L_COLON}&nbsp;
-				<input class="button2" type="submit" name="compare" value="{L_PRIMEPOSTREVISIONS_COMPARES}" />
-			</dd>
-		</dl>
-	{% endif %}
+<div class="action-bar bar-bottom">
 	{% if DELETABLE_CNT > 1 %}
-		<dl>
-			<dd>
-				<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', true); updatePrimePostRevDelActionBtn(); return false;">{L_MARK_ALL}</a>
-				&nbsp;{L_COLON}{L_COLON}&nbsp;
-				<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', false); updatePrimePostRevDelActionBtn(); return false;">{L_UNMARK_ALL}</a>
-				&nbsp;{L_COLON}{L_COLON}&nbsp;
-				<input class="button1" type="submit" name="delete" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
-			</dd>
-		</dl>
+	<div class="left-box">
+		<input class="button" type="submit" name="delete" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
+		<!-- <label class="button button-icon"><i class="icon fa-trash fa-fw" style="padding-right:0.8em;">&nbsp;<input type="checkbox" id="toggle-all-delete" onclick="marklist('revisions_form', 'revision_list_delete[]', this.checked ? true : false);"></i></label> -->
+		<div class="dropdown-container dropdown-button-control dropdown-down" style="display:inline-block">
+			<span title="{L_MARK_ALL}/{L_UNMARK_ALL}" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle"><i class="icon fa-trash fa-fw" aria-hidden="true"></i><span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span></span>
+			<div class="dropdown">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents">
+					<li><a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', true); updatePrimePostRevActionBtn('delete'); $(this).closest('.dropdown').hide(); return false;">{L_MARK_ALL}</a></li>
+					<li><a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', false); updatePrimePostRevActionBtn('delete'); $(this).closest('.dropdown').hide(); return false;">{L_UNMARK_ALL}</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 	{% endif %}
+	{% if COMPARISONS %}
+	<div class="right-box">
+		<input class="button button-secondary" type="submit" name="compare" value="{L_PRIMEPOSTREVISIONS_COMPARES}" />
+		<!-- <label class="button button-icon"><i class="icon fa-balance-scale fa-fw" style="padding-right:1.3em;">&nbsp;<input type="checkbox" id="toggle-all-compare" onclick="marklist('revisions_form', 'revision_list_compare[]', this.checked ? true : false);"></i></label> -->
+		<div class="dropdown-container dropdown-button-control dropdown-down" style="display:inline-block">
+			<span title="{L_MARK_ALL}/{L_UNMARK_ALL}" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle"><i class="icon fa-balance-scale fa-fw" aria-hidden="true"></i><span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span></span>
+			<div class="dropdown">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents">
+					<li><a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', true); updatePrimePostRevActionBtn('compare'); $(this).closest('.dropdown').hide(); return false;">{L_MARK_ALL}</a></li>
+					<li><a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', false); updatePrimePostRevActionBtn('compare'); $(this).closest('.dropdown').hide(); return false;">{L_UNMARK_ALL}</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
 {S_HIDDEN_FIELDS}
 {S_FORM_TOKEN}
-</fieldset>
+</div>
 {% endif %}
 </form>
 

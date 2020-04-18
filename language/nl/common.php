@@ -53,9 +53,12 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Vergelijk',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'U mist de nodige rechten om deze post revisies te bekijken.',
 	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+
+	// Compare selected revisions
 	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
 	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
 	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARES_SELECT'	=> 'Select for comparison',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Verwijder revisie',
@@ -67,6 +70,7 @@ $lang = array_merge($lang, array(
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Verwijder geselecteerde revisie',
+	'PRIMEPOSTREVISIONS_DELETES_SELECT'		=> 'Select for deletion',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Weet u zeker dat u deze revisie wilt verwijderen? ',
 	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Je hebt je beschikt niet over voldoende permissies om deze revisie te verwijderen.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Er is een fout opgetreden bij het verwijderen van de revisie.',
