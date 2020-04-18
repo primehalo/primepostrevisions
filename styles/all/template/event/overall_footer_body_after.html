@@ -18,9 +18,10 @@
 </script>
 <script id="ppr-cmpbtn-tpl" type="text/x-jsrender">
 <li>
-	<span class="button icon-button compare" data-cmp="<<:cmpId>>" title="{L_PRIMEPOSTREVISIONS_COMPARE}">
-		<i class="icon fa-balance-scale fa-fw"><span class="sr-only">{L_PRIMEPOSTREVISIONS_COMPARE}</span></i>
-	</span>
+	<a class="button icon-button compare" data-cmp="<<:cmpId>>" title="{L_PRIMEPOSTREVISIONS_COMPARE}">
+		<i class="icon fa-balance-scale fa-fw"></i>
+		<span class="sr-only">{L_PRIMEPOSTREVISIONS_COMPARE}</span>
+	</a>
 </li>
 </script>
 {% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
@@ -35,8 +36,7 @@ function cmpData($textA, $textB) {
 	let diffs	= dmp.diff_main($textA, $textB);
 	let cmpText	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
 	let matches = cmpText.match(/<ins [^>]+>(.*?)<\/ins>|<del [^>]+>(.*?)<\/del>/g)
-	if (matches != null)
-	{
+	if (matches != null) {
 		matches.map(function(val) {
 			cmpText = cmpText.replace(val, val.replace(/&para;/g, '&crarr;'));
 		});
@@ -63,7 +63,7 @@ for (let i = 0, len = $postList.length; i < len - 1; i++) {
 }
 
 // Toggle Diff post on click of compare button
-$('div.post').on('click', 'span.button.compare', function() {
+$('div.post').on('click', 'a.compare', function() {
 	let cmpId = $(this).data('cmp');
 	$('#' + cmpId).slideToggle();
 });
