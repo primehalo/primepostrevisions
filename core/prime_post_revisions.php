@@ -19,7 +19,6 @@ class prime_post_revisions
 	* Service Containers
 	*/
 	private $auth;
-	private $config;
 	private $db;
 	private $user;
 
@@ -58,7 +57,6 @@ class prime_post_revisions
 		global $phpbb_container;
 
 		$this->auth			= $phpbb_container->get('auth');		// @var \phpbb\auth\auth
-		$this->config		= $phpbb_container->get('config');		// @var \phpbb\config\config
 		$this->db			= $phpbb_container->get('dbal.conn');	// @var \phpbb\db\driver\driver_interface
 		$this->user			= $phpbb_container->get('user');		// @var \phpbb\user
 		$this->root_path	= $phpbb_container->getParameter('core.root_path');
@@ -75,8 +73,6 @@ class prime_post_revisions
 	*/
 	public function save_revision($post_id)
 	{
-		global $phpbb_container;
-
 		if (empty($post_id))
 		{
 			return false;

@@ -10,14 +10,14 @@
 
 namespace primehalo\primepostrevisions\controller;
 
-use \primehalo\primepostrevisions\core\prime_post_revisions;
-use \phpbb\auth\auth;
-use \phpbb\config\config;
-use \phpbb\db\driver\driver_interface;
-use \phpbb\controller\helper;
-use \phpbb\request\request_interface;
-use \phpbb\template\template;
-use \phpbb\user;
+use primehalo\primepostrevisions\core\prime_post_revisions;
+use phpbb\auth\auth;
+use phpbb\config\config;
+use phpbb\db\driver\driver_interface;
+use phpbb\controller\helper;
+use phpbb\request\request_interface;
+use phpbb\template\template;
+use phpbb\user;
 
 /**
 * Class declaration

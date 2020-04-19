@@ -10,11 +10,11 @@
 
 namespace primehalo\primepostrevisions\cron\task;
 
-use \phpbb\cron\task\base;
-use \phpbb\config\config;
-use \phpbb\db\driver\driver_interface;
-use \phpbb\log\log_interface;
-use \phpbb\user;
+use phpbb\cron\task\base;
+use phpbb\config\config;
+use phpbb\db\driver\driver_interface;
+use phpbb\log\log_interface;
+use phpbb\user;
 
 /**
  * Prime Post Revisions cron task.
