@@ -80,12 +80,12 @@ function updatePrimePostRevActionBtn(type) {
 }
 
 // Watch each checkbox to update the compare action button status when a change occurs
-$('#revisions_form input[name="revision_list_compare[]"]').change(function() {
+$('#revisions_form').on('change', 'input[name="revision_list_compare[]"]', function() {
 	updatePrimePostRevActionBtn('compare');
 });
 
 // Watch each checkbox to update the delete action button status when a change occurs
-$('#revisions_form input[name="revision_list_delete[]"]').change(function() {
+$('#revisions_form').on('change', 'input[name="revision_list_delete[]"]', function() {
 	updatePrimePostRevActionBtn('delete');
 });
 
