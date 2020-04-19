@@ -11,7 +11,14 @@
 namespace primehalo\primepostrevisions\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use \primehalo\primepostrevisions\core;
+use \primehalo\primepostrevisions\core\prime_post_revisions;
+use \phpbb\auth\auth;
+use \phpbb\config\config;
+use \phpbb\db\driver\driver_interface;
+use \phpbb\controller\helper;
+use \phpbb\request\request_interface;
+use \phpbb\template\template;
+use \phpbb\user;
 
 /**
 * Event listener
@@ -65,15 +72,7 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\user						$user				User object
 	* @param string								$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(
-		\phpbb\auth\auth $auth,
-		\phpbb\config\config $config,
-		\phpbb\db\driver\driver_interface $db,
-		\phpbb\controller\helper $helper,
-		\phpbb\request\request_interface $request,
-		\phpbb\template\template $template,
-		\phpbb\user $user,
-		$revisions_table)
+	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, $revisions_table)
 	{
 		$this->auth				= $auth;
 		$this->config			= $config;
@@ -84,7 +83,7 @@ class listener implements EventSubscriberInterface
 		$this->user				= $user;
 		$this->revisions_table	= $revisions_table;
 
-		$this->core = \primehalo\primepostrevisions\core\prime_post_revisions::Instance();
+		$this->core = prime_post_revisions::Instance();
 	}
 
 	/**

@@ -10,7 +10,14 @@
 
 namespace primehalo\primepostrevisions\controller;
 
-use \primehalo\primepostrevisions\core;
+use \primehalo\primepostrevisions\core\prime_post_revisions;
+use \phpbb\auth\auth;
+use \phpbb\config\config;
+use \phpbb\db\driver\driver_interface;
+use \phpbb\controller\helper;
+use \phpbb\request\request_interface;
+use \phpbb\template\template;
+use \phpbb\user;
 
 /**
 * Class declaration
@@ -52,17 +59,7 @@ class controller
 	* @param $phpExt							$phpExt				php file extension
 	* @access public
 	*/
-	public function __construct(
-		\phpbb\auth\auth $auth,
-		\phpbb\config\config $config,
-		\phpbb\db\driver\driver_interface $db,
-		\phpbb\controller\helper $helper,
-		\phpbb\request\request_interface $request,
-		\phpbb\template\template $template,
-		\phpbb\user $user,
-		$revisions_table,
-		$root_path,
-		$phpExt)
+	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, $revisions_table, $root_path, $phpExt)
 	{
 		$this->auth				= $auth;
 		$this->config			= $config;
@@ -75,7 +72,7 @@ class controller
 		$this->root_path		= $root_path;
 		$this->php_ext			= $phpExt;
 
-		$this->core = \primehalo\primepostrevisions\core\prime_post_revisions::Instance();
+		$this->core = prime_post_revisions::Instance();
 	}
 
 	/**
