@@ -123,7 +123,7 @@ class main_module
 			$db->sql_transaction('begin');
 			foreach ($forums_sql_array as $forum_id => $sql_array)
 			{
-				$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_array) . ' WHERE forum_id = ' . $forum_id;
+				$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_array) . ' WHERE forum_id = ' . (int) $forum_id;
 				$db->sql_query($sql);
 			}
 			$db->sql_transaction('commit');

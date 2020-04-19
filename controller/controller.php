@@ -358,7 +358,7 @@ class controller
 							r.post_edit_time, r.post_edit_reason, r.post_edit_user, p.post_edit_count,
 							r.primepost_edit_time, r.primepost_edit_user, p.primepost_edit_count',
 			'FROM'		=> array($this->revisions_table => 'r', POSTS_TABLE => 'p'),
-			'WHERE'		=> 'r.revision_id = ' . $revision_id . ' AND p.post_id = r.post_id',
+			'WHERE'		=> 'r.revision_id = ' . (int) $revision_id . ' AND p.post_id = r.post_id',
 		));
 		$result		= $this->db->sql_query($sql);
 		$post_data	= $this->db->sql_fetchrow($result);

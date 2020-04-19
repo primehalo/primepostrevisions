@@ -97,7 +97,7 @@ class prune_post_revisions extends base
 			$prune_date	= time() - ($prune_days * 86400);	// 86400 seconds = 24 hours
 			$sql = 'SELECT r.revision_id
 					FROM ' . $this->revisions_table . ' r, ' . POSTS_TABLE . ' p
-					WHERE p.forum_id = ' . $forum_id . ' AND p.post_id = r.post_id AND r.revision_time < ' . $prune_date;
+					WHERE p.forum_id = ' . (int) $forum_id . ' AND p.post_id = r.post_id AND r.revision_time < ' . (int) $prune_date;
 			$result = $this->db->sql_query($sql);
 			while ($row = $this->db->sql_fetchrow($result))
 			{
