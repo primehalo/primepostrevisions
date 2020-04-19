@@ -110,17 +110,20 @@ class main_module
 
 			// Build the array for updating the forums
 			$forums_sql_array = array();
-			foreach ($primepostrev_enable_array as $forum_id => $value) {
-				$forums_sql_array[$forum_id]['primepostrev_enable'] = (bool)$value;
+			foreach ($primepostrev_enable_array as $forum_id => $value)
+			{
+				$forums_sql_array[$forum_id]['primepostrev_enable'] = (bool) $value;
 			}
-			foreach ($primepostrev_autoprune_array as $forum_id => $value) {
-				$forums_sql_array[$forum_id]['primepostrev_autoprune'] = (int)$value;
+			foreach ($primepostrev_autoprune_array as $forum_id => $value)
+			{
+				$forums_sql_array[$forum_id]['primepostrev_autoprune'] = (int) $value;
 			}
 
 			// Execute the SQL to update the forum settings
 			$db->sql_transaction('begin');
-			foreach ($forums_sql_array as $forum_id => $sql_array) {
-				$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_array) . ' WHERE forum_id = ' . $forum_id;
+			foreach ($forums_sql_array as $forum_id => $sql_array)
+			{
+				$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_array) . ' WHERE forum_id = ' . (int) $forum_id;
 				$db->sql_query($sql);
 			}
 			$db->sql_transaction('commit');

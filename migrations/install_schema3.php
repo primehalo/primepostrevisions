@@ -36,4 +36,15 @@ class install_schema3 extends \phpbb\db\migration\migration
 			),
 		);
 	}
+
+	/**
+	* Remove the primepostrev table from the database
+	*
+	* @return array Array of table schema
+	* @access public
+	*/
+	public function revert_schema()
+	{
+		return array();
+	}
 }

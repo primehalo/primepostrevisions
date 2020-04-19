@@ -10,10 +10,16 @@
 
 namespace primehalo\primepostrevisions\cron\task;
 
+use phpbb\cron\task\base;
+use phpbb\config\config;
+use phpbb\db\driver\driver_interface;
+use phpbb\log\log_interface;
+use phpbb\user;
+
 /**
  * Prime Post Revisions cron task.
  */
-class prune_post_revisions extends \phpbb\cron\task\base
+class prune_post_revisions extends base
 {
 
 	protected $cron_frequency = 86400;	// How often we run the cron (in seconds), 86400 seconds = 24 hours
@@ -30,14 +36,9 @@ class prune_post_revisions extends \phpbb\cron\task\base
 	* @param \phpbb\db\driver\driver_interface	$db					Database connection
 	* @param \phpbb\log\log_interface			$phpbb_log			Log
 	* @param \phpbb\user						$user				User object
- 	* @param string								$revisions_table	Prime Post Revisions table
+	* @param string								$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(
-		\phpbb\config\config $config,
-		\phpbb\db\driver\driver_interface $db,
-		\phpbb\log\log_interface $phpbb_log,
-		\phpbb\user $user,
-		$revisions_table)
+	public function __construct(config $config, driver_interface $db, log_interface $phpbb_log, user $user, $revisions_table)
 	{
 		$this->config			= $config;
 		$this->db				= $db;
@@ -96,7 +97,7 @@ class prune_post_revisions extends \phpbb\cron\task\base
 			$prune_date	= time() - ($prune_days * 86400);	// 86400 seconds = 24 hours
 			$sql = 'SELECT r.revision_id
 					FROM ' . $this->revisions_table . ' r, ' . POSTS_TABLE . ' p
-					WHERE p.forum_id = ' . $forum_id . ' AND p.post_id = r.post_id AND r.revision_time < ' . $prune_date;
+					WHERE p.forum_id = ' . (int) $forum_id . ' AND p.post_id = r.post_id AND r.revision_time < ' . (int) $prune_date;
 			$result = $this->db->sql_query($sql);
 			while ($row = $this->db->sql_fetchrow($result))
 			{

@@ -1,218 +1,197 @@
-<!-- INCLUDE overall_header.html -->
-<style type="text/css" scoped>
-.ppr-post-checkbox {
-	padding-left: 0.2em;
-}
-.fa-trash.ppr-post-checkbox {
-	padding-right: 1em;
-}
-.fa-balance-scale.ppr-post-checkbox {
-	padding-right: 1.5em;
-}
-.ppr-post-bbcode {
-	display: none;
-}
-.ppr-action-dropdown {
-	display: inline-block;
-}
-#revisions_form .post-buttons ul.dropdown-contents .clone a.button-icon-only label {
-	padding-right:0;
-}
-.rtl #revisions_form .post-buttons ul.dropdown-contents .clone a.button-icon-only label {
-	padding-left:0;
-}
-</style>
-<h2><!-- IF COMPARISONS -->{L_PRIMEPOSTREVISIONS_TITLE}<!-- ELSE -->{L_PRIMEPOSTREVISIONS_COMPARING}<!-- ENDIF --></h2>
+{% INCLUDE 'overall_header.html' %}
+{% INCLUDECSS '@primehalo_primepostrevisions/ppr_view.css' %}
+<h2>{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_TITLE') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING') }}{% endif %}</h2>
 <p>
-	<!-- IF COMPARISONS -->{L_PRIMEPOSTREVISIONS_VIEWING_EXPLAIN}<!-- ELSE -->{L_PRIMEPOSTREVISIONS_COMPARING_EXPLAIN}<!-- ENDIF --><br>
-	{% if U_POST %}<strong><em><a href="{U_POST}">{L_VIEW_LATEST_POST}</a></em></strong>{% endif %}&nbsp;{% if S_FORM_ACTION and not COMPARISONS %} » <strong><em><a href="{S_FORM_ACTION}">{L_PRIMEPOSTREVISIONS_VIEW}</a></em></strong>{% endif %}
+	{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_VIEWING_EXPLAIN') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING_EXPLAIN') }}{% endif %}<br>
+	{% if U_POST %}<strong><em><a href="{{ U_POST }}">{{ lang('VIEW_LATEST_POST') }}</a></em></strong>{% endif %}&nbsp;{% if S_FORM_ACTION and not COMPARISONS %} » <strong><em><a href="{{ S_FORM_ACTION }}">{{ lang('PRIMEPOSTREVISIONS_VIEW') }}</a></em></strong>{% endif %}
 </p>
 
-<form id="revisions_form" name="revisions_form" method="post" action="{S_FORM_ACTION}">
-<!-- BEGIN postrow -->
-<div id="p{postrow.REVISION_ID}" class="post has-profile <!-- IF postrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
-	<div class="inner">
-		<dl class="postprofile" id="profile{postrow.REVISION_ID}">
-			<dt class="<!-- IF postrow.RANK_TITLE or postrow.RANK_IMG -->has-profile-rank<!-- ELSE -->no-profile-rank<!-- ENDIF --> <!-- IF postrow.POSTER_AVATAR -->has-avatar<!-- ELSE -->no-avatar<!-- ENDIF -->">
+<form id="revisions_form" name="revisions_form" method="post" action="{{ S_FORM_ACTION }}">
+{% for postrow in loops.postrow %}
+	<div id="p{{ postrow.REVISION_ID }}" class="post has-profile {% if postrow.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
+		<div class="inner">
+			<dl class="postprofile" id="profile{{ postrow.REVISION_ID }}">
+				<dt class="{% if postrow.RANK_TITLE or postrow.RANK_IMG %}has-profile-rank{% else %}no-profile-rank{% endif %} {% if postrow.POSTER_AVATAR %}has-avatar{% else %}no-avatar{% endif %}">
 
-				<div class="avatar-container">
-					<!-- EVENT viewtopic_body_avatar_before -->
-					<!-- IF postrow.POSTER_AVATAR -->
-						<!-- IF postrow.U_POST_AUTHOR --><a href="{postrow.U_POST_AUTHOR}" class="avatar">{postrow.POSTER_AVATAR}</a><!-- ELSE --><span class="avatar">{postrow.POSTER_AVATAR}</span><!-- ENDIF -->
-					<!-- ENDIF -->
-					<!-- EVENT viewtopic_body_avatar_after -->
-				</div>
-				<!-- EVENT viewtopic_body_post_author_before -->
-				<!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF -->
-				<!-- EVENT viewtopic_body_post_author_after -->
-			</dt>
-			<!-- EVENT viewtopic_body_postrow_rank_before -->
-			<!-- IF postrow.RANK_TITLE or postrow.RANK_IMG --><dd class="profile-rank">{postrow.RANK_TITLE}<!-- IF postrow.RANK_TITLE and postrow.RANK_IMG --><br /><!-- ENDIF -->{postrow.RANK_IMG}</dd><!-- ENDIF -->
-			<!-- EVENT viewtopic_body_postrow_rank_after -->
+					<div class="avatar-container">
+						{% EVENT viewtopic_body_avatar_before %}
+						{% if postrow.POSTER_AVATAR %}
+							{% if postrow.U_POST_AUTHOR %}<a href="{{ postrow.U_POST_AUTHOR }}" class="avatar">{{ postrow.POSTER_AVATAR }}</a>{% else %}<span class="avatar">{{ postrow.POSTER_AVATAR }}</span>{% endif %}
+						{% endif %}
+						{% EVENT viewtopic_body_avatar_after %}
+					</div>
+					{% EVENT viewtopic_body_post_author_before %}
+					{% if not postrow.U_POST_AUTHOR %}<strong>{{ postrow.POST_AUTHOR_FULL }}</strong>{% else %}{{ postrow.POST_AUTHOR_FULL }}{% endif %}
+					{% EVENT viewtopic_body_post_author_after %}
+				</dt>
+				{% EVENT viewtopic_body_postrow_rank_before %}
+				{% if postrow.RANK_TITLE or postrow.RANK_IMG %}<dd class="profile-rank">{{ postrow.RANK_TITLE }}{% if postrow.RANK_TITLE and postrow.RANK_IMG %}<br />{% endif %}{{ postrow.RANK_IMG }}</dd>{% endif %}
+				{% EVENT viewtopic_body_postrow_rank_after %}
 
-			<!-- IF postrow.POSTER_POSTS != '' --><dd class="profile-posts"><strong>{L_POSTS}{L_COLON}</strong> <!-- IF postrow.U_SEARCH --><a href="{postrow.U_SEARCH}"><!-- ENDIF -->{postrow.POSTER_POSTS}<!-- IF postrow.U_SEARCH !== '' --></a><!-- ENDIF --></dd><!-- ENDIF -->
-			<!-- IF postrow.POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON}</strong> {postrow.POSTER_JOINED}</dd><!-- ENDIF -->
-			<!-- IF postrow.POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {postrow.POSTER_WARNINGS}</dd><!-- ENDIF -->
+				{% if postrow.POSTER_POSTS != '' %}<dd class="profile-posts"><strong>{{ lang('POSTS') ~ lang('COLON') }}</strong> {% if postrow.U_SEARCH %}<a href="{{ postrow.U_SEARCH }}">{% endif %}{{ postrow.POSTER_POSTS }}{% if postrow.U_SEARCH !== '' %}</a>{% endif %}</dd>{% endif %}
+				{% if postrow.POSTER_JOINED %}<dd class="profile-joined"><strong>{{ lang('JOINED') ~ lang('COLON') }}</strong> {{ postrow.POSTER_JOINED }}</dd>{% endif %}
+				{% if postrow.POSTER_WARNINGS %}<dd class="profile-warnings"><strong>{{ lang('WARNINGS') ~ lang('COLON') }}</strong> {{ postrow.POSTER_WARNINGS }}</dd>{% endif %}
 
-		<!-- IF postrow.S_PROFILE_FIELD1 -->
-			<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
-			<dd><strong>{postrow.PROFILE_FIELD1_NAME}{L_COLON}</strong> {postrow.PROFILE_FIELD1_VALUE}</dd>
-		<!-- ENDIF -->
+			{% if postrow.S_PROFILE_FIELD1 %}
+				<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
+				<dd><strong>{{ postrow.PROFILE_FIELD1_NAME ~ lang('COLON') }}</strong> {{ postrow.PROFILE_FIELD1_VALUE }}</dd>
+			{% endif %}
 
-		<!-- EVENT viewtopic_body_postrow_custom_fields_before -->
-		<!-- BEGIN custom_fields -->
-			<!-- IF not postrow.custom_fields.S_PROFILE_CONTACT -->
-				<dd class="profile-custom-field profile-{postrow.custom_fields.PROFILE_FIELD_IDENT}"><strong>{postrow.custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {postrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
-			<!-- ENDIF -->
-		<!-- END custom_fields -->
-		<!-- EVENT viewtopic_body_postrow_custom_fields_after -->
+			{% EVENT viewtopic_body_postrow_custom_fields_before %}
+			{% for custom_fields in postrow.custom_fields %}
+				{% if not custom_fields.S_PROFILE_CONTACT %}
+					<dd class="profile-custom-field profile-{{ custom_fields.PROFILE_FIELD_IDENT }}"><strong>{{ custom_fields.PROFILE_FIELD_NAME ~ lang('COLON') }}</strong> {{ custom_fields.PROFILE_FIELD_VALUE }}</dd>
+				{% endif %}
+			{% endfor %}
+			{% EVENT viewtopic_body_postrow_custom_fields_after %}
 
-		<!-- EVENT viewtopic_body_contact_fields_before -->
-		<!-- IF not S_IS_BOT and .postrow.contact -->
-			<dd class="profile-contact">
-				<strong>{L_CONTACT}{L_COLON}</strong>
-				<div class="dropdown-container dropdown-left">
-					<a href="#" class="dropdown-trigger" title="{postrow.CONTACT_USER}">
-						<i class="icon fa-commenting-o fa-fw icon-lg" aria-hidden="true"></i><span class="sr-only">{postrow.CONTACT_USER}</span>
-					</a>
-					<div class="dropdown">
-						<div class="pointer"><div class="pointer-inner"></div></div>
-						<div class="dropdown-contents contact-icons">
-							<!-- BEGIN contact -->
-								{% set REMAINDER = postrow.contact.S_ROW_COUNT % 4 %}
-								<!-- DEFINE $S_LAST_CELL = ((REMAINDER eq 3) or (postrow.contact.S_LAST_ROW and postrow.contact.S_NUM_ROWS < 4)) -->
-								<!-- IF REMAINDER eq 0 -->
-									<div>
-								<!-- ENDIF -->
-									<a href="<!-- IF postrow.contact.U_CONTACT -->{postrow.contact.U_CONTACT}<!-- ELSE -->{postrow.U_POST_AUTHOR}<!-- ENDIF -->" title="{postrow.contact.NAME}"<!-- IF $S_LAST_CELL --> class="last-cell"<!-- ENDIF --><!-- IF postrow.contact.ID eq 'jabber' --> onclick="popup(this.href, 750, 320); return false;"<!-- ENDIF -->>
-										<span class="contact-icon {postrow.contact.ID}-icon">{postrow.contact.NAME}</span>
-									</a>
-								<!-- IF REMAINDER eq 3 or postrow.contact.S_LAST_ROW -->
-									</div>
-								<!-- ENDIF -->
-							<!-- END contact -->
+			{% EVENT viewtopic_body_contact_fields_before %}
+			{% if not S_IS_BOT and postrow.contact|length %}
+				<dd class="profile-contact">
+					<strong>{{ lang('CONTACT') ~ lang('COLON') }}</strong>
+					<div class="dropdown-container dropdown-left">
+						<a href="#" class="dropdown-trigger" title="{{ postrow.CONTACT_USER }}">
+							<i class="icon fa-commenting-o fa-fw icon-lg" aria-hidden="true"></i><span class="sr-only">{{ postrow.CONTACT_USER }}</span>
+						</a>
+						<div class="dropdown">
+							<div class="pointer"><div class="pointer-inner"></div></div>
+							<div class="dropdown-contents contact-icons">
+								{% for contact in postrow.contact %}
+									{% set REMAINDER = contact.S_ROW_COUNT % 4 %}
+									{% DEFINE S_LAST_CELL = ((REMAINDER eq 3) or (contact.S_LAST_ROW and contact.S_NUM_ROWS < 4)) %}
+									{% if REMAINDER eq 0 %}
+										<div>
+									{% endif %}
+										<a href="{% if contact.U_CONTACT %}{{ contact.U_CONTACT }}{% else %}{{ postrow.U_POST_AUTHOR }}{% endif %}" title="{{ contact.NAME }}"{% if definition.S_LAST_CELL %} class="last-cell"{% endif %}{% if contact.ID eq 'jabber' %} onclick="popup(this.href, 750, 320); return false;"{% endif %}>
+											<span class="contact-icon {{ contact.ID }}-icon">{{ contact.NAME }}</span>
+										</a>
+									{% if REMAINDER eq 3 or contact.S_LAST_ROW %}
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
 						</div>
 					</div>
-				</div>
-			</dd>
-		<!-- ENDIF -->
-		<!-- EVENT viewtopic_body_contact_fields_after -->
-		</dl>
-		<div class="postbody" id="revision_row{REVISION_CNT}">
-			<div id="post_content{postrow.REVISION_ID}">
-				<h3 <!-- IF postrow.S_FIRST_ROW -->class="first"<!-- ENDIF -->>{postrow.EDIT_COUNT_STR}: <a href="#p{postrow.REVISION_ID}">{postrow.POST_SUBJECT}</a></h3>
-				<ul class="post-buttons">
-					<!-- IF postrow.U_RESTORE -->
-					<li>
-						<a href="{postrow.U_RESTORE}" title="{L_PRIMEPOSTREVISIONS_RESTORE}" class="button button-icon-only">
-							<i class="icon fa-undo fa-fw"></i>
-							<span class="sr-only">{L_PRIMEPOSTREVISIONS_RESTORE}</span>
-						</a>
-					</li>
-					<!-- ENDIF -->
-					<!-- IF postrow.U_DELETE -->
-					<li>
-						<a href="{postrow.U_DELETE}" title="{L_PRIMEPOSTREVISIONS_DELETE}" class="button button-icon-only">
-							<i class="icon fa-trash fa-fw"></i>
-							<span class="sr-only">{L_PRIMEPOSTREVISIONS_DELETE}</span>
-						</a>
-					</li>
-					{% if DELETABLE_CNT > 1 %}
-					<li data-skip-responsive="true">
-						<a class="button button-icon-only" title="{L_PRIMEPOSTREVISIONS_DELETES_SELECT}"><label>
-							<i class="icon fa-trash fa-fw"></i>
-							<span class="sr-only">{L_PRIMEPOSTREVISIONS_DELETES_SELECT}</span>
-							<input type="checkbox" id="revision_list_delete_{postrow.REVISION_ID}" name="revision_list_delete[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> />
-						</label></a>
-					</li>
-					{% endif %}
-					<!-- ENDIF -->
-					{% if COMPARISONS %}
-					<li data-skip-responsive="true">
-						<a class="button button-icon-only" title="{L_PRIMEPOSTREVISIONS_COMPARES_SELECT}"><label>
-							<i class="icon fa-balance-scale fa-fw"></i>
-							<span class="sr-only">{L_PRIMEPOSTREVISIONS_COMPARES_SELECT}</span>
-							<input type="checkbox" id="revision_list_compare_{postrow.REVISION_ID}" name="revision_list_compare[]" value="{postrow.REVISION_ID}"<!-- IF postrow.S_CHECKED --> checked="checked"<!-- ENDIF --> />
-						</label></a>
-					</li>
-					{% endif %}
-				</ul>
-				<p class="author">
-					<span class="responsive-hide"><!-- IF postrow.EDIT_COUNT > 0 -->{L_PRIMEPOSTREVISIONS_EDIT_BY}<!-- ELSE -->{L_POST_BY_AUTHOR}<!-- ENDIF --> <strong>{postrow.POST_AUTHOR_FULL}</strong> &raquo; </span>{postrow.POST_DATE}
-				</p>
-				<div class="content">{postrow.POST_TEXT}</div>
-				<div class="ppr-post-bbcode">{postrow.BBCODE_TEXT}</div>
+				</dd>
+			{% endif %}
+			{% EVENT viewtopic_body_contact_fields_after %}
+			</dl>
+			<div class="postbody" id="revision_row{{ REVISION_CNT }}">
+				<div id="post_content{{ postrow.REVISION_ID }}">
+					<h3 {% if postrow.S_FIRST_ROW %}class="first"{% endif %}>{{ postrow.EDIT_COUNT_STR }}: <a href="#p{{ postrow.REVISION_ID }}">{{ postrow.POST_SUBJECT }}</a></h3>
+					<ul class="post-buttons">
+						{% if postrow.U_RESTORE %}
+							<li>
+								<a href="{{ postrow.U_RESTORE }}" title="{{ lang('PRIMEPOSTREVISIONS_RESTORE') }}" class="button button-icon-only">
+									<i class="icon fa-undo fa-fw"></i>
+									<span class="sr-only">{{ lang('PRIMEPOSTREVISIONS_RESTORE') }}</span>
+								</a>
+							</li>
+						{% endif %}
+						{% if postrow.U_DELETE %}
+							<li>
+								<a href="{{ postrow.U_DELETE }}" title="{{ lang('PRIMEPOSTREVISIONS_DELETE') }}" class="button button-icon-only">
+									<i class="icon fa-trash fa-fw"></i>
+									<span class="sr-only">{{ lang('PRIMEPOSTREVISIONS_DELETE') }}</span>
+								</a>
+							</li>
+							{% if DELETABLE_CNT > 1 %}
+								<li data-skip-responsive="true">
+									<a class="button button-icon-only" title="{{ lang('PRIMEPOSTREVISIONS_DELETES_SELECT') }}"><label>
+										<i class="icon fa-trash fa-fw"></i>
+										<span class="sr-only">{{ lang('PRIMEPOSTREVISIONS_DELETES_SELECT') }}</span>
+										<input type="checkbox" id="revision_list_delete_{{ postrow.REVISION_ID }}" name="revision_list_delete[]" value="{{ postrow.REVISION_ID }}"{% if postrow.S_CHECKED %} checked="checked"{% endif %} />
+									</label></a>
+								</li>
+							{% endif %}
+						{% endif %}
+						{% if COMPARISONS %}
+							<li data-skip-responsive="true">
+								<a class="button button-icon-only" title="{{ lang('PRIMEPOSTREVISIONS_COMPARES_SELECT') }}"><label>
+									<i class="icon fa-balance-scale fa-fw"></i>
+									<span class="sr-only">{{ lang('PRIMEPOSTREVISIONS_COMPARES_SELECT') }}</span>
+									<input type="checkbox" id="revision_list_compare_{{ postrow.REVISION_ID }}" name="revision_list_compare[]" value="{{ postrow.REVISION_ID }}"{% if postrow.S_CHECKED %} checked="checked"{% endif %} />
+								</label></a>
+							</li>
+						{% endif %}
+					</ul>
+					<p class="author">
+						<span class="responsive-hide">{% if postrow.EDIT_COUNT > 0 %}{{ lang('PRIMEPOSTREVISIONS_EDIT_BY') }}{% else %}{{ lang('POST_BY_AUTHOR') }}{% endif %} <strong>{{ postrow.POST_AUTHOR_FULL }}</strong> &raquo; </span>{{ postrow.POST_DATE }}
+					</p>
 
-				<!-- IF postrow.EDIT_REASON -->
-				<div class="notice">
-					<strong>{L_REASON}{L_COLON}</strong> <em>{postrow.EDIT_REASON}</em>
+					<div class="content">{{ postrow.POST_TEXT }}</div>
+					<div class="ppr-post-bbcode">{{ postrow.BBCODE_TEXT }}</div>
+
+					{% if postrow.EDIT_REASON %}
+						<div class="notice">
+							<strong>{{ lang('REASON') ~ lang('COLON') }}</strong> <em>{{ postrow.EDIT_REASON }}</em>
+						</div>
+					{% endif %}
 				</div>
-				<!-- ENDIF -->
 			</div>
 		</div>
 	</div>
-</div>
-<hr class="divider" />
-<!-- END postrow -->
+	<hr class="divider" />
+{% endfor %}
 
 {% if DELETABLE_CNT > 1 or COMPARISONS %}
-<div class="action-bar bar-bottom">
-	{% if DELETABLE_CNT > 1 %}
-	<div class="left-box">
-		<input class="button" type="submit" name="delete" value="{L_PRIMEPOSTREVISIONS_DELETES}" />
-		<div class="dropdown-container dropdown-button-control dropdown-down dropdown-left ppr-action-dropdown">
-			<span title="{L_MARK_ALL}/{L_UNMARK_ALL}" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
-				<i class="icon fa-trash fa-fw" aria-hidden="true"></i>
-				<span class="caret">
-					<i class="icon fa-sort-down fa-fw" aria-hidden="true"></i>
-				</span>
-			</span>
-			<div class="dropdown">
-				<div class="pointer">
-					<div class="pointer-inner"></div>
+	<div class="action-bar bar-bottom">
+		{% if DELETABLE_CNT > 1 %}
+			<div class="left-box">
+				<input class="button" type="submit" name="delete" value="{{ lang('PRIMEPOSTREVISIONS_DELETES') }}" />
+				<div class="dropdown-container dropdown-button-control dropdown-down dropdown-left ppr-action-dropdown">
+					<span title="{{ lang('MARK_ALL') }}/{{ lang('UNMARK_ALL') }}" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
+						<i class="icon fa-trash fa-fw" aria-hidden="true"></i>
+						<span class="caret">
+							<i class="icon fa-sort-down fa-fw" aria-hidden="true"></i>
+						</span>
+					</span>
+					<div class="dropdown">
+						<div class="pointer">
+							<div class="pointer-inner"></div>
+						</div>
+						<ul class="dropdown-contents">
+							<li>
+								<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', true); updatePrimePostRevActionBtn('delete'); $(this).closest('.dropdown-container').click(); return false;">{{ lang('MARK_ALL') }}</a>
+							</li>
+							<li>
+								<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', false); updatePrimePostRevActionBtn('delete'); $(this).closest('.dropdown-container').click(); return false;">{{ lang('UNMARK_ALL') }}</a>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<ul class="dropdown-contents">
-					<li>
-						<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', true); updatePrimePostRevActionBtn('delete'); $(this).closest('.dropdown-container').click(); return false;">{L_MARK_ALL}</a>
-					</li>
-					<li>
-						<a href="#" onclick="marklist('revisions_form', 'revision_list_delete[]', false); updatePrimePostRevActionBtn('delete'); $(this).closest('.dropdown-container').click(); return false;">{L_UNMARK_ALL}</a>
-					</li>
-				</ul>
 			</div>
-		</div>
-	</div>
-	{% endif %}
-	{% if COMPARISONS %}
-	<div class="right-box">
-		<input class="button button-secondary" type="submit" name="compare" value="{L_PRIMEPOSTREVISIONS_COMPARES}" />
-		<div class="dropdown-container dropdown-button-control dropdown-down dropdown-left ppr-action-dropdown">
-			<span title="{L_MARK_ALL}/{L_UNMARK_ALL}" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
-				<i class="icon fa-balance-scale fa-fw" aria-hidden="true"></i>
-				<span class="caret">
-					<i class="icon fa-sort-down fa-fw" aria-hidden="true"></i>
-				</span>
-			</span>
-			<div class="dropdown">
-				<div class="pointer">
-					<div class="pointer-inner"></div>
+		{% endif %}
+		{% if COMPARISONS %}
+			<div class="right-box">
+				<input class="button button-secondary" type="submit" name="compare" value="{{ lang('PRIMEPOSTREVISIONS_COMPARES') }}" />
+				<div class="dropdown-container dropdown-button-control dropdown-down dropdown-left ppr-action-dropdown">
+					<span title="{{ lang('MARK_ALL') }}/{{ lang('UNMARK_ALL') }}" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
+						<i class="icon fa-balance-scale fa-fw" aria-hidden="true"></i>
+						<span class="caret">
+							<i class="icon fa-sort-down fa-fw" aria-hidden="true"></i>
+						</span>
+					</span>
+					<div class="dropdown">
+						<div class="pointer">
+							<div class="pointer-inner"></div>
+						</div>
+						<ul class="dropdown-contents">
+							<li>
+								<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', true); updatePrimePostRevActionBtn('compare'); $(this).closest('.dropdown-container').click(); return false;">{{ lang('MARK_ALL') }}</a>
+							</li>
+							<li>
+								<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', false); updatePrimePostRevActionBtn('compare'); $(this).closest('.dropdown-container').click(); return false;">{{ lang('UNMARK_ALL') }}</a>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<ul class="dropdown-contents">
-					<li>
-						<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', true); updatePrimePostRevActionBtn('compare'); $(this).closest('.dropdown-container').click(); return false;">{L_MARK_ALL}</a>
-					</li>
-					<li>
-						<a href="#" onclick="marklist('revisions_form', 'revision_list_compare[]', false); updatePrimePostRevActionBtn('compare'); $(this).closest('.dropdown-container').click(); return false;">{L_UNMARK_ALL}</a>
-					</li>
-				</ul>
 			</div>
-		</div>
+		{% endif %}
+	{{ S_HIDDEN_FIELDS }}
+	{{ S_FORM_TOKEN }}
 	</div>
-	{% endif %}
-{S_HIDDEN_FIELDS}
-{S_FORM_TOKEN}
-</div>
 {% endif %}
 </form>
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}
