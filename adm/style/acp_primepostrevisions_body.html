@@ -1,5 +1,5 @@
-<!-- INCLUDE overall_header.html -->
-<style type="text/css" scoped>
+{% INCLUDE 'overall_header.html' %}
+<style>
 #acp_board td a.edit img {
   filter: grayscale(100%);
 }
@@ -14,26 +14,26 @@
 }
 </style>
 
-<h1>{L_ACP_PRIMEPOSTREVISIONS_TITLE}</h1>
+<h1>{{ lang('ACP_PRIMEPOSTREVISIONS_TITLE') }}</h1>
 
-<form id="acp_board" method="post" action="{U_ACTION}">
+<form id="acp_board" method="post" action="{{ U_ACTION }}">
 	<fieldset>
-		<legend>{L_ACP_PRIMEPOSTREVISIONS_BASIC_SETTINGS}</legend>
+		<legend>{{ lang('ACP_PRIMEPOSTREVISIONS_BASIC_SETTINGS') }}</legend>
 		<dl>
-			<dt><label for="primepostrev_enable_general">{L_ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL}{L_COLON}</label><br /><span>{L_ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" class="radio" name="primepostrev_enable_general" id="primepostrev_enable_general" value="1" <!-- IF PRIMEPOSTREVISIONS_ENABLE_GENERAL -->checked="checked" <!-- ENDIF --> /> {L_YES}</label>
-				<label><input type="radio" class="radio" name="primepostrev_enable_general" value="0" <!-- IF not PRIMEPOSTREVISIONS_ENABLE_GENERAL -->checked="checked" <!-- ENDIF -->/> {L_NO}</label></dd>
+			<dt><label for="primepostrev_enable_general">{{ lang('ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="primepostrev_enable_general" id="primepostrev_enable_general" value="1" {% if PRIMEPOSTREVISIONS_ENABLE_GENERAL %}checked="checked" {% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="primepostrev_enable_general" value="0" {% if not PRIMEPOSTREVISIONS_ENABLE_GENERAL %}checked="checked" {% endif %}/> {{ lang('NO') }}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="primepostrev_enable_autoprune">{L_ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE}{L_COLON}</label><br /><span>{L_ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" class="radio" name="primepostrev_enable_autoprune" value="1" <!-- IF PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE -->checked="checked" <!-- ENDIF -->id="primepostrev_enable_autoprune" /> {L_YES}</label>
-				<label><input type="radio" class="radio" name="primepostrev_enable_autoprune" value="0" <!-- IF not PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE -->checked="checked" <!-- ENDIF -->/> {L_NO}</label></dd>
+			<dt><label for="primepostrev_enable_autoprune">{{ lang('ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="primepostrev_enable_autoprune" value="1" {% if PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE %}checked="checked" {% endif %}id="primepostrev_enable_autoprune" /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="primepostrev_enable_autoprune" value="0" {% if not PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE %}checked="checked" {% endif %}/> {{ lang('NO') }}</label></dd>
 		</dl>
 	</fieldset>
 
 	<fieldset id="primepostrevisions_enable_section">
-		<legend>{L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS}</legend>
-		<p>{L_ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN}</p>
+		<legend>{{ lang('ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS') }}</legend>
+		<p>{{ lang('ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN') }}</p>
 		<br>
 		<table class="table1 responsive">
 			<thead>
@@ -52,13 +52,13 @@
 							</tr>
 						{% else %}
 							<tr class="forum-row" title="{{ forumrow.FORUM_NAME }}">
-								<td class="row1"><label for="primepostrev_enable_{forumrow.FORUM_ID}"><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span><a href="{forumrow.U_EDIT}" class="edit">{{ ICON_EDIT }}</a> {{ forumrow.FORUM_NAME }}</label></td>
+								<td class="row1"><label for="primepostrev_enable_{{ forumrow.FORUM_ID }}"><span class="responsive-hide">{{ forumrow.FORUM_PAD }}</span><a href="{{ forumrow.U_EDIT }}" class="edit">{{ ICON_EDIT }}</a> {{ forumrow.FORUM_NAME }}</label></td>
 								<td class="row1">
-									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forumrow.FORUM_ID}]" id="primepostrev_enable_{forumrow.FORUM_ID}" value="1" {% if forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{forumrow.FORUM_ID}]" value="0" {% if not forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{{ forumrow.FORUM_ID }}]" id="primepostrev_enable_{{ forumrow.FORUM_ID }}" value="1" {% if forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+									<label class="forum-enable-area"><input type="radio" class="radio" name="primepostrev_enable[{{ forumrow.FORUM_ID }}]" value="0" {% if not forumrow.S_PRIMEPOSTREV_ENABLE %} id="primepostrev_enable" checked="checked"{% endif %} /> {{ lang('NO') }}</label>
 								</td>
 								<td class="row1">
-									<label class="forum-autoprune-area"><input type="number" id="primepostrev_autoprune_{forumrow.FORUM_ID}" name="primepostrev_autoprune[{forumrow.FORUM_ID}]" value="{{ forumrow.PRIMEPOSTREV_AUTOPRUNE }}" min="0" max="9999" /> {{ lang('DAYS') }}</label>
+									<label class="forum-autoprune-area"><input type="number" id="primepostrev_autoprune_{{ forumrow.FORUM_ID }}" name="primepostrev_autoprune[{{ forumrow.FORUM_ID }}]" value="{{ forumrow.PRIMEPOSTREV_AUTOPRUNE }}" min="0" max="9999" /> {{ lang('DAYS') }}</label>
 								</td>
 							</tr>
 						{% endif %}
@@ -71,12 +71,12 @@
 	</fieldset>
 
 	<fieldset>
-		<legend>{L_ACP_SUBMIT_CHANGES}</legend>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
 		</p>
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
 <script>
@@ -117,4 +117,4 @@ for (let input of enableAutopruneInputs) {
 updateEnableSection();
 updateAutopruneeSection();
 </script>
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

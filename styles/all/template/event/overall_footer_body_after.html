@@ -4,27 +4,30 @@
 	<div class="inner">
 		<dl class="postprofile">
 			<dt class="has-avatar">
-				<div style="text-align:center;display:flex;flex-direction:column;justify-content:center;font-size:10vmin;">
+				<div class="ppr-diff-arrow">
 					<i class="fa fa-arrow-up"></i>
 				</div>
 			</dt>
 		</dl>
 		<div class="postbody">
-			<h3>{L_PRIMEPOSTREVISIONS_COMPARISON}: <a href="#<<:cmpId>>"><<:cmpSubj>></a></h3>
+			<h3>{{ lang('PRIMEPOSTREVISIONS_COMPARISON') ~ lang('COLON') }} <a href="#<<:cmpId>>"><<:cmpSubj>></a></h3>
 			<div class="content"><<:cmpText>></div>
 		</div>
 	</div>
 </div>
 </script>
+
 <script id="ppr-cmpbtn-tpl" type="text/x-jsrender">
 <li data-skip-responsive="true">
-	<a class="button icon-button compare" data-cmp="<<:cmpId>>" title="{L_PRIMEPOSTREVISIONS_COMPARE}">
+	<a class="button icon-button compare" data-cmp="<<:cmpId>>" title="{{ lang('PRIMEPOSTREVISIONS_COMPARE') }}">
 		<i class="icon fa-balance-scale fa-fw"></i>
-		<span class="sr-only">{L_PRIMEPOSTREVISIONS_COMPARE}</span>
+		<span class="sr-only">{{ lang('PRIMEPOSTREVISIONS_COMPARE') }}</span>
 	</a>
 </li>
 </script>
+
 {% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
+
 <script>
 /**
  * Prime Post Revisions, JavaScript for revision comparison.

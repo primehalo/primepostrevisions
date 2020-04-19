@@ -3,9 +3,9 @@
 	"type": "phpbb-extension",
 	"description": "Keeps a revision history of all post edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions.",
 	"homepage": "https://github.com/primehalo/primepostrevisions",
-	"version": "1.0.0-beta9",
-	"time": "2020-04-14",
-	"license": "GPL-2.0",
+	"version": "1.0.0-beta10",
+	"time": "2020-04-20",
+	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Ken F. Innes IV",
@@ -17,7 +17,7 @@
 			"name": "Dark❶",
 			"email": "phpbb@dark1.tech",
 			"homepage": "https://dark1.tech",
-			"role": "Contributor"
+			"role": "Collaborator"
 		}
 	],
 	"require": {
