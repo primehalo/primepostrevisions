@@ -1,34 +1,5 @@
 {% INCLUDE 'overall_header.html' %}
-<style>
-.ppr-post-checkbox {
-	padding-left: 0.2em;
-}
-.fa-trash.ppr-post-checkbox {
-	padding-right: 1em;
-}
-.fa-balance-scale.ppr-post-checkbox {
-	padding-right: 1.5em;
-}
-.ppr-post-bbcode {
-	display: none;
-}
-.ppr-diff-arrow {
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	font-size: 10vmin;
-}
-.ppr-action-dropdown {
-	display: inline-block;
-}
-#revisions_form .post-buttons ul.dropdown-contents .clone a.button-icon-only label {
-	padding-right:0;
-}
-.rtl #revisions_form .post-buttons ul.dropdown-contents .clone a.button-icon-only label {
-	padding-left:0;
-}
-</style>
+{% INCLUDECSS '@primehalo_primepostrevisions/ppr_view.css' %}
 <h2>{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_TITLE') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING') }}{% endif %}</h2>
 <p>
 	{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_VIEWING_EXPLAIN') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING_EXPLAIN') }}{% endif %}<br>

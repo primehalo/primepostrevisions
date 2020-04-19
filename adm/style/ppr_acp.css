@@ -1,0 +1,24 @@
+/**
+*
+* Prime Post Revisions extension for the phpBB Forum Software package.
+*
+* @copyright (c) 2018 Ken F. Innes IV <https://www.absoluteanime.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
+
+#acp_board td a.edit img {
+	filter: grayscale(100%);
+}
+
+#acp_board td:hover a.edit img {
+	filter: grayscale(50%);
+}
+
+#acp_board td:hover a.edit img:hover {
+	filter: none;
+}
+
+#acp_board tr.forum-row:hover td {
+	background-color: #FEFEFE;
+}

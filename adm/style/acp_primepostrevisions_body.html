@@ -1,19 +1,5 @@
 {% INCLUDE 'overall_header.html' %}
-<style>
-#acp_board td a.edit img {
-  filter: grayscale(100%);
-}
-#acp_board td:hover a.edit img {
-  filter: grayscale(50%);
-}
-#acp_board td:hover a.edit img:hover {
-  filter: none;
-}
-#acp_board tr.forum-row:hover td {
-	background-color:#FEFEFE;
-}
-</style>
-
+{% INCLUDECSS '@primehalo_primepostrevisions/ppr_acp.css' %}
 <h1>{{ lang('ACP_PRIMEPOSTREVISIONS_TITLE') }}</h1>
 
 <form id="acp_board" method="post" action="{{ U_ACTION }}">
