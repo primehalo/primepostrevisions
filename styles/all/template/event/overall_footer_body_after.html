@@ -17,38 +17,42 @@
 </div>
 </script>
 <script id="ppr-cmpbtn-tpl" type="text/x-jsrender">
-<li>
-	<span class="button icon-button compare" data-cmp="<<:cmpId>>" title="{L_PRIMEPOSTREVISIONS_COMPARE}">
-		<i class="icon fa-balance-scale fa-fw"><span class="sr-only">{L_PRIMEPOSTREVISIONS_COMPARE}</span></i>
-	</span>
+<li data-skip-responsive="true">
+	<a class="button icon-button compare" data-cmp="<<:cmpId>>" title="{L_PRIMEPOSTREVISIONS_COMPARE}">
+		<i class="icon fa-balance-scale fa-fw"></i>
+		<span class="sr-only">{L_PRIMEPOSTREVISIONS_COMPARE}</span>
+	</a>
 </li>
 </script>
 {% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
 <script>
+/**
+ * Prime Post Revisions, JavaScript for revision comparison.
+ */
+
+// Compare 2 revisions
 function cmpData($textA, $textB) {
 	let dmp		= new diff_match_patch();
 	let diffs	= dmp.diff_main($textA, $textB);
-
 	let cmpText	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
 	let matches = cmpText.match(/<ins [^>]+>(.*?)<\/ins>|<del [^>]+>(.*?)<\/del>/g)
-	if (matches != null)
-	{
+	if (matches != null) {
 		matches.map(function(val) {
 			cmpText = cmpText.replace(val, val.replace(/&para;/g, '&crarr;'));
 		});
 	}
-
 	return cmpText.replace(/&para;/g, '');
 }
 
+// Compare all revisions with the adjacent post
 $postList = $('#revisions_form div.post');
 for (let i = 0, len = $postList.length; i < len - 1; i++) {
 	let $postA	= $postList.eq(i);
 	let $postB	= $postList.eq(i + 1);
 	let $subjA	= $('h3 a', $postA).html().replace(/<br>/g, '');
 	let $subjB	= $('h3 a', $postB).html().replace(/<br>/g, '');
-	let $textA	= $('div.bbcode', $postA).html().replace(/<br>/g, '');
-	let $textB	= $('div.bbcode', $postB).html().replace(/<br>/g, '');
+	let $textA	= $('div.ppr-post-bbcode', $postA).html().replace(/<br>/g, '');
+	let $textB	= $('div.ppr-post-bbcode', $postB).html().replace(/<br>/g, '');
 	let cmpSubj	= cmpData($subjB, $subjA);
 	let cmpText	= cmpData($textB, $textA);
 	let cmpId	= 'cmp-' + i + '-' + (i + 1);
@@ -58,9 +62,36 @@ for (let i = 0, len = $postList.length; i < len - 1; i++) {
 	$postB.find('.post-buttons').prepend(cmpBtn);
 }
 
-$('div.post').on('click', 'span.button.compare', function() {
+// Toggle Diff post on click of compare button
+$('div.post').on('click', 'a.compare', function() {
 	let cmpId = $(this).data('cmp');
 	$('#' + cmpId).slideToggle();
 });
+
+// Enable or disable the action buttons depending on if any of the checkboxes are checked
+function updatePrimePostRevActionBtn(type) {
+	let checkedCnt = $('#revisions_form input[name="revision_list_'+type+'[]"]:checkbox:checked').length;
+	let $btn = $('#revisions_form input[type="submit"][name="'+type+'"]');
+	if (checkedCnt > 0) {
+		$btn.removeAttr('disabled').removeClass('disabled');
+	} else {
+		$btn.attr('disabled', 'disabled').addClass('disabled');
+	}
+}
+
+// Watch each checkbox to update the compare action button status when a change occurs
+$('#revisions_form').on('change', 'input[name="revision_list_compare[]"]', function() {
+	updatePrimePostRevActionBtn('compare');
+});
+
+// Watch each checkbox to update the delete action button status when a change occurs
+$('#revisions_form').on('change', 'input[name="revision_list_delete[]"]', function() {
+	updatePrimePostRevActionBtn('delete');
+});
+
+// Run both once
+updatePrimePostRevActionBtn('compare');
+updatePrimePostRevActionBtn('delete');
+
 </script>
 {% endif %}

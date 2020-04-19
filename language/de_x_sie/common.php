@@ -48,11 +48,17 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Ursprünglicher Beitrag',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Aktueller Beitrag',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Version %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Editiert von %1$s am %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Editiert von',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[Kein Titel]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Vergleichen',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'Sie besitzen nicht die erforderlichen Rechte zum Anschauen dieser Beitragsversionen.',
+	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+
+	// Compare selected revisions
+	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
+	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
+	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARES_SELECT'	=> 'Select for comparison',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Lösche diese Version',
@@ -64,6 +70,7 @@ $lang = array_merge($lang, array(
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Lösche die ausgewählten Versionen',
+	'PRIMEPOSTREVISIONS_DELETES_SELECT'		=> 'Select for deletion',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Sind Sie sicher, dass Sie diese Beitragsversionen löschen wollen?',
 	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Sie besitzen nicht die erforderlichen Rechte zur Löschung dieser Beitragsversionen.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Beim Versuch die Beitragsversionen zu löschen ist ein Fehler aufgetreten.',

@@ -81,18 +81,30 @@ class controller
 	/**
 	* Build the page for viewing all revisions of a post.
 	*
-	* @param int $post_id The ID of the post whose revisions we want to view
+	* @param	int				$post_id		The ID of the post whose revisions we want to view
+	* @param	bool|int|array	$revision_id	An ID or an array of IDs of the revisions to be compared
 	* @return Symphony Response object
 	* @access public
 	*/
-	public function view($post_id)
+	public function view($post_id, $revision_id = false)
 	{
-		// Obtain the current version of the post
+		$comparing_selected = false;	// Are we comparing selected revisions?
+		$rev_list = array();			// List of revision IDs to compare
+
+		if ($revision_id !== false)
+		{
+			$rev_list = is_array($revision_id) ? (count($revision_id) > 1 ? $revision_id : array_merge(array(0), $revision_id)) : array(0, $revision_id);
+			$comparing_selected = true;
+		}
+
+		// Obtain the current version of the post as well as data for the last person to edit it
 		$sql = $this->db->sql_build_query('SELECT', array(
 			'SELECT'	=> 'p.forum_id, p.poster_id, p.post_time, p.post_subject, p.post_text, p.primepost_edit_time,
 							p.post_edit_reason, p.primepost_edit_user, p.primepost_edit_count, p.bbcode_bitfield, p.bbcode_uid, u.*',
-			'FROM'		=> array(POSTS_TABLE => 'p', USERS_TABLE => 'u'),
-			'WHERE'		=> 'post_id = ' . $post_id . ' AND ((p.primepost_edit_user = 0 AND p.poster_id = u.user_id) OR p.primepost_edit_user = u.user_id)',
+			'FROM'		=> array($this->revisions_table => 'r', POSTS_TABLE => 'p', USERS_TABLE => 'u'),
+			'WHERE'		=> "p.post_id = $post_id" .
+							($comparing_selected ? ' AND ' . $this->db->sql_in_set('r.revision_id', $rev_list) : '') .
+							' AND ((p.primepost_edit_user = 0 AND p.poster_id = u.user_id) OR p.primepost_edit_user = u.user_id)',
 		));
 		$result		= $this->db->sql_query($sql);
 		$post_data	= $this->db->sql_fetchrow($result);
@@ -103,17 +115,35 @@ class controller
 		$post_url	= $this->core->build_post_url($post_id);
 		$post_link	= "<a href=\"{$post_url}\">{$this->user->lang['VIEW_LATEST_POST']}</a>";
 		$s_hidden_fields = build_hidden_fields(array(
-			'revision_list'	=> array_filter($this->request->variable('revision_list', array(0))),
-			'action'		=> 'delete',
+			'revision_list_compare'	=> $this->request->variable('revision_list_compare', array(0)),
+			'revision_list_delete'	=> array_filter($this->request->variable('revision_list_delete', array(0))) 	// Remove all non-empty values from the array
 		));
 
-		// Delete button was pressed
-		if ($this->request->variable('action', '') === 'delete')
+		// Compare button was pressed
+		if ($this->request->is_set_post('compare') && !$comparing_selected)
 		{
-			$revision_list = array_filter($this->request->variable('revision_list', array(0)));
-			if (!empty($revision_list))
+			$revision_list_compare = $this->request->variable('revision_list_compare', array(0));
+			if (!empty($revision_list_compare) && check_form_key('revisions_form'))
 			{
-				return $this->delete($revision_list, $s_hidden_fields);
+				return $this->view($post_id, $revision_list_compare);
+			}
+			else
+			{
+				trigger_error('FORM_INVALID', E_USER_WARNING);
+			}
+		}
+
+		// Delete button was pressed
+		if ($this->request->is_set_post('delete'))
+		{
+			$revision_list_delete = array_filter($this->request->variable('revision_list_delete', array(0)));	// Remove all non-empty values from the array
+			if (!empty($revision_list_delete) && check_form_key('revisions_form'))
+			{
+				return $this->delete($revision_list_delete, $s_hidden_fields);
+			}
+			else
+			{
+				trigger_error('FORM_INVALID', E_USER_WARNING);
 			}
 		}
 
@@ -125,22 +155,27 @@ class controller
 
 		// Prepare some variables
 		$user_cache		= array();
-		$deletable_cnt	= 0;
-		$revision_cnt	= 0;
-		$page_name		= $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'];
+		$deletable_cnt	= 0;	// Total number of revisions that can be deleted
+		$revision_cnt	= 0;	// Total number of revisions that can be displayed
+		$page_name		= $comparing_selected ? $this->user->lang['PRIMEPOSTREVISIONS_COMPARING'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'];
 		$can_delete		= $this->core->is_auth('delete', $forum_id, $post_data['poster_id']);
 		$can_restore	= $this->core->is_auth('restore', $forum_id, $post_data['poster_id']);
 
 		// Get data about the list of revisions and the users that edited them
 		$sql = "SELECT r.*, u.* FROM {$this->revisions_table} r, " . USERS_TABLE . " u
-				WHERE r.post_id = {$post_id} AND ((r.primepost_edit_user = 0 AND u.user_id = {$post_data['poster_id']}) OR r.primepost_edit_user = u.user_id)
+				WHERE " . ($comparing_selected ? $this->db->sql_in_set('r.revision_id', $rev_list) . ' AND ' : '') .
+						"r.post_id = {$post_id}
+						AND ((r.primepost_edit_user = 0 AND u.user_id = {$post_data['poster_id']}) OR r.primepost_edit_user = u.user_id)
 				ORDER BY revision_id DESC";
 		$result = $this->db->sql_query($sql);
 		$revisions = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
 		// Add the current version of the post to the list
-		array_unshift($revisions, $post_data);
+		if (!$comparing_selected || ($comparing_selected && in_array(0, $rev_list)))
+		{
+			array_unshift($revisions, $post_data);
+		}
 
 		// Include the file necessary for obtaining user rank & also for generation of text for display & edit
 		if (!function_exists('phpbb_get_user_rank') || !function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit'))
@@ -193,21 +228,21 @@ class controller
 				);
 			}
 
-			$revision_id	= empty($row['revision_id']) ? 0 :  $row['revision_id'];
+			$post_rev_id	= empty($row['revision_id']) ? 0 :  $row['revision_id'];
 			$parse_flags	= ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 			$post_text		= generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags);
 			$post_date		= empty($row['primepost_edit_time']) ? $post_data['post_time'] : $row['primepost_edit_time'];
-			$delete_url		= ($can_delete && !empty($revision_id)) ? $this->helper->route('primehalo_primepostrevisions_delete', array('revision_id' => $revision_id)) : false;
-			$restore_url	= ($can_restore && !empty($revision_id)) ? $this->helper->route('primehalo_primepostrevisions_restore', array('revision_id' => $revision_id)) : false;
+			$delete_url		= ($can_delete && !empty($post_rev_id)) ? $this->helper->route('primehalo_primepostrevisions_delete', array('revision_id' => $post_rev_id)) : false;
+			$restore_url	= ($can_restore && !empty($post_rev_id)) ? $this->helper->route('primehalo_primepostrevisions_restore', array('revision_id' => $post_rev_id)) : false;
 			$reason			= $row['post_edit_reason'];
 			$edit_count_str	= sprintf($this->user->lang['PRIMEPOSTREVISIONS_COUNT'], $row['primepost_edit_count']);
 			$edit_count_str	= empty($row['primepost_edit_count']) ? $this->user->lang['PRIMEPOSTREVISIONS_FIRST'] : $edit_count_str;
-			$edit_count_str	= empty($revision_id) ? $this->user->lang['PRIMEPOSTREVISIONS_FINAL'] : $edit_count_str;
-			$deletable_cnt	+= $delete_url ? 1 : 0;
+			$edit_count_str	= empty($post_rev_id) ? $this->user->lang['PRIMEPOSTREVISIONS_FINAL'] : $edit_count_str;
 			$bbcode_text	= generate_text_for_edit($row['post_text'], $row['bbcode_uid'], 0)['text'];
+			$deletable_cnt	+= $delete_url ? 1 : 0;
 
 			$this->template->assign_block_vars('postrow',array(
-				'REVISION_ID'		=> $revision_id,
+				'REVISION_ID'		=> $post_rev_id,
 				'POST_ID'			=> $post_id,
 				'POST_DATE'			=> $this->user->format_date($post_date),
 				'POST_TEXT'			=> $post_text,
@@ -244,6 +279,7 @@ class controller
 		add_form_key('revisions_form');
 		$this->template->assign_vars(array(
 			'REVISIONS'			=> true,
+			'COMPARISONS'		=> !$comparing_selected,
 			'POST_SUBJECT'		=> $post_data['post_subject'],
 			'U_POST'			=> $post_url,
 			'POST_ID'			=> $post_id,

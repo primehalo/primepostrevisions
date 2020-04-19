@@ -12,6 +12,12 @@
 			"email": "primehalo@gmail.com",
 			"homepage": "https://www.absoluteanime.com/",
 			"role": "Lead Developer"
+		},
+		{
+			"name": "Dark❶",
+			"email": "phpbb@dark1.tech",
+			"homepage": "https://dark1.tech",
+			"role": "Contributor"
 		}
 	],
 	"require": {

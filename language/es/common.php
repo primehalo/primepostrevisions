@@ -49,11 +49,17 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Mensaje original',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Mensaje actual',
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Revisión %d',
-	#'PRIMEPOSTREVISIONS_INFO'				=> 'Editado por %1$s en %2$s.',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Editado por',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[sin asunto]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
+	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
+
+	// Compare selected revisions
+	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
+	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
+	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARES_SELECT'	=> 'Select for comparison',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Eliminar revisión',
@@ -65,6 +71,7 @@ $lang = array_merge($lang, array(
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Eliminar las revisiones seleccionadas',
+	'PRIMEPOSTREVISIONS_DELETES_SELECT'		=> 'Select for deletion',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> '&iquest;Está seguro que desea eliminar estas revisiones?',
 	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'No tiene los permisos necesarios para eliminar estas revisiones.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Se produjo un error al intentar eliminar la revisión.',
