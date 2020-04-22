@@ -72,9 +72,9 @@ $('div.post').on('click', 'a.compare', function() {
 });
 
 // Enable or disable the action buttons depending on if any of the checkboxes are checked
-function updatePrimePostRevActionBtn(type) {
-	let checkedCnt = $('#revisions_form input[name="revision_list_'+type+'[]"]:checkbox:checked').length;
-	let $btn = $('#revisions_form input[type="submit"][name="'+type+'"]');
+function updatePrimePostRevActionBtn() {
+	let checkedCnt = $('#revisions_form input[name="revision_list[]"]:checkbox:checked').length;
+	let $btn = $('#revisions_form input[type="submit"]');
 	if (checkedCnt > 0) {
 		$btn.removeAttr('disabled').removeClass('disabled');
 	} else {
@@ -82,19 +82,11 @@ function updatePrimePostRevActionBtn(type) {
 	}
 }
 
-// Watch each checkbox to update the compare action button status when a change occurs
-$('#revisions_form').on('change', 'input[name="revision_list_compare[]"]', function() {
-	updatePrimePostRevActionBtn('compare');
+// Watch each checkbox to update the select action button status when a change occurs
+$('#revisions_form').on('change', 'input[name="revision_list[]"]', function() {
+	updatePrimePostRevActionBtn();
 });
-
-// Watch each checkbox to update the delete action button status when a change occurs
-$('#revisions_form').on('change', 'input[name="revision_list_delete[]"]', function() {
-	updatePrimePostRevActionBtn('delete');
-});
-
-// Run both once
-updatePrimePostRevActionBtn('compare');
-updatePrimePostRevActionBtn('delete');
+updatePrimePostRevActionBtn();
 
 </script>
 {% endif %}
