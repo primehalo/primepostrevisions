@@ -35,3 +35,15 @@
 .rtl #revisions_form .post-buttons ul.dropdown-contents .clone a.button-icon-only label {
 	padding-left: 0;
 }
+
+/* This will be displayed or hidden with Javascript */
+#ppr-post-delete-notice {
+	display:none;
+}
+
+/* Responsive: If the buttons have to stack then we want some space between them */
+@media (max-width: 700px) {
+	#revisions_form input[type="submit"] {
+		margin-bottom:0.5em;
+	}
+}

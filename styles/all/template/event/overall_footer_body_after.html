@@ -74,11 +74,23 @@ $('div.post').on('click', 'a.compare', function() {
 // Enable or disable the action buttons depending on if any of the checkboxes are checked
 function updatePrimePostRevActionBtn() {
 	let checkedCnt = $('#revisions_form input[name="revision_list[]"]:checkbox:checked').length;
-	let $btn = $('#revisions_form input[type="submit"]');
+	let $btns = $('#revisions_form input[type="submit"]');
 	if (checkedCnt > 0) {
-		$btn.removeAttr('disabled').removeClass('disabled');
+		$btns.removeAttr('disabled').removeClass('disabled');
 	} else {
-		$btn.attr('disabled', 'disabled').addClass('disabled');
+		$btns.attr('disabled', 'disabled').addClass('disabled');
+	}
+
+	// Disable the delete button if only the current version of the post is selected
+	if (checkedCnt == 1 && $('#revision_list_0').is(':checked')) {
+		$btns.filter('[name="delete"]').attr('disabled', 'disabled').addClass('disabled');
+	}
+
+	// If a delete button exists and the current version of the post is selected then show the notice about not being able to delete the post
+	if ($btns.filter('[name="delete"]').length && $('#revision_list_0').is(':checked')) {
+		$('#ppr-post-delete-notice:hidden').show('fast');	// If it's hidden then show it
+	} else {
+		$('#ppr-post-delete-notice:visible').hide('fast');	// If it's visible then hide it
 	}
 }
 
@@ -87,6 +99,5 @@ $('#revisions_form').on('change', 'input[name="revision_list[]"]', function() {
 	updatePrimePostRevActionBtn();
 });
 updatePrimePostRevActionBtn();
-
 </script>
 {% endif %}

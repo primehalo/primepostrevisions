@@ -76,7 +76,7 @@
 			{% endif %}
 			{% EVENT viewtopic_body_contact_fields_after %}
 			</dl>
-			<div class="postbody" id="revision_row{{ REVISION_CNT }}">
+			<div class="postbody" id="revision_row{{ postrow.REVISION_CNT }}">
 				<div id="post_content{{ postrow.REVISION_ID }}">
 					<h3 {% if postrow.S_FIRST_ROW %}class="first"{% endif %}>{{ postrow.EDIT_COUNT_STR }}: <a href="#p{{ postrow.REVISION_ID }}">{{ postrow.POST_SUBJECT }}</a></h3>
 					<ul class="post-buttons">
@@ -96,13 +96,15 @@
 								</a>
 							</li>
 						{% endif %}
+						{% if SELECTABLE %}
 							<li data-skip-responsive="true">
 								<a class="button button-icon-only" title="{{ lang('PRIMEPOSTREVISIONS_SELECT') }}"><label>
-									<i class="icon fa-check-square-o fa-fw"></i>
+									<i class="icon"></i>
 									<span class="sr-only">{{ lang('PRIMEPOSTREVISIONS_SELECT') }}</span>
 									<input type="checkbox" id="revision_list_{{ postrow.REVISION_ID }}" name="revision_list[]" value="{{ postrow.REVISION_ID }}"{% if postrow.S_CHECKED %} checked="checked"{% endif %} />
 								</label></a>
 							</li>
+						{% endif %}
 					</ul>
 					<p class="author">
 						<span class="responsive-hide">{% if postrow.EDIT_COUNT > 0 %}{{ lang('PRIMEPOSTREVISIONS_EDIT_BY') }}{% else %}{{ lang('POST_BY_AUTHOR') }}{% endif %} <strong>{{ postrow.POST_AUTHOR_FULL }}</strong> &raquo; </span>{{ postrow.POST_DATE }}
@@ -123,11 +125,11 @@
 	<hr class="divider" />
 {% endfor %}
 
-{% if DELETABLE_CNT > 1 or COMPARISONS %}
+{% if SELECTABLE %}
 	<div class="action-bar bar-bottom">
 		<div class="left-box">
 			{% if DELETABLE_CNT > 1 %}<input class="button" type="submit" name="delete" value="{{ lang('PRIMEPOSTREVISIONS_DELETES') }}" />{% endif %}
-			{% if COMPARISONS %}<input class="button button-secondary" type="submit" name="compare" value="{{ lang('PRIMEPOSTREVISIONS_COMPARES') }}" />{% endif %}
+			{% if COMPARISONS and REVISION_CNT > 2 %}<input class="button button-secondary" type="submit" name="compare" value="{{ lang('PRIMEPOSTREVISIONS_COMPARES') }}" />{% endif %}
 		</div>
 		<div class="right-box">
 			<a href="#" onclick="marklist('revisions_form', 'revision_list[]', true); updatePrimePostRevActionBtn(); return false;">{{ lang('MARK_ALL') }}</a>
@@ -136,6 +138,11 @@
 		</div>
 	</div>
 {% endif %}
+	<div id="ppr-post-delete-notice" class="rules">
+		<div class="inner">
+			{{ lang('PRIMEPOSTREVISIONS_DELETE_POST_NOTICE') }}
+		</div>
+	</div>
 </form>
 
 {% INCLUDE 'overall_footer.html' %}

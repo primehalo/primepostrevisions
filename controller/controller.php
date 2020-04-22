@@ -267,6 +267,8 @@ class controller
 			'S_FORM_ACTION'		=> $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $post_id)),
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 			'DELETABLE_CNT'		=> $deletable_cnt,
+			'REVISION_CNT'		=> $revision_cnt,
+			'SELECTABLE'		=> $deletable_cnt > 1 || (!$comparing_selected && $revision_cnt > 2),	// Do we need checkboxes for selecting revisions?
 		));
 
 		return $this->helper->render('body.html', $page_name);
