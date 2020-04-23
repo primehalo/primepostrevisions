@@ -283,13 +283,7 @@ class controller
 	*/
 	public function delete($revision_id = 0)
 	{
-		$rev_list	= is_array($revision_id) ? $revision_id : array($revision_id);
-		$is_current_post = false;
-		if (in_array(0, $rev_list))
-		{
-			$is_current_post = true;
-			$rev_list = array_filter($rev_list);	// Remove all empty values from the array for Delete
-		}
+		$rev_list	= array_filter(is_array($revision_id) ? $revision_id : array($revision_id));
 		$msg_prefix	= is_array($revision_id) ? 'PRIMEPOSTREVISIONS_DELETES_' : 'PRIMEPOSTREVISIONS_DELETE_';
 
 		// Load the post data so we can verify the user's permissions

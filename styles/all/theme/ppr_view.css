@@ -8,8 +8,8 @@
 */
 
 .ppr-post-checkbox {
-	padding-left: 0.2em;
-	padding-right: 1em;
+	margin-left: 0.7em;
+	vertical-align: -webkit-baseline-middle;
 }
 
 .ppr-post-bbcode {
@@ -34,11 +34,6 @@
 
 .rtl #revisions_form .post-buttons ul.dropdown-contents .clone a.button-icon-only label {
 	padding-left: 0;
-}
-
-/* This will be displayed or hidden with Javascript */
-#ppr-post-delete-notice {
-	display:none;
 }
 
 /* Responsive: If the buttons have to stack then we want some space between them */

@@ -98,11 +98,7 @@
 						{% endif %}
 						{% if SELECTABLE %}
 							<li data-skip-responsive="true">
-								<a class="button button-icon-only" title="{{ lang('PRIMEPOSTREVISIONS_SELECT') }}"><label>
-									<i class="icon"></i>
-									<span class="sr-only">{{ lang('PRIMEPOSTREVISIONS_SELECT') }}</span>
-									<input type="checkbox" id="revision_list_{{ postrow.REVISION_ID }}" name="revision_list[]" value="{{ postrow.REVISION_ID }}"{% if postrow.S_CHECKED %} checked="checked"{% endif %} />
-								</label></a>
+								<input class="ppr-post-checkbox" type="checkbox" id="revision_list_{{ postrow.REVISION_ID }}" name="revision_list[]" value="{{ postrow.REVISION_ID }}"{% if postrow.S_CHECKED %} checked="checked"{% endif %} />
 							</li>
 						{% endif %}
 					</ul>
@@ -138,7 +134,7 @@
 		</div>
 	</div>
 {% endif %}
-	<div id="ppr-post-delete-notice" class="rules">
+	<div id="ppr-post-delete-notice" class="rules" style="display:none;">
 		<div class="inner">
 			{{ lang('PRIMEPOSTREVISIONS_DELETE_POST_NOTICE') }}
 		</div>
