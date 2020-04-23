@@ -60,7 +60,6 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
 	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
 	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
-	'PRIMEPOSTREVISIONS_COMPARES_SELECT'	=> 'Select for comparison',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Cancella revisione',
@@ -72,7 +71,6 @@ $lang = array_merge($lang, array(
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Cancella le revisioni selezionate',
-	'PRIMEPOSTREVISIONS_DELETES_SELECT'		=> 'Select for deletion',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Sei sicuro di voler cancellare queste revisioni?',
 	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Non hai i permessi necessari per eliminare queste revisioni.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Si e\' verificato un errore mentre si cercava di eliminare queste revisioni.',
