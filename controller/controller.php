@@ -108,35 +108,23 @@ class controller
 		$this->db->sql_freeresult($result);
 
 		// Prepare some variables that will be used for permission and deletion checks
-		$forum_id	= $post_data['forum_id'];
-		$post_url	= $this->core->build_post_url($post_id);
-		$post_link	= "<a href=\"{$post_url}\">{$this->user->lang['VIEW_LATEST_POST']}</a>";
-		$s_hidden_fields = build_hidden_fields(array(
-			'revision_list_compare'	=> $this->request->variable('revision_list_compare', array(0)),
-			'revision_list_delete'	=> array_filter($this->request->variable('revision_list_delete', array(0))) 	// Remove all non-empty values from the array
-		));
+		$forum_id			= $post_data['forum_id'];
+		$post_url			= $this->core->build_post_url($post_id);
+		$post_link			= "<a href=\"{$post_url}\">{$this->user->lang['VIEW_LATEST_POST']}</a>";
+		$page_name			= $comparing_selected ? $this->user->lang['PRIMEPOSTREVISIONS_COMPARING'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'];
+		$can_view			= $this->core->is_auth('view', $forum_id, $post_data['poster_id']);
+		$can_delete			= $this->core->is_auth('delete', $forum_id, $post_data['poster_id']);
+		$can_restore		= $this->core->is_auth('restore', $forum_id, $post_data['poster_id']);
 
-		// Compare button was pressed
-		if ($this->request->is_set_post('compare') && !$comparing_selected)
+		// Compare or Delete button was pressed
+		$compare_submit = $this->request->is_set_post('compare') && !$comparing_selected && $can_view;
+		$delete_submit = $this->request->is_set_post('delete') && $can_delete;
+		$revision_list = $this->request->variable('revision_list', array(0));
+		if ($compare_submit || $delete_submit)
 		{
-			$revision_list_compare = $this->request->variable('revision_list_compare', array(0));
-			if (!empty($revision_list_compare) && check_form_key('revisions_form'))
+			if (!empty($revision_list))
 			{
-				return $this->view($post_id, $revision_list_compare);
-			}
-			else
-			{
-				trigger_error('FORM_INVALID', E_USER_WARNING);
-			}
-		}
-
-		// Delete button was pressed
-		if ($this->request->is_set_post('delete'))
-		{
-			$revision_list_delete = array_filter($this->request->variable('revision_list_delete', array(0)));	// Remove all non-empty values from the array
-			if (!empty($revision_list_delete) && check_form_key('revisions_form'))
-			{
-				return $this->delete($revision_list_delete, $s_hidden_fields);
+				return ($compare_submit) ? $this->view($post_id, $revision_list) : $this->delete($revision_list);
 			}
 			else
 			{
@@ -145,7 +133,7 @@ class controller
 		}
 
 		// Check if user is allowed to view these revisions
-		if (!$this->core->is_auth('view', $forum_id, $post_data['poster_id']))
+		if (!$can_view)
 		{
 			return $this->helper->message($this->user->lang['PRIMEPOSTREVISIONS_VIEW_DENIED'] . "<br /><br />{$post_link}");
 		}
@@ -154,9 +142,6 @@ class controller
 		$user_cache		= array();
 		$deletable_cnt	= 0;	// Total number of revisions that can be deleted
 		$revision_cnt	= 0;	// Total number of revisions that can be displayed
-		$page_name		= $comparing_selected ? $this->user->lang['PRIMEPOSTREVISIONS_COMPARING'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'];
-		$can_delete		= $this->core->is_auth('delete', $forum_id, $post_data['poster_id']);
-		$can_restore	= $this->core->is_auth('restore', $forum_id, $post_data['poster_id']);
 
 		// Get data about the list of revisions and the users that edited them
 		$sql = "SELECT r.*, u.* FROM {$this->revisions_table} r, " . USERS_TABLE . " u
@@ -273,7 +258,6 @@ class controller
 		}
 
 		// Assign some global template variables
-		add_form_key('revisions_form');
 		$this->template->assign_vars(array(
 			'REVISIONS'			=> true,
 			'COMPARISONS'		=> !$comparing_selected,
@@ -283,6 +267,8 @@ class controller
 			'S_FORM_ACTION'		=> $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $post_id)),
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 			'DELETABLE_CNT'		=> $deletable_cnt,
+			'REVISION_CNT'		=> $revision_cnt,
+			'SELECTABLE'		=> $deletable_cnt > 1 || (!$comparing_selected && $revision_cnt > 2),	// Do we need checkboxes for selecting revisions?
 		));
 
 		return $this->helper->render('body.html', $page_name);
@@ -292,13 +278,12 @@ class controller
 	* Deletes one or more revisions.
 	*
 	* @param	int|array	$revision_id		An ID or an array of IDs of the revisions to be deleted
-	* @param	string		$s_hidden_fields	A string of hidden fields to pass to confirm_box()
 	* @return Symphony Response object
 	* @access public
 	*/
-	public function delete($revision_id = 0, $s_hidden_fields = '')
+	public function delete($revision_id = 0)
 	{
-		$rev_list	= is_array($revision_id) ? $revision_id : array($revision_id);
+		$rev_list	= array_filter(is_array($revision_id) ? $revision_id : array($revision_id));
 		$msg_prefix	= is_array($revision_id) ? 'PRIMEPOSTREVISIONS_DELETES_' : 'PRIMEPOSTREVISIONS_DELETE_';
 
 		// Load the post data so we can verify the user's permissions
@@ -338,6 +323,10 @@ class controller
 		}
 		else
 		{
+			$s_hidden_fields	= build_hidden_fields(array(
+				'delete'		=> true,
+				'revision_list'	=> $rev_list,
+			));
 			confirm_box(false, $this->user->lang[$msg_prefix . 'CONFIRM'], $s_hidden_fields);
 		}
 
