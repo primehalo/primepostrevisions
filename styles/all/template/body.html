@@ -98,8 +98,8 @@
 						{% endif %}
 						{% if SELECTABLE %}
 							<li data-skip-responsive="true">
-								<label class="button button-icon-only">
-									<i class="icon fa-check fa-fw ppr-post-checkbox">
+								<label class="button button-icon-only ppr-post-checkbox">
+									<i class="icon fa-check fa-fw">
 										<input type="checkbox" id="revision_list_{{ postrow.REVISION_ID }}" name="revision_list[]" value="{{ postrow.REVISION_ID }}"{% if postrow.S_CHECKED %} checked="checked"{% endif %} />
 									</i>
 								</label>
