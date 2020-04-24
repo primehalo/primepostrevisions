@@ -7,7 +7,7 @@ primehalo_primepostrevisions_view:
 
 primehalo_primepostrevisions_delete:
     path: /revisions/delete/{revision_id}
-    defaults: { _controller: primehalo.primepostrevisions.controller:delete, revision_id: 0, s_hidden_fields: '' }
+    defaults: { _controller: primehalo.primepostrevisions.controller:delete, revision_id: 0 }
     requirements:
         revision_id: \d+
 

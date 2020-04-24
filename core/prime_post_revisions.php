@@ -10,6 +10,10 @@
 
 namespace primehalo\primepostrevisions\core;
 
+use phpbb\auth\auth;
+use phpbb\db\driver\driver_interface;
+use phpbb\user;
+
 /**
 * Class declaration
 */
@@ -30,38 +34,24 @@ class prime_post_revisions
 	public $revisions_table;
 
 	/**
-	* Singleton
-	*/
-	public static function Instance()
-	{
-		static $inst = null;
-		if ($inst === null)
-		{
-			$inst = new self();
-		}
-		return $inst;
-	}
-
-	/**
-	* Clone
-	*/
-	protected function __clone()
-	{
-	}
-
-	/**
 	* Constructor
+	*
+	* @param \phpbb\auth\auth					$auth				Auth object
+	* @param \phpbb\db\driver\driver_interface	$db					Database connection
+	* @param \phpbb\user						$user				User object
+	* @param string								$revisions_table	Prime Post Revisions table
+	* @param $root_path							$root_path			phpBB root path
+	* @param $phpExt							$phpExt				php file extension
+	* @access public
 	*/
-	protected function __construct()
+	public function __construct(auth $auth, driver_interface $db, user $user, $revisions_table, $root_path, $phpExt)
 	{
-		global $phpbb_container;
-
-		$this->auth			= $phpbb_container->get('auth');		// @var \phpbb\auth\auth
-		$this->db			= $phpbb_container->get('dbal.conn');	// @var \phpbb\db\driver\driver_interface
-		$this->user			= $phpbb_container->get('user');		// @var \phpbb\user
-		$this->root_path	= $phpbb_container->getParameter('core.root_path');
-		$this->php_ext		= $phpbb_container->getParameter('core.php_ext');
-		$this->revisions_table	= $phpbb_container->getParameter('primehalo.primepostrevisions.tables.primepostrev');
+		$this->auth				= $auth;
+		$this->db				= $db;
+		$this->user				= $user;
+		$this->revisions_table	= $revisions_table;
+		$this->root_path		= $root_path;
+		$this->php_ext			= $phpExt;
 	}
 
 	/**
@@ -85,9 +75,6 @@ class prime_post_revisions
 				 FROM ' . POSTS_TABLE . " WHERE post_id = {$post_id}";
 		$old_data = $this->db->sql_fetchrow($result = $this->db->sql_query($sql));
 		$this->db->sql_freeresult($result);
-
-		#$old_data['primepost_edit_time'] = empty($old_data['primepost_edit_time']) ? $old_data['post_time'] : $old_data['post_edit_time'];
-		#$old_data['primepost_edit_user'] = empty($old_data['primepost_edit_user']) ? $old_data['poster_id'] : $old_data['post_edit_user'];
 
 		$sql_ary = array(
 			'revision_time'			=> time(),
