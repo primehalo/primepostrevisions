@@ -10,7 +10,7 @@
 
 namespace primehalo\primepostrevisions\controller;
 
-use primehalo\primepostrevisions\core\prime_post_revisions;
+use primehalo\primepostrevisions\core\prime_post_revisions as core;
 use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
@@ -24,8 +24,6 @@ use phpbb\user;
 */
 class controller
 {
-	protected $core;
-
 	/**
 	* Service Containers
 	*/
@@ -36,6 +34,7 @@ class controller
 	protected $request;
 	protected $template;
 	protected $user;
+	protected $core;
 
 	/**
 	* Constant variables
@@ -54,12 +53,13 @@ class controller
 	* @param \phpbb\request\request_interface	$request			Request object
 	* @param \phpbb\template\template			$template			Template object
 	* @param \phpbb\user						$user				User object
+	* @param core								$core				Prime Post Revisions core
 	* @param string								$revisions_table	Prime Post Revisions table
 	* @param $root_path							$root_path			phpBB root path
 	* @param $phpExt							$phpExt				php file extension
 	* @access public
 	*/
-	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, $revisions_table, $root_path, $phpExt)
+	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, core $core, $revisions_table, $root_path, $phpExt)
 	{
 		$this->auth				= $auth;
 		$this->config			= $config;
@@ -68,11 +68,10 @@ class controller
 		$this->request			= $request;
 		$this->template			= $template;
 		$this->user				= $user;
+		$this->core				= $core;
 		$this->revisions_table	= $revisions_table;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $phpExt;
-
-		$this->core = prime_post_revisions::Instance();
 	}
 
 	/**

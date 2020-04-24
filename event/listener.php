@@ -11,7 +11,7 @@
 namespace primehalo\primepostrevisions\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use primehalo\primepostrevisions\core\prime_post_revisions;
+use primehalo\primepostrevisions\core\prime_post_revisions as core;
 use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
@@ -36,12 +36,12 @@ class listener implements EventSubscriberInterface
 	protected $request;		// @var \phpbb\request\request_interface
 	protected $template;	// @var \phpbb\template\template
 	protected $user;		// @var \phpbb\user
+	protected $core;		// @var \primehalo\primepostrevisions\core\prime_post_revisions
 
 	/**
 	* Variables
 	*/
 	protected $posts_with_revisions;
-	protected $core;
 	protected $revisions_table;
 	protected $revision_saved;
 
@@ -70,9 +70,10 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\request\request_interface	$request			Request object
 	* @param \phpbb\template\template			$template			Template object
 	* @param \phpbb\user						$user				User object
+	* @param core								$core				Prime Post Revisions core
 	* @param string								$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, $revisions_table)
+	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, core $core, $revisions_table)
 	{
 		$this->auth				= $auth;
 		$this->config			= $config;
@@ -81,9 +82,8 @@ class listener implements EventSubscriberInterface
 		$this->request			= $request;
 		$this->template			= $template;
 		$this->user				= $user;
+		$this->core				= $core;
 		$this->revisions_table	= $revisions_table;
-
-		$this->core = prime_post_revisions::Instance();
 	}
 
 	/**
