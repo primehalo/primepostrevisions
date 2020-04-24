@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 RC] - 2020-04-24
+### Added
+- Added the ability to compare non-sequential revisions
+
+### Changed
+- Fixed up code to be CDB (phpBB Customization Database) compliant
+- Reformatted ACP directory list to show categories and tree structure
+- Minor styling changes
+
+### Fixed
+- Unintentional dupicate HTML element IDs
+
 ## [1.0.0 BETA 9] - 2020-04-14
 ### Added
 - Admin Control Panel module to more quickly and easily access the individual forums settings in one place
