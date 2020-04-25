@@ -11,14 +11,11 @@
 namespace primehalo\primepostrevisions\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use primehalo\primepostrevisions\core\prime_post_revisions as core;
-use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
 use phpbb\controller\helper;
 use phpbb\request\request_interface;
-use phpbb\template\template;
-use phpbb\user;
+use primehalo\primepostrevisions\core\prime_post_revisions as core;
 
 /**
 * Event listener
@@ -29,13 +26,10 @@ class listener implements EventSubscriberInterface
 	/**
 	* Service Containers
 	*/
-	protected $auth;		// @var \phpbb\auth\auth
 	protected $config;		// @var \phpbb\config\config
 	protected $db;			// @var \phpbb\db\driver\driver_interface
 	protected $helper;		// @var \phpbb\controller\helper
 	protected $request;		// @var \phpbb\request\request_interface
-	protected $template;	// @var \phpbb\template\template
-	protected $user;		// @var \phpbb\user
 	protected $core;		// @var \primehalo\primepostrevisions\core\prime_post_revisions
 
 	/**
@@ -52,6 +46,7 @@ class listener implements EventSubscriberInterface
 			'core.permissions'								=> 'set_permissions',					// 3.1.0-a1
 			'core.posting_modify_submit_post_before'		=> 'store_post_revision_info',			// 3.1.0-RC5
 			'core.submit_post_modify_sql_data'				=> 'update_edit_data',					// 3.1.3-RC1
+			'core.posting_modify_template_vars'				=> 'add_template_var',					// 3.1.0-a1
 			'core.viewtopic_modify_post_data'				=> 'get_posts_with_revisions',			// 3.1.0-RC3
 			'core.viewtopic_modify_post_row'				=> 'build_revisions_url',				// 3.1.0-RC3
 			'core.delete_posts_in_transaction_before'		=> 'delete_revisions_for_posts',		// 3.1.0-a4
@@ -63,25 +58,19 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth					$auth				Auth object
 	* @param \phpbb\config\config				$config				Config object
 	* @param \phpbb\db\driver\driver_interface	$db					Database connection
 	* @param \phpbb\controller\helper			$controller_helper	Controller helper object
 	* @param \phpbb\request\request_interface	$request			Request object
-	* @param \phpbb\template\template			$template			Template object
-	* @param \phpbb\user						$user				User object
 	* @param core								$core				Prime Post Revisions core
 	* @param string								$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, core $core, $revisions_table)
+	public function __construct(config $config, driver_interface $db, helper $helper, request_interface $request, core $core, $revisions_table)
 	{
-		$this->auth				= $auth;
 		$this->config			= $config;
 		$this->db				= $db;
 		$this->helper			= $helper;
 		$this->request			= $request;
-		$this->template			= $template;
-		$this->user				= $user;
 		$this->core				= $core;
 		$this->revisions_table	= $revisions_table;
 	}
@@ -180,8 +169,10 @@ class listener implements EventSubscriberInterface
 		$this->revision_saved = false;
 
 		// Determine if we should store a revision
-		$unchanged	= empty($event['update_message']) && empty($event['update_subject']);
-		$disabled	= empty($this->config['primepostrev_enable_general']) || empty($event['post_data']['primepostrev_enable']);
+		$unchanged		= empty($event['update_message']) && empty($event['update_subject']);
+		$can_delete		= $this->core->is_auth('delete', $event['forum_id'], $event['post_data']['poster_id']);
+		$no_post_rev	= $this->request->variable('no_post_rev', false);
+		$disabled		= empty($this->config['primepostrev_enable_general']) || empty($event['post_data']['primepostrev_enable']) || ($can_delete && $no_post_rev);
 		if ($event['mode'] !== 'edit' || $unchanged || $disabled)
 		{
 			return;
@@ -216,6 +207,22 @@ class listener implements EventSubscriberInterface
 		$sql_data[POSTS_TABLE]['stat'][] = 'primepost_edit_count = primepost_edit_count + 1';
 
 		$event['sql_data'] = $sql_data;
+	}
+
+
+	/**
+	* Template Var to allow user to not save the revision to the database.
+	*
+	* @param	\phpbb\event\data	$event	The event object from core.posting_modify_template_vars
+	* @return	void
+	* @access	public
+	*/
+	public function add_template_var($event)
+	{
+		// Determine if we should allow user to not save the revision
+		$page_data = $event['page_data'];
+		$page_data['NO_POST_REV'] = $this->core->is_auth('delete', $event['forum_id'], $event['post_data']['poster_id']);
+		$event['page_data'] = $page_data;
 	}
 
 

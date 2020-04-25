@@ -17,13 +17,12 @@ services:
     primehalo.primepostrevisions.controller:
         class: primehalo\primepostrevisions\controller\controller
         arguments:
-            - '@auth'
-            - '@config'
             - '@dbal.conn'
             - '@controller.helper'
             - '@request'
             - '@template'
             - '@user'
+            - '@cache.driver'
             - '@primehalo.primepostrevisions.core'
             - '%primehalo.primepostrevisions.tables.primepostrev%'
             - '%core.root_path%'
@@ -32,13 +31,10 @@ services:
     primehalo.primepostrevisions.listener:
         class: primehalo\primepostrevisions\event\listener
         arguments:
-            - '@auth'
             - '@config'
             - '@dbal.conn'
             - '@controller.helper'
             - '@request'
-            - '@template'
-            - '@user'
             - '@primehalo.primepostrevisions.core'
             - '%primehalo.primepostrevisions.tables.primepostrev%'
         tags:
