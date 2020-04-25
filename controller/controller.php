@@ -10,14 +10,13 @@
 
 namespace primehalo\primepostrevisions\controller;
 
-use primehalo\primepostrevisions\core\prime_post_revisions as core;
-use phpbb\auth\auth;
-use phpbb\config\config;
-use phpbb\db\driver\driver_interface;
+use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\controller\helper;
 use phpbb\request\request_interface;
 use phpbb\template\template;
 use phpbb\user;
+use phpbb\cache\driver\driver_interface as cache_driver;
+use primehalo\primepostrevisions\core\prime_post_revisions as core;
 
 /**
 * Class declaration
@@ -27,13 +26,12 @@ class controller
 	/**
 	* Service Containers
 	*/
-	protected $auth;
-	protected $config;
 	protected $db;
 	protected $helper;
 	protected $request;
 	protected $template;
 	protected $user;
+	protected $cache;
 	protected $core;
 
 	/**
@@ -44,30 +42,33 @@ class controller
 	protected $php_ext;
 
 	/**
+	 * Cache Key
+	 */
+	protected const PPR_USER_CACHE_KEY = '_prime_post_revisions_user_cache';
+
+	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth					$auth				Auth object
-	* @param \phpbb\config\config				$config				Config object
-	* @param \phpbb\db\driver\driver_interface	$db					Database connection
-	* @param \phpbb\controller\helper			$controller_helper	Controller helper object
-	* @param \phpbb\request\request_interface	$request			Request object
-	* @param \phpbb\template\template			$template			Template object
-	* @param \phpbb\user						$user				User object
-	* @param core								$core				Prime Post Revisions core
-	* @param string								$revisions_table	Prime Post Revisions table
-	* @param $root_path							$root_path			phpBB root path
-	* @param $phpExt							$phpExt				php file extension
+	* @param \phpbb\db\driver\driver_interface		$db					Database connection
+	* @param \phpbb\controller\helper				$controller_helper	Controller helper object
+	* @param \phpbb\request\request_interface		$request			Request object
+	* @param \phpbb\template\template				$template			Template object
+	* @param \phpbb\user							$user				User object
+	* @param \phpbb\cache\driver\driver_interface	$cache				Cache object
+	* @param core									$core				Prime Post Revisions core
+	* @param string									$revisions_table	Prime Post Revisions table
+	* @param $root_path								$root_path			phpBB root path
+	* @param $phpExt								$phpExt				php file extension
 	* @access public
 	*/
-	public function __construct(auth $auth, config $config, driver_interface $db, helper $helper, request_interface $request, template $template, user $user, core $core, $revisions_table, $root_path, $phpExt)
+	public function __construct(db_driver $db, helper $helper, request_interface $request, template $template, user $user, cache_driver $cache, core $core, $revisions_table, $root_path, $phpExt)
 	{
-		$this->auth				= $auth;
-		$this->config			= $config;
 		$this->db				= $db;
 		$this->helper			= $helper;
 		$this->request			= $request;
 		$this->template			= $template;
 		$this->user				= $user;
+		$this->cache			= $cache;
 		$this->core				= $core;
 		$this->revisions_table	= $revisions_table;
 		$this->root_path		= $root_path;
@@ -141,8 +142,41 @@ class controller
 			return $this->helper->message($this->user->lang['PRIMEPOSTREVISIONS_VIEW_DENIED'] . "<br /><br />{$post_link}");
 		}
 
+		// Prepare user data from the cache
+		$user_cache = $this->cache->get(self::PPR_USER_CACHE_KEY);
+
+		// If not cached or guest user not cached then cache it
+		if ($user_cache === false || !isset($user_cache[ANONYMOUS]))
+		{
+			$sql = $this->db->sql_build_query('SELECT', array(
+				'SELECT'	=> 'u.user_id, u.username, u.username_clean, u.user_type, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height',
+				'FROM'		=> array(USERS_TABLE	=> 'u'),
+				'WHERE'		=> 'u.user_id = ' . ANONYMOUS,
+			));
+			$result		= $this->db->sql_query($sql);
+			$row	= $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			$user_cache[ANONYMOUS] = array(
+				'username'			=> $row['username'],
+				'user_colour'		=> $row['user_colour'],
+				'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+
+				'author_full'		=> get_username_string('full', ANONYMOUS, $row['username'], $row['user_colour']),
+				'author_colour'		=> get_username_string('colour', ANONYMOUS, $row['username'], $row['user_colour']),
+				'author_username'	=> get_username_string('username', ANONYMOUS, $row['username'], $row['user_colour']),
+				'author_profile'	=> get_username_string('profile', ANONYMOUS, $row['username'], $row['user_colour']),
+
+				'rank_title'		=> '',
+				'rank_image'		=> '',
+				'rank_image_src'	=> '',
+			);
+
+			// Cache user data
+			$this->cache->put(self::PPR_USER_CACHE_KEY, $user_cache);
+		}
+
 		// Prepare some variables
-		$user_cache		= array();
 		$deletable_cnt	= 0;	// Total number of revisions that can be deleted
 		$revision_cnt	= 0;	// Total number of revisions that can be displayed
 
@@ -197,6 +231,9 @@ class controller
 					'rank_image'		=> $user_rank_data['img'],
 					'rank_image_src'	=> $user_rank_data['img_src'],
 				);
+
+				// Cache user data
+				$this->cache->put(self::PPR_USER_CACHE_KEY, $user_cache);
 			}
 
 			$post_rev_id	= empty($row['revision_id']) ? 0 :  $row['revision_id'];
@@ -228,10 +265,10 @@ class controller
 				'BBCODE_TEXT'		=> $bbcode_text,
 
 				// Poster
-				'POST_AUTHOR_FULL'		=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_full'] : get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
-				'POST_AUTHOR_COLOUR'	=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_colour'] : get_username_string('colour', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
-				'POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_username'] : get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
-				'U_POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_profile'] : get_username_string('profile', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
+				'POST_AUTHOR_FULL'		=> $user_cache[$poster_id]['author_full'],
+				'POST_AUTHOR_COLOUR'	=> $user_cache[$poster_id]['author_colour'],
+				'POST_AUTHOR'			=> $user_cache[$poster_id]['author_username'],
+				'U_POST_AUTHOR'			=> $user_cache[$poster_id]['author_profile'],
 				'RANK_TITLE'			=> $user_cache[$poster_id]['rank_title'],
 				'RANK_IMG'				=> $user_cache[$poster_id]['rank_image'],
 				'RANK_IMG_SRC'			=> $user_cache[$poster_id]['rank_image_src'],
