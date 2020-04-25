@@ -41,6 +41,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	// Viewing posts
 	'PRIMEPOSTREVISIONS_VIEW'				=> 'Ver el historial del mensaje',	// Texto del enlace para ver la historia del mensaje.
+	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Do not save post history',	// Text for the checkbox to not save the revision history
 
 	// Viewing revisions
 	'PRIMEPOSTREVISIONS_VIEWING'			=> 'Viendo el historial del mensaje ',
