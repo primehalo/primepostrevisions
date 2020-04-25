@@ -97,10 +97,14 @@ class controller
 		$sql = $this->db->sql_build_query('SELECT', array(
 			'SELECT'	=> 'p.forum_id, p.poster_id, p.post_time, p.post_subject, p.post_text, p.primepost_edit_time,
 							p.post_edit_reason, p.primepost_edit_user, p.primepost_edit_count, p.bbcode_bitfield, p.bbcode_uid, u.*',
-			'FROM'		=> array($this->revisions_table => 'r', POSTS_TABLE => 'p', USERS_TABLE => 'u'),
-			'WHERE'		=> "p.post_id = $post_id" .
-							($comparing_selected ? ' AND ' . $this->db->sql_in_set('r.revision_id', $rev_list) : '') .
-							' AND ((p.primepost_edit_user = 0 AND p.poster_id = u.user_id) OR p.primepost_edit_user = u.user_id)',
+			'FROM'		=> array(POSTS_TABLE => 'p'),
+			'LEFT_JOIN'	=> array(
+				array(
+					'FROM'	=> array(USERS_TABLE => 'u'),
+					'ON'	=> '(p.primepost_edit_user = 0 AND p.poster_id = u.user_id) OR p.primepost_edit_user = u.user_id',
+				),
+			),
+			'WHERE'		=> "p.post_id = {$post_id}",
 		));
 		$result		= $this->db->sql_query($sql);
 		$post_data	= $this->db->sql_fetchrow($result);
@@ -143,13 +147,20 @@ class controller
 		$revision_cnt	= 0;	// Total number of revisions that can be displayed
 
 		// Get data about the list of revisions and the users that edited them
-		$sql = "SELECT r.*, u.* FROM {$this->revisions_table} r, " . USERS_TABLE . " u
-				WHERE " . ($comparing_selected ? $this->db->sql_in_set('r.revision_id', $rev_list) . ' AND ' : '') .
-						"r.post_id = {$post_id}
-						AND ((r.primepost_edit_user = 0 AND u.user_id = {$post_data['poster_id']}) OR r.primepost_edit_user = u.user_id)
-				ORDER BY revision_id DESC";
-		$result = $this->db->sql_query($sql);
-		$revisions = $this->db->sql_fetchrowset($result);
+		$sql = $this->db->sql_build_query('SELECT', array(
+			'SELECT'	=> 'r.*, u.*',
+			'FROM'		=> array($this->revisions_table => 'r'),
+			'LEFT_JOIN'	=> array(
+				array(
+					'FROM'	=> array(USERS_TABLE => 'u'),
+					'ON'	=> "(r.primepost_edit_user = 0 AND u.user_id = {$post_data['poster_id']}) OR r.primepost_edit_user = u.user_id",
+				),
+			),
+			'WHERE'		=> "r.post_id = {$post_id}" . ($comparing_selected ? ' AND ' . $this->db->sql_in_set('r.revision_id', $rev_list) : ''),
+			'ORDER_BY'	=> 'r.revision_id DESC',
+		));
+		$result		= $this->db->sql_query($sql);
+		$revisions	= $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
 		// Add the current version of the post to the list
@@ -173,39 +184,18 @@ class controller
 			{
 				$user_rank_data = phpbb_get_user_rank($row, $row['user_posts']);
 				$user_cache[$poster_id] = array(
-					'user_type'					=> $row['user_type'],
-					'user_inactive_reason'		=> $row['user_inactive_reason'],
-
-					'joined'		=> $this->user->format_date($row['user_regdate']),
-					'posts'			=> $row['user_posts'],
-					'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
-
-					#'sig'					=> $user_sig,
-					#'sig_bbcode_uid'		=> (!empty($row['user_sig_bbcode_uid'])) ? $row['user_sig_bbcode_uid'] : '',
-					#'sig_bbcode_bitfield'	=> (!empty($row['user_sig_bbcode_bitfield'])) ? $row['user_sig_bbcode_bitfield'] : '',
-
-					'viewonline'	=> $row['user_allow_viewonline'],
-					'allow_pm'		=> $row['user_allow_pm'],
-
-					'avatar'		=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
-					'age'			=> '',
-
-					'rank_title'		=> $user_rank_data['title'],
-					'rank_image'		=> $user_rank_data['img'],
-					'rank_image_src'	=> $user_rank_data['img_src'],
-
 					'username'			=> $row['username'],
 					'user_colour'		=> $row['user_colour'],
-					'contact_user' 		=> $this->user->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
-
-					'online'		=> false,
-					#'jabber'		=> ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->root_path}memberlist.{$this->php_ext}", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
-					'search'		=> ($this->config['load_search'] && $this->auth->acl_get('u_search')) ? append_sid("{$this->root_path}search.{$this->php_ext}", "author_id=$poster_id&amp;sr=posts") : '',
+					'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
 
 					'author_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
 					'author_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
 					'author_username'	=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
 					'author_profile'	=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
+
+					'rank_title'		=> $user_rank_data['title'],
+					'rank_image'		=> $user_rank_data['img'],
+					'rank_image_src'	=> $user_rank_data['img_src'],
 				);
 			}
 
@@ -242,16 +232,10 @@ class controller
 				'POST_AUTHOR_COLOUR'	=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_colour'] : get_username_string('colour', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 				'POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_username'] : get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 				'U_POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_profile'] : get_username_string('profile', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
-				'RANK_TITLE'		=> $user_cache[$poster_id]['rank_title'],
-				'RANK_IMG'			=> $user_cache[$poster_id]['rank_image'],
-				'RANK_IMG_SRC'		=> $user_cache[$poster_id]['rank_image_src'],
-				'POSTER_JOINED'		=> $user_cache[$poster_id]['joined'],
-				'POSTER_POSTS'		=> $user_cache[$poster_id]['posts'],
-				'POSTER_AVATAR'		=> $user_cache[$poster_id]['avatar'],
-				'POSTER_WARNINGS'	=> $this->auth->acl_get('m_warn') ? $user_cache[$poster_id]['warnings'] : '',
-				'POSTER_AGE'		=> $user_cache[$poster_id]['age'],
-				'CONTACT_USER'		=> $user_cache[$poster_id]['contact_user'],
-				'U_SEARCH'			=> $user_cache[$poster_id]['search'],
+				'RANK_TITLE'			=> $user_cache[$poster_id]['rank_title'],
+				'RANK_IMG'				=> $user_cache[$poster_id]['rank_image'],
+				'RANK_IMG_SRC'			=> $user_cache[$poster_id]['rank_image_src'],
+				'POSTER_AVATAR'			=> $user_cache[$poster_id]['avatar'],
 			));
 			$revision_cnt += 1;
 		}

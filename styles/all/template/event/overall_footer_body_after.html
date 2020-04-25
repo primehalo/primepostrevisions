@@ -52,10 +52,10 @@ $postList = $('#revisions_form div.post');
 for (let i = 0, len = $postList.length; i < len - 1; i++) {
 	let $postA	= $postList.eq(i);
 	let $postB	= $postList.eq(i + 1);
-	let $subjA	= $('h3 a', $postA).html().replace(/<br>/g, '');
-	let $subjB	= $('h3 a', $postB).html().replace(/<br>/g, '');
-	let $textA	= $('div.ppr-post-bbcode', $postA).html().replace(/<br>/g, '');
-	let $textB	= $('div.ppr-post-bbcode', $postB).html().replace(/<br>/g, '');
+	let $subjA	= $('h3 a', $postA).html();
+	let $subjB	= $('h3 a', $postB).html();
+	let $textA	= $('textarea.ppr-post-bbcode', $postA).html();
+	let $textB	= $('textarea.ppr-post-bbcode', $postB).html();
 	let cmpSubj	= cmpData($subjB, $subjA);
 	let cmpText	= cmpData($textB, $textA);
 	let cmpId	= 'cmp-' + i + '-' + (i + 1);
