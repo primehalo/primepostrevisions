@@ -46,7 +46,7 @@ class listener implements EventSubscriberInterface
 			'core.permissions'								=> 'set_permissions',					// 3.1.0-a1
 			'core.posting_modify_submit_post_before'		=> 'store_post_revision_info',			// 3.1.0-RC5
 			'core.submit_post_modify_sql_data'				=> 'update_edit_data',					// 3.1.3-RC1
-            'core.posting_modify_template_vars'				=> 'add_template_var',					// 3.1.0-a1
+			'core.posting_modify_template_vars'				=> 'add_template_var',					// 3.1.0-a1
 			'core.viewtopic_modify_post_data'				=> 'get_posts_with_revisions',			// 3.1.0-RC3
 			'core.viewtopic_modify_post_row'				=> 'build_revisions_url',				// 3.1.0-RC3
 			'core.delete_posts_in_transaction_before'		=> 'delete_revisions_for_posts',		// 3.1.0-a4
