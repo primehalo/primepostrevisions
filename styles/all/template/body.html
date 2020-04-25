@@ -14,67 +14,13 @@
 				<dt class="{% if postrow.RANK_TITLE or postrow.RANK_IMG %}has-profile-rank{% else %}no-profile-rank{% endif %} {% if postrow.POSTER_AVATAR %}has-avatar{% else %}no-avatar{% endif %}">
 
 					<div class="avatar-container">
-						{% EVENT viewtopic_body_avatar_before %}
 						{% if postrow.POSTER_AVATAR %}
 							{% if postrow.U_POST_AUTHOR %}<a href="{{ postrow.U_POST_AUTHOR }}" class="avatar">{{ postrow.POSTER_AVATAR }}</a>{% else %}<span class="avatar">{{ postrow.POSTER_AVATAR }}</span>{% endif %}
 						{% endif %}
-						{% EVENT viewtopic_body_avatar_after %}
 					</div>
-					{% EVENT viewtopic_body_post_author_before %}
 					{% if not postrow.U_POST_AUTHOR %}<strong>{{ postrow.POST_AUTHOR_FULL }}</strong>{% else %}{{ postrow.POST_AUTHOR_FULL }}{% endif %}
-					{% EVENT viewtopic_body_post_author_after %}
 				</dt>
-				{% EVENT viewtopic_body_postrow_rank_before %}
 				{% if postrow.RANK_TITLE or postrow.RANK_IMG %}<dd class="profile-rank">{{ postrow.RANK_TITLE }}{% if postrow.RANK_TITLE and postrow.RANK_IMG %}<br />{% endif %}{{ postrow.RANK_IMG }}</dd>{% endif %}
-				{% EVENT viewtopic_body_postrow_rank_after %}
-
-				{% if postrow.POSTER_POSTS != '' %}<dd class="profile-posts"><strong>{{ lang('POSTS') ~ lang('COLON') }}</strong> {% if postrow.U_SEARCH %}<a href="{{ postrow.U_SEARCH }}">{% endif %}{{ postrow.POSTER_POSTS }}{% if postrow.U_SEARCH !== '' %}</a>{% endif %}</dd>{% endif %}
-				{% if postrow.POSTER_JOINED %}<dd class="profile-joined"><strong>{{ lang('JOINED') ~ lang('COLON') }}</strong> {{ postrow.POSTER_JOINED }}</dd>{% endif %}
-				{% if postrow.POSTER_WARNINGS %}<dd class="profile-warnings"><strong>{{ lang('WARNINGS') ~ lang('COLON') }}</strong> {{ postrow.POSTER_WARNINGS }}</dd>{% endif %}
-
-			{% if postrow.S_PROFILE_FIELD1 %}
-				<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
-				<dd><strong>{{ postrow.PROFILE_FIELD1_NAME ~ lang('COLON') }}</strong> {{ postrow.PROFILE_FIELD1_VALUE }}</dd>
-			{% endif %}
-
-			{% EVENT viewtopic_body_postrow_custom_fields_before %}
-			{% for custom_fields in postrow.custom_fields %}
-				{% if not custom_fields.S_PROFILE_CONTACT %}
-					<dd class="profile-custom-field profile-{{ custom_fields.PROFILE_FIELD_IDENT }}"><strong>{{ custom_fields.PROFILE_FIELD_NAME ~ lang('COLON') }}</strong> {{ custom_fields.PROFILE_FIELD_VALUE }}</dd>
-				{% endif %}
-			{% endfor %}
-			{% EVENT viewtopic_body_postrow_custom_fields_after %}
-
-			{% EVENT viewtopic_body_contact_fields_before %}
-			{% if not S_IS_BOT and postrow.contact|length %}
-				<dd class="profile-contact">
-					<strong>{{ lang('CONTACT') ~ lang('COLON') }}</strong>
-					<div class="dropdown-container dropdown-left">
-						<a href="#" class="dropdown-trigger" title="{{ postrow.CONTACT_USER }}">
-							<i class="icon fa-commenting-o fa-fw icon-lg" aria-hidden="true"></i><span class="sr-only">{{ postrow.CONTACT_USER }}</span>
-						</a>
-						<div class="dropdown">
-							<div class="pointer"><div class="pointer-inner"></div></div>
-							<div class="dropdown-contents contact-icons">
-								{% for contact in postrow.contact %}
-									{% set REMAINDER = contact.S_ROW_COUNT % 4 %}
-									{% DEFINE S_LAST_CELL = ((REMAINDER eq 3) or (contact.S_LAST_ROW and contact.S_NUM_ROWS < 4)) %}
-									{% if REMAINDER eq 0 %}
-										<div>
-									{% endif %}
-										<a href="{% if contact.U_CONTACT %}{{ contact.U_CONTACT }}{% else %}{{ postrow.U_POST_AUTHOR }}{% endif %}" title="{{ contact.NAME }}"{% if definition.S_LAST_CELL %} class="last-cell"{% endif %}{% if contact.ID eq 'jabber' %} onclick="popup(this.href, 750, 320); return false;"{% endif %}>
-											<span class="contact-icon {{ contact.ID }}-icon">{{ contact.NAME }}</span>
-										</a>
-									{% if REMAINDER eq 3 or contact.S_LAST_ROW %}
-										</div>
-									{% endif %}
-								{% endfor %}
-							</div>
-						</div>
-					</div>
-				</dd>
-			{% endif %}
-			{% EVENT viewtopic_body_contact_fields_after %}
 			</dl>
 			<div class="postbody" id="revision_row{{ postrow.REVISION_CNT }}">
 				<div id="post_content{{ postrow.REVISION_ID }}">
@@ -111,7 +57,7 @@
 					</p>
 
 					<div class="content">{{ postrow.POST_TEXT }}</div>
-					<div class="ppr-post-bbcode">{{ postrow.BBCODE_TEXT }}</div>
+					<textarea class="ppr-post-bbcode">{{ postrow.BBCODE_TEXT }}</textarea>
 
 					{% if postrow.EDIT_REASON %}
 						<div class="notice">
