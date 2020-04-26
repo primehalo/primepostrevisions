@@ -11,6 +11,7 @@
 namespace primehalo\primepostrevisions\controller;
 
 use phpbb\auth\auth;
+use phpbb\config\config;
 use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\controller\helper;
 use phpbb\request\request_interface;
@@ -28,6 +29,7 @@ class controller
 	* Service Containers
 	*/
 	protected $auth;
+	protected $config;
 	protected $db;
 	protected $helper;
 	protected $request;
@@ -52,6 +54,7 @@ class controller
 	* Constructor
 	*
 	* @param \phpbb\auth\auth						$auth				Auth object
+	* @param \phpbb\config\config					$config				Config object
 	* @param \phpbb\db\driver\driver_interface		$db					Database connection
 	* @param \phpbb\controller\helper				$controller_helper	Controller helper object
 	* @param \phpbb\request\request_interface		$request			Request object
@@ -64,9 +67,10 @@ class controller
 	* @param $phpExt								$phpExt				php file extension
 	* @access public
 	*/
-	public function __construct(auth $auth, db_driver $db, helper $helper, request_interface $request, template $template, user $user, cache_driver $cache, core $core, $revisions_table, $root_path, $phpExt)
+	public function __construct(auth $auth, config $config, db_driver $db, helper $helper, request_interface $request, template $template, user $user, cache_driver $cache, core $core, $revisions_table, $root_path, $phpExt)
 	{
 		$this->auth				= $auth;
+		$this->config			= $config;
 		$this->db				= $db;
 		$this->helper			= $helper;
 		$this->request			= $request;
@@ -213,10 +217,11 @@ class controller
 		}
 
 		// Include the file necessary for obtaining user rank & also for generation of text for display & edit
-		if (!function_exists('phpbb_get_user_rank') || !function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit'))
+		if (!function_exists('phpbb_get_user_rank') || !function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit') || !function_exists('phpbb_get_banned_user_ids'))
 		{
 			include_once($this->root_path . 'includes/functions_display.' . $this->php_ext);
 			include_once($this->root_path . 'includes/functions_content.' . $this->php_ext);
+			include_once($this->root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
 		// Loop through the revisions and generate the template variables
@@ -225,6 +230,7 @@ class controller
 			$poster_id = $row['user_id'];
 			if (!isset($user_cache[$poster_id]))
 			{
+				/** // ToDo - `array_keys($user_cache)` is the problem
 				if ($this->config['enable_accurate_pm_button'])
 				{
 					$can_receive_pm_list		= $this->auth->acl_get_list(array_keys($user_cache), 'u_readpm');
@@ -236,13 +242,14 @@ class controller
 					$can_receive_pm_list		= array_keys($user_cache);
 					$permanently_banned_users	= [];
 				}
+				*/
 
 				$user_rank_data	= phpbb_get_user_rank($row, $row['user_posts']);
 				$can_send_pm	= $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') &&
 									(
 										$row['user_type'] != USER_IGNORE &&
 										($row['user_type'] != USER_INACTIVE || $row['user_inactive_reason'] != INACTIVE_MANUAL) &&
-										in_array($poster_id, $can_receive_pm_list) && !in_array($poster_id, $permanently_banned_users) &&
+										//in_array($poster_id, $can_receive_pm_list) && !in_array($poster_id, $permanently_banned_users) &&
 										(($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $row['user_allow_pm'])
 									);
 				$u_pm			= ($can_send_pm) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose') : '';
