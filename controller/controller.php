@@ -217,11 +217,10 @@ class controller
 		}
 
 		// Include the file necessary for obtaining user rank & also for generation of text for display & edit
-		if (!function_exists('phpbb_get_user_rank') || !function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit') || !function_exists('phpbb_get_banned_user_ids'))
+		if (!function_exists('phpbb_get_user_rank') || !function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit'))
 		{
 			include_once($this->root_path . 'includes/functions_display.' . $this->php_ext);
 			include_once($this->root_path . 'includes/functions_content.' . $this->php_ext);
-			include_once($this->root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
 		// Loop through the revisions and generate the template variables
@@ -230,29 +229,14 @@ class controller
 			$poster_id = $row['user_id'];
 			if (!isset($user_cache[$poster_id]))
 			{
-				/** // ToDo - `array_keys($user_cache)` is the problem
-				if ($this->config['enable_accurate_pm_button'])
-				{
-					$can_receive_pm_list		= $this->auth->acl_get_list(array_keys($user_cache), 'u_readpm');
-					$can_receive_pm_list		= (empty($can_receive_pm_list) || !isset($can_receive_pm_list[0]['u_readpm'])) ? array() : $can_receive_pm_list[0]['u_readpm'];
-					$permanently_banned_users	= phpbb_get_banned_user_ids(array_keys($user_cache), false);
-				}
-				else
-				{
-					$can_receive_pm_list		= array_keys($user_cache);
-					$permanently_banned_users	= [];
-				}
-				*/
-
 				$user_rank_data	= phpbb_get_user_rank($row, $row['user_posts']);
 				$can_send_pm	= $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') &&
 									(
 										$row['user_type'] != USER_IGNORE &&
 										($row['user_type'] != USER_INACTIVE || $row['user_inactive_reason'] != INACTIVE_MANUAL) &&
-										//in_array($poster_id, $can_receive_pm_list) && !in_array($poster_id, $permanently_banned_users) &&
 										(($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $row['user_allow_pm'])
 									);
-				$u_pm			= ($can_send_pm) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose') : '';
+				$u_pm			= ($can_send_pm) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", "i=pm&amp;mode=compose&amp;u=$poster_id") : '';
 				$u_email		= ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
 									? (($this->config['board_email_form'] && $this->config['email_enable'])
 										? append_sid("{$this->root_path}memberlist.$this->php_ext", "mode=email&amp;u=$poster_id")
