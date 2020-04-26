@@ -10,6 +10,8 @@
 
 namespace primehalo\primepostrevisions\controller;
 
+use phpbb\auth\auth;
+use phpbb\config\config;
 use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\controller\helper;
 use phpbb\request\request_interface;
@@ -26,6 +28,8 @@ class controller
 	/**
 	* Service Containers
 	*/
+	protected $auth;
+	protected $config;
 	protected $db;
 	protected $helper;
 	protected $request;
@@ -49,6 +53,8 @@ class controller
 	/**
 	* Constructor
 	*
+	* @param \phpbb\auth\auth						$auth				Auth object
+	* @param \phpbb\config\config					$config				Config object
 	* @param \phpbb\db\driver\driver_interface		$db					Database connection
 	* @param \phpbb\controller\helper				$controller_helper	Controller helper object
 	* @param \phpbb\request\request_interface		$request			Request object
@@ -61,8 +67,10 @@ class controller
 	* @param $phpExt								$phpExt				php file extension
 	* @access public
 	*/
-	public function __construct(db_driver $db, helper $helper, request_interface $request, template $template, user $user, cache_driver $cache, core $core, $revisions_table, $root_path, $phpExt)
+	public function __construct(auth $auth, config $config, db_driver $db, helper $helper, request_interface $request, template $template, user $user, cache_driver $cache, core $core, $revisions_table, $root_path, $phpExt)
 	{
+		$this->auth				= $auth;
+		$this->config			= $config;
 		$this->db				= $db;
 		$this->helper			= $helper;
 		$this->request			= $request;
@@ -170,6 +178,11 @@ class controller
 				'rank_title'		=> '',
 				'rank_image'		=> '',
 				'rank_image_src'	=> '',
+
+				'contact_user' 		=> '',
+				'pm'				=> '',
+				'email'				=> '',
+				'jabber'			=> '',
 			);
 
 			// Cache user data
@@ -216,7 +229,22 @@ class controller
 			$poster_id = $row['user_id'];
 			if (!isset($user_cache[$poster_id]))
 			{
-				$user_rank_data = phpbb_get_user_rank($row, $row['user_posts']);
+				$user_rank_data	= phpbb_get_user_rank($row, $row['user_posts']);
+				$can_send_pm	= $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') &&
+									(
+										$row['user_type'] != USER_IGNORE &&
+										($row['user_type'] != USER_INACTIVE || $row['user_inactive_reason'] != INACTIVE_MANUAL) &&
+										(($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $row['user_allow_pm'])
+									);
+				$u_pm			= ($can_send_pm) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", "i=pm&amp;mode=compose&amp;u=$poster_id") : '';
+				$u_email		= ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
+									? (($this->config['board_email_form'] && $this->config['email_enable'])
+										? append_sid("{$this->root_path}memberlist.$this->php_ext", "mode=email&amp;u=$poster_id")
+										: (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']))
+									: '';
+				$u_jabber		= ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim'))
+									? append_sid("{$this->root_path}memberlist.{$this->php_ext}", "mode=contact&amp;action=jabber&amp;u=$poster_id")
+									: '';
 				$user_cache[$poster_id] = array(
 					'username'			=> $row['username'],
 					'user_colour'		=> $row['user_colour'],
@@ -230,6 +258,11 @@ class controller
 					'rank_title'		=> $user_rank_data['title'],
 					'rank_image'		=> $user_rank_data['img'],
 					'rank_image_src'	=> $user_rank_data['img_src'],
+
+					'contact_user' 		=> $this->user->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
+					'pm'				=> $u_pm,
+					'email'				=> $u_email,
+					'jabber'			=> $u_jabber,
 				);
 
 				// Cache user data
@@ -248,6 +281,23 @@ class controller
 			$edit_count_str	= empty($post_rev_id) ? $this->user->lang['PRIMEPOSTREVISIONS_FINAL'] : $edit_count_str;
 			$bbcode_text	= generate_text_for_edit($row['post_text'], $row['bbcode_uid'], 0)['text'];
 			$deletable_cnt	+= $delete_url ? 1 : 0;
+			$contact_fields	= array(
+				array(
+					'ID'		=> 'pm',
+					'NAME' 		=> $this->user->lang['SEND_PRIVATE_MESSAGE'],
+					'U_CONTACT'	=> $user_cache[$poster_id]['pm'],
+				),
+				array(
+					'ID'		=> 'email',
+					'NAME'		=> $this->user->lang['SEND_EMAIL'],
+					'U_CONTACT'	=> $user_cache[$poster_id]['email'],
+				),
+				array(
+					'ID'		=> 'jabber',
+					'NAME'		=> $this->user->lang['JABBER'],
+					'U_CONTACT'	=> $user_cache[$poster_id]['jabber'],
+				),
+			);
 
 			$this->template->assign_block_vars('postrow',array(
 				'REVISION_ID'		=> $post_rev_id,
@@ -265,6 +315,7 @@ class controller
 				'BBCODE_TEXT'		=> $bbcode_text,
 
 				// Poster
+				'POSTER_AVATAR'			=> $user_cache[$poster_id]['avatar'],
 				'POST_AUTHOR_FULL'		=> $user_cache[$poster_id]['author_full'],
 				'POST_AUTHOR_COLOUR'	=> $user_cache[$poster_id]['author_colour'],
 				'POST_AUTHOR'			=> $user_cache[$poster_id]['author_username'],
@@ -272,8 +323,20 @@ class controller
 				'RANK_TITLE'			=> $user_cache[$poster_id]['rank_title'],
 				'RANK_IMG'				=> $user_cache[$poster_id]['rank_image'],
 				'RANK_IMG_SRC'			=> $user_cache[$poster_id]['rank_image_src'],
-				'POSTER_AVATAR'			=> $user_cache[$poster_id]['avatar'],
+				'CONTACT_USER'			=> $user_cache[$poster_id]['contact_user'],
+				'U_PM'					=> $user_cache[$poster_id]['pm'],
+				'U_EMAIL'				=> $user_cache[$poster_id]['email'],
+				'U_JABBER'				=> $user_cache[$poster_id]['jabber'],
 			));
+
+			foreach ($contact_fields as $field)
+			{
+				if ($field['U_CONTACT'])
+				{
+					$this->template->assign_block_vars('postrow.contact', $field);
+				}
+			}
+
 			$revision_cnt += 1;
 		}
 

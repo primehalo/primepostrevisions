@@ -17,6 +17,8 @@ services:
     primehalo.primepostrevisions.controller:
         class: primehalo\primepostrevisions\controller\controller
         arguments:
+            - '@auth'
+            - '@config'
             - '@dbal.conn'
             - '@controller.helper'
             - '@request'
