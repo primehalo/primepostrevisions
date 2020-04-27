@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 RC1] - 2020-04-26
+### Added
+- Profile caching
+- Ability to not save post history when editing a post (only for those with the permissions to delete the post history)
+
+### Changed
+- SQL JOIN to SQL LEFT JOIN
+
+### Fixed
+- Newline indicators failed to show properly on some Linux systems
+
+### Removed
+- Unnecessary profile information displayed next to post revisions
+
 ## [1.0.0 RC] - 2020-04-24
 ### Added
 - Added the ability to compare non-sequential revisions
