@@ -33,6 +33,13 @@
  * Prime Post Revisions, JavaScript for revision comparison.
  */
 
+// Decode HTML entities (https://stackoverflow.com/a/1395954/1409830)
+function decodeEntities(encodedString) {
+	let textArea = document.createElement('textarea');
+	textArea.innerHTML = encodedString;
+	return textArea.value;
+}
+
 // Compare 2 revisions
 function cmpData($textA, $textB) {
 	let dmp		= new diff_match_patch();
@@ -56,8 +63,8 @@ for (let i = 0, len = $postList.length; i < len - 1; i++) {
 	let $subjB	= $('h3 a', $postB).html();
 	let $textA	= $('textarea.ppr-post-bbcode', $postA).html();
 	let $textB	= $('textarea.ppr-post-bbcode', $postB).html();
-	let cmpSubj	= cmpData($subjB, $subjA);
-	let cmpText	= cmpData($textB, $textA);
+	let cmpSubj	= decodeEntities(cmpData($subjB, $subjA));
+	let cmpText	= decodeEntities(cmpData($textB, $textA));
 	let cmpId	= 'cmp-' + i + '-' + (i + 1);
 	let cmpBtn	= $('#ppr-cmpbtn-tpl').html().replace(/<<:cmpId>>/g, cmpId);
 	let cmpOut	= $('#ppr-cmpout-tpl').html().replace(/<<:cmpId>>/g, cmpId).replace(/<<:cmpSubj>>/g, cmpSubj).replace(/<<:cmpText>>/g, cmpText);
