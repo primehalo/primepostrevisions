@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.0 RC2] - 2020-05-01
 ### Fixed
-- When comparing two post revisions, some reserved HTML characters would be displayed as encoded entities (such as & displaying as &amp;)
+- When comparing two post revisions, some reserved HTML characters would be displayed as encoded entities (such as & displaying as `&amp;`)
 
 ## [1.0.0 RC1] - 2020-04-26
 ### Added
