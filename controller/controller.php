@@ -469,7 +469,7 @@ class controller
 				'bbcode_bitfield'	=> $post_data['bbcode_bitfield'],
 				'bbcode_uid'		=> $post_data['bbcode_uid'],
 				'post_edit_time'	=> $cur_time,	// To restore the original edit time use: $post_data['post_edit_time']
-				'post_edit_reason'	=> $this->request->variable('post_edit_reason', $post_data['post_edit_reason']),
+				'post_edit_reason'	=> $this->request->variable('post_edit_reason', $post_data['post_edit_reason'], true),
 				'post_edit_user'	=> $post_data['post_edit_user'],
 				'post_edit_count'	=> $post_data['post_edit_count'] + 1,
 				'primepost_edit_time'	=> $cur_time,	// To restore the original edit time use: $post_data['primepost_edit_time']

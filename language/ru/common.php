@@ -40,8 +40,8 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// Viewing posts
-	'PRIMEPOSTREVISIONS_VIEW'				=> 'Просмотр истории сообщения.',	// Text for the link to view the revision history
-	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Do not save post history',	// Text for the checkbox to not save the revision history
+	'PRIMEPOSTREVISIONS_VIEW'				=> 'История сообщения',	// Text for the link to view the revision history
+	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Не сохранять правку в истории',	// Text for the checkbox to not save the revision history
 
 	// Viewing revisions
 	'PRIMEPOSTREVISIONS_VIEWING'			=> 'Просмотр истории сообщения',
@@ -52,18 +52,18 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_COUNT'				=> 'Версия %d',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Отредактировано',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[нет заголовка]',
-	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
-	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
-	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
-	'PRIMEPOSTREVISIONS_DELETE_POST_NOTICE'	=> 'Notice: The current version of the post cannot be deleted here. Any attempt to do so will be ignored.',
+	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Сравнить',
+	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'У вас отсутствуют права доступа для просмотра этих версий сообщения.',
+	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Сравнение',
+	'PRIMEPOSTREVISIONS_DELETE_POST_NOTICE'	=> 'Замечание: Текущая версия сообщения не может быть удалена здесь.',
 
 	// Compare selected revisions
-	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
-	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
-	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Сравнение истории правок',
+	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'На этой странице показано сравнение версий сообшения.',
+	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Сравнить выбранные версии',
 
 	// Delete a revision
-	'PRIMEPOSTREVISIONS_DELETE'				=> 'Удалить версию',
+	'PRIMEPOSTREVISIONS_DELETE'				=> 'Удалить',
 	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> 'Вы уверены что хотите удалить эту версию?',
 	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'У вас отсутствуют права доступа для удаления этой версии сообщения.',
 	'PRIMEPOSTREVISIONS_DELETE_FAILED'		=> 'Произошла ошибка при попытке удаления версии сообщения.',
@@ -79,9 +79,9 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Не выбраны версии сообщения для удаления.',
 
 	// Restore a revision
-	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restore Revision',
-	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Are you sure you want to restore this revision?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'You lack the necessary permissions to restore this revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'An error occurred while attempting to restore the revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'The post has been successfully restored.',
+	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Восстановить',
+	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Вы уверены что хотите восстановить эту версию?',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'У вас отсутствуют права доступа для восстановления этой версий.',
+	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Произошла ошибка при попытке восстановления версии сообщения.',
+	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Версия сообщения успешно восстановлена.',
 ));

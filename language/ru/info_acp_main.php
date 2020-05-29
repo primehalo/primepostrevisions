@@ -38,32 +38,32 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_PRIMEPOSTREVISIONS_TITLE'						=> 'Prime Post Revisions',
-	'ACP_PRIMEPOSTREVISIONS_SETTINGS'					=> 'Extension Settings',
-	'ACP_PRIMEPOSTREVISIONS_BASIC_SETTINGS'				=> 'General Settings',
+	'ACP_PRIMEPOSTREVISIONS_TITLE'						=> 'Prime история правок',
+	'ACP_PRIMEPOSTREVISIONS_SETTINGS'					=> 'Настройки истории правок',
+	'ACP_PRIMEPOSTREVISIONS_BASIC_SETTINGS'				=> 'Основные настройки',
 
-	'ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL'				=> 'Enable Post Revisions',
-	'ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL_EXPLAIN'		=> 'Enables the ability to store post revisions. Storing revisions must be set on a per-forum basis. Disabling this will not delete existing post revisions, it only prevents new revisions from being stored.',
+	'ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL'				=> 'Включить историю правок',
+	'ACP_PRIMEPOSTREVISIONS_ENABLE_GENERAL_EXPLAIN'		=> 'Включает возможность сохранять все версии отредактированных сообщений. Возможность устанавливается отдельно для каждого форума. Отключение истории не удаляет уже сохраненные версии, а лишь предотвращает создание новых.',
 
-	'ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE'			=> 'Enable Auto-prune',
-	'ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE_EXPLAIN'	=> 'Enables the ability to auto-prune revisions. Pruning frequency must be set on a per-forum basis.',
+	'ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE'			=> 'Включить автоудаление истории',
+	'ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE_EXPLAIN'	=> 'Включает возможность автоматически удалять историю правок. Интервал удаления устанавливается отдельно для каждого форума.',
 
-	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS'				=> 'Forum Settings',
-	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN'		=> 'Keep a revision history of all posts edits. Auto-prune will automatically delete revisions older than the given number of days. Set to 0 to disable.',
-	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE'	=> 'Auto-prune',
-	'ACP_PRIMEPOSTREVISIONS_FORUM_NAME'					=> 'Forum Name',
-	'ACP_PRIMEPOSTREVISIONS_FORUM_ENABLE'				=> 'Enable',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS'				=> 'Настройки форумов',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN'		=> 'Сохранять все версии отредактированных сообщений. Автоудаление удаляет версии старше заданного количества дней. Установите 0, чтобы отключить автоудаление.',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE'	=> 'Автоудаление',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_NAME'					=> 'Имя форума',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_ENABLE'				=> 'Включить',
 
-	'ACP_PRIMEPOSTREVISIONS_SETTINGS_SAVED'				=> 'Prime Post Revisions settings have been saved successfully!',
-	'ACP_PRIMEPOSTREVISIONS_SETTINGS_LOG'				=> '<strong>Altered Prime Post Revisions settings</strong>',
+	'ACP_PRIMEPOSTREVISIONS_SETTINGS_SAVED'				=> 'Настройки Prime истории правок успешно обновлены!',
+	'ACP_PRIMEPOSTREVISIONS_SETTINGS_LOG'				=> '<strong>Изменены настройки Prime истории правок</strong>',
 
 	// Forum Settings
-	'ACP_PRIMEPOSTREVISIONS_ENABLE'						=> 'Store post revisions',
-	'ACP_PRIMEPOSTREVISIONS_ENABLE_EXPLAIN'				=> 'Keep a revision history of all posts edits.',
+	'ACP_PRIMEPOSTREVISIONS_ENABLE'						=> 'Сохранять историю правок',
+	'ACP_PRIMEPOSTREVISIONS_ENABLE_EXPLAIN'				=> 'Сохраняет все версии отредактированных сообщений.',
 
-	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE'					=> 'Auto-prune revisions',
-	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE_EXPLAIN'			=> 'Automatically delete post revisions older than the given number of days. Set to 0 to disable.',
+	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE'					=> 'Автоудаление истории правок',
+	'ACP_PRIMEPOSTREVISIONS_AUTOPRUNE_EXPLAIN'			=> 'Автоматически удаляет версии старше заданного количества дней. Установите 0, чтобы отключить автоудаление.',
 
 	// Cron Log
-	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'					=> '<strong>Auto-pruned post revisions</strong><br />» Revisions deleted: %d » %s',
+	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'					=> '<strong>Автоудаление истории правок</strong><br />» Удалено версий: %d » %s',
 ));
