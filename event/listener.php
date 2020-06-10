@@ -38,6 +38,7 @@ class listener implements EventSubscriberInterface
 	protected $posts_with_revisions;
 	protected $revisions_table;
 	protected $revision_saved;
+	protected $revision_skipped;
 
 	static public function getSubscribedEvents()
 	{
@@ -167,14 +168,15 @@ class listener implements EventSubscriberInterface
 	public function store_post_revision_info($event)
 	{
 		$this->revision_saved = false;
+		$this->revision_skipped = false;
 
 		// Determine if we should store a revision
-		$unchanged		= empty($event['update_message']) && empty($event['update_subject']);
-		$can_delete		= $this->core->is_auth('delete', $event['forum_id'], $event['post_data']['poster_id']);
-		$no_post_rev	= $this->request->variable('no_post_rev', false);
-		$disabled		= empty($this->config['primepostrev_enable_general']) || empty($event['post_data']['primepostrev_enable']) || ($can_delete && $no_post_rev);
-		if ($event['mode'] !== 'edit' || $unchanged || $disabled)
+		$unchanged	= empty($event['update_message']) && empty($event['update_subject']);
+		$disabled	= empty($this->config['primepostrev_enable_general']) || empty($event['post_data']['primepostrev_enable']);
+		$rev_skip	= $this->core->is_auth('delete', $event['forum_id'], $event['post_data']['poster_id']) && $this->request->variable('no_post_rev', false);
+		if ($event['mode'] !== 'edit' || $unchanged || $disabled || $rev_skip)
 		{
+			$this->revision_skipped = $rev_skip;
 			return;
 		}
 
@@ -191,20 +193,33 @@ class listener implements EventSubscriberInterface
 	*/
 	public function update_edit_data($event)
 	{
-		if (!$this->revision_saved || !in_array($event['post_mode'], array('edit', 'edit_first_post', 'edit_last_post', 'edit_topic')))
+		if (!($this->revision_saved || $this->revision_skipped) || !in_array($event['post_mode'], array('edit', 'edit_first_post', 'edit_last_post', 'edit_topic')))
 		{
 			return;
 		}
 
 		$sql_data	= $event['sql_data'];
 		$data		= $event['data'];
-		$cur_time	= !empty($data['post_time']) ? $data['post_time'] : time();
-		$sql_data[POSTS_TABLE]['sql'] = empty($sql_data[POSTS_TABLE]['sql']) ? array() : $sql_data[POSTS_TABLE]['sql'];
-		$sql_data[POSTS_TABLE]['sql'] = array_merge($sql_data[POSTS_TABLE]['sql'], array(
-			'primepost_edit_time' => $cur_time,
-			'primepost_edit_user' => (int) $data['post_edit_user']
-		));
-		$sql_data[POSTS_TABLE]['stat'][] = 'primepost_edit_count = primepost_edit_count + 1';
+
+		if ($this->revision_saved)
+		{
+			$cur_time	= !empty($data['post_time']) ? $data['post_time'] : time();
+			$sql_data[POSTS_TABLE]['sql'] = empty($sql_data[POSTS_TABLE]['sql']) ? array() : $sql_data[POSTS_TABLE]['sql'];
+			$sql_data[POSTS_TABLE]['sql'] = array_merge($sql_data[POSTS_TABLE]['sql'], array(
+				'primepost_edit_time' => $cur_time,
+				'primepost_edit_user' => (int) $data['post_edit_user']
+			));
+			$sql_data[POSTS_TABLE]['stat'][] = 'primepost_edit_count = primepost_edit_count + 1';
+		}
+
+		if ($this->revision_skipped)
+		{
+			$key_to_unset	= array_search('post_edit_count = post_edit_count + 1', $sql_data[POSTS_TABLE]['stat']);
+			unset($sql_data[POSTS_TABLE]['stat'][$key_to_unset]);
+			unset($sql_data[POSTS_TABLE]['sql']['post_edit_user']);
+			unset($sql_data[POSTS_TABLE]['sql']['post_edit_reason']);
+			unset($sql_data[POSTS_TABLE]['sql']['post_edit_time']);
+		}
 
 		$event['sql_data'] = $sql_data;
 	}
