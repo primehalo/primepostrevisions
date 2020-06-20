@@ -200,28 +200,14 @@ class listener implements EventSubscriberInterface
 
 		$sql_data	= $event['sql_data'];
 		$data		= $event['data'];
-
-		if ($this->revision_saved)
-		{
-			$cur_time	= !empty($data['post_time']) ? $data['post_time'] : time();
-			$sql_data[POSTS_TABLE]['sql'] = empty($sql_data[POSTS_TABLE]['sql']) ? array() : $sql_data[POSTS_TABLE]['sql'];
-			$sql_data[POSTS_TABLE]['sql'] = array_merge($sql_data[POSTS_TABLE]['sql'], array(
-				'primepost_edit_time' => $cur_time,
-				'primepost_edit_user' => (int) $data['post_edit_user']
-			));
-			$sql_data[POSTS_TABLE]['stat'][] = 'primepost_edit_count = primepost_edit_count + 1';
-		}
-
-		if ($this->revision_skipped)
-		{
-			$key_to_unset	= array_search('post_edit_count = post_edit_count + 1', $sql_data[POSTS_TABLE]['stat']);
-			unset($sql_data[POSTS_TABLE]['stat'][$key_to_unset]);
-			unset($sql_data[POSTS_TABLE]['sql']['post_edit_user']);
-			unset($sql_data[POSTS_TABLE]['sql']['post_edit_reason']);
-			unset($sql_data[POSTS_TABLE]['sql']['post_edit_time']);
-		}
-
-		$event['sql_data'] = $sql_data;
+		$cur_time	= !empty($data['post_time']) ? $data['post_time'] : time();
+		$sql_data[POSTS_TABLE]['sql']	= empty($sql_data[POSTS_TABLE]['sql']) ? array() : $sql_data[POSTS_TABLE]['sql'];
+		$sql_data[POSTS_TABLE]['sql']	= array_merge($sql_data[POSTS_TABLE]['sql'], array(
+			'primepost_edit_time'	=> $cur_time,
+			'primepost_edit_user'	=> (int) $data['post_edit_user']
+		));
+		$sql_data[POSTS_TABLE]['stat'][]	= 'primepost_edit_count = primepost_edit_count + 1';
+		$event['sql_data']	= $sql_data;
 	}
 
 
