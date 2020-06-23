@@ -103,14 +103,15 @@ class controller
 		}
 
 		// Obtain the current version of the post as well as data for the last person to edit it
+		// The post_edit_* fields hold the data for the most recent edit, but we need them as primepost_* for when this post gets merged into the array of revisions.
 		$sql = $this->db->sql_build_query('SELECT', array(
-			'SELECT'	=> 'p.forum_id, p.poster_id, p.post_time, p.post_subject, p.post_text, p.primepost_edit_time,
-							p.post_edit_reason, p.primepost_edit_user, p.primepost_edit_count, p.bbcode_bitfield, p.bbcode_uid, u.*',
+			'SELECT'	=> 'p.forum_id, p.poster_id, p.post_time, p.post_subject, p.post_text, p.post_edit_time AS primepost_edit_time,
+							p.post_edit_reason, p.post_edit_user AS primepost_edit_user, p.post_edit_count, p.bbcode_bitfield, p.bbcode_uid, u.*',
 			'FROM'		=> array(POSTS_TABLE => 'p'),
 			'LEFT_JOIN'	=> array(
 				array(
 					'FROM'	=> array(USERS_TABLE => 'u'),
-					'ON'	=> '(p.primepost_edit_user = 0 AND p.poster_id = u.user_id) OR p.primepost_edit_user = u.user_id',
+					'ON'	=> '(p.post_edit_user = 0 AND p.poster_id = u.user_id) OR p.post_edit_user = u.user_id',
 				),
 			),
 			'WHERE'		=> "p.post_id = {$post_id}",
