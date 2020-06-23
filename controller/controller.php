@@ -370,6 +370,13 @@ class controller
 			'BREADCRUMB_NAME'	=> $post_data['post_subject'],
 			'U_BREADCRUMB'		=> append_sid($post_url),
 		));
+		if ($comparing_selected)
+		{
+			$this->template->assign_block_vars('navlinks', array(
+				'BREADCRUMB_NAME'	=> $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'],
+				'U_BREADCRUMB'		=> $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $post_id)),
+			));
+		}
 
 		return $this->helper->render('body.html', $page_name);
 	}
