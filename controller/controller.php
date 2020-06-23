@@ -355,6 +355,22 @@ class controller
 			'SELECTABLE'		=> $deletable_cnt > 1 || (!$comparing_selected && $revision_cnt > 2),	// Do we need checkboxes for selecting revisions?
 		));
 
+		// Generate Breadcrumbs
+		$sql_array = array(
+			'SELECT'	=> 't.*, f.*, p.post_visibility, p.post_time, p.post_id',
+			'FROM'		=> array(FORUMS_TABLE => 'f', POSTS_TABLE => 'p', TOPICS_TABLE => 't'),
+			'WHERE'		=> "p.post_id = $post_id AND t.topic_id = p.topic_id AND f.forum_id = t.forum_id"
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$topic_data = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		generate_forum_nav($topic_data);
+		$this->template->assign_block_vars('navlinks', array(
+			'BREADCRUMB_NAME'	=> $post_data['post_subject'],
+			'U_BREADCRUMB'		=> append_sid($post_url),
+		));
+
 		return $this->helper->render('body.html', $page_name);
 	}
 
