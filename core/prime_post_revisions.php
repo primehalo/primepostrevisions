@@ -109,6 +109,18 @@ class prime_post_revisions
 	}
 
 	/**
+	* Build the URL for a topic
+	*
+	* @param	int $topic_id	The topic ID
+	* @return	string			An URL for the topic
+	* @access	public
+	*/
+	public function build_topic_url($topic_id)
+	{
+		return append_sid("{$this->root_path}viewtopic.{$this->php_ext}", 't=' . $topic_id);
+	}
+
+	/**
 	* Build a link for a post
 	*
 	* @param	int $post_id	The post ID

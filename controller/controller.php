@@ -367,16 +367,17 @@ class controller
 		$this->db->sql_freeresult($result);
 		generate_forum_nav($topic_data);
 		$this->template->assign_block_vars('navlinks', array(
-			'BREADCRUMB_NAME'	=> $post_data['post_subject'],
-			'U_BREADCRUMB'		=> append_sid($post_url),
+			'BREADCRUMB_NAME'	=> $topic_data['topic_title'],
+			'U_BREADCRUMB'		=> $this->core->build_topic_url($topic_data['topic_id']),
 		));
-		if ($comparing_selected)
-		{
-			$this->template->assign_block_vars('navlinks', array(
-				'BREADCRUMB_NAME'	=> $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'],
-				'U_BREADCRUMB'		=> $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $post_id)),
-			));
-		}
+		$this->template->assign_block_vars('navlinks', array(
+			'BREADCRUMB_NAME'	=> $post_data['post_subject'],
+			'U_BREADCRUMB'		=> $post_url,
+		));
+		$this->template->assign_block_vars('navlinks', array(
+			'BREADCRUMB_NAME'	=> $comparing_selected ? $this->user->lang['PRIMEPOSTREVISIONS_VIEW'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'],
+			'U_BREADCRUMB'		=> $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $post_id)),
+		));
 
 		return $this->helper->render('body.html', $page_name);
 	}
