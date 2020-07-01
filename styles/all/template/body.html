@@ -3,7 +3,14 @@
 <h2>{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_TITLE') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING') }}{% endif %}</h2>
 <p>
 	{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_VIEWING_EXPLAIN') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING_EXPLAIN') }}{% endif %}<br>
-	{% if U_POST %}<strong><em><a href="{{ U_POST }}">{{ lang('VIEW_LATEST_POST') }}</a></em></strong>{% endif %}&nbsp;{% if S_FORM_ACTION and not COMPARISONS %} » <strong><em><a href="{{ S_FORM_ACTION }}">{{ lang('PRIMEPOSTREVISIONS_VIEW') }}</a></em></strong>{% endif %}
+	{% if U_POST %}
+		<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
+		<a href="{{ U_POST }}" title="{{ lang('VIEW_LATEST_POST') }}"><strong><em>{{ lang('VIEW_LATEST_POST') }}</em></strong></a>
+	{% endif %}
+	{% if S_FORM_ACTION and not COMPARISONS %}
+		<i class="icon fa-chevron-left fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
+		<a href="{{ S_FORM_ACTION }}" title="{{ lang('PRIMEPOSTREVISIONS_VIEW') }}"><strong><em>{{ lang('PRIMEPOSTREVISIONS_VIEW') }}</em></strong></a>
+	{% endif %}
 </p>
 
 <form id="revisions_form" name="revisions_form" method="post" action="{{ S_FORM_ACTION }}">
