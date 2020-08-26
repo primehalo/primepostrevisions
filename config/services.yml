@@ -14,6 +14,11 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
 
+    primehalo.primepostrevisions.forum_map_ppr:
+        class: primehalo\primepostrevisions\core\forum_map_ppr
+        arguments:
+            - '@dbal.conn'
+
     primehalo.primepostrevisions.controller:
         class: primehalo\primepostrevisions\controller\controller
         arguments:
