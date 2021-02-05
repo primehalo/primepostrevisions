@@ -26,9 +26,10 @@ class forum_map_ppr extends forum_map
 	 * @return array
 	 * @access protected
 	 */
-	protected function get_forums_cust_sql_col()
+	protected function get_forums_cust_sql_ary($sql_ary)
 	{
-		return ['primepostrev_enable', 'primepostrev_autoprune'];
+		$sql_ary['SELECT'] .= ', f.primepostrev_enable, f.primepostrev_autoprune';
+		return $sql_ary;
 	}
 
 	/**

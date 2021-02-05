@@ -10,11 +10,19 @@
 
 namespace primehalo\primepostrevisions\migrations;
 
-class install_data extends \phpbb\db\migration\migration
+/**
+ * @ignore
+ */
+use phpbb\db\migration\migration;
+
+/**
+ * Migration stage : Install Data
+ */
+class install_data extends migration
 {
 	static public function depends_on()
 	{
-		return array('\primehalo\primepostrevisions\migrations\install_schema');
+		return ['\primehalo\primepostrevisions\migrations\install_schema'];
 	}
 
 	/**
@@ -25,41 +33,41 @@ class install_data extends \phpbb\db\migration\migration
 	*/
 	public function update_data()
 	{
-		return array(
-			array('custom', array(
-				array($this, 'copy_edit_columns')
-			)),
+		return [
+			['custom', [
+				[$this, 'copy_edit_columns']
+			]],
 
 			// Moderator can view post revisions
-			array('permission.add', array('m_primepostrev_view', true)),				// Global
-			array('permission.add', array('m_primepostrev_view', false, 'm_info')),		// Local
-			array('permission.permission_set', array('ROLE_MOD_FULL', 'm_primepostrev_view')),
-			array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_primepostrev_view')),
+			['permission.add', ['m_primepostrev_view', true]],				// Global
+			['permission.add', ['m_primepostrev_view', false, 'm_info']],		// Local
+			['permission.permission_set', ['ROLE_MOD_FULL', 'm_primepostrev_view']],
+			['permission.permission_set', ['ROLE_MOD_STANDARD', 'm_primepostrev_view']],
 
 			// Moderator can delete post revisions
-			array('permission.add', array('m_primepostrev_delete', true)),				// Global
-			array('permission.add', array('m_primepostrev_delete', false, 'm_delete')),	// Local
-			array('permission.permission_set', array('ROLE_MOD_FULL', 'm_primepostrev_delete')),
-			array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_primepostrev_delete')),
+			['permission.add', ['m_primepostrev_delete', true]],				// Global
+			['permission.add', ['m_primepostrev_delete', false, 'm_delete']],	// Local
+			['permission.permission_set', ['ROLE_MOD_FULL', 'm_primepostrev_delete']],
+			['permission.permission_set', ['ROLE_MOD_STANDARD', 'm_primepostrev_delete']],
 
 			// Moderator can restore post revisions
-			array('permission.add', array('m_primepostrev_restore', true)),				// Global
-			array('permission.add', array('m_primepostrev_restore', false, 'm_edit')),	// Local
-			array('permission.permission_set', array('ROLE_MOD_FULL', 'm_primepostrev_restore')),
-			array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_primepostrev_restore')),
+			['permission.add', ['m_primepostrev_restore', true]],				// Global
+			['permission.add', ['m_primepostrev_restore', false, 'm_edit']],	// Local
+			['permission.permission_set', ['ROLE_MOD_FULL', 'm_primepostrev_restore']],
+			['permission.permission_set', ['ROLE_MOD_STANDARD', 'm_primepostrev_restore']],
 
 			// Poster can view revisions for their posts
-			array('permission.add', array('f_primepostrev_view', false, 'f_edit')),		// Local
-			array('permission.permission_set', array('ROLE_FORUM_FULL', 'f_primepostrev_view')),
-			array('permission.permission_set', array('ROLE_FORUM_STANDARD', 'f_primepostrev_view')),
-			array('permission.permission_set', array('ROLE_FORUM_POLLS', 'f_primepostrev_view')),
+			['permission.add', ['f_primepostrev_view', false, 'f_edit']],		// Local
+			['permission.permission_set', ['ROLE_FORUM_FULL', 'f_primepostrev_view']],
+			['permission.permission_set', ['ROLE_FORUM_STANDARD', 'f_primepostrev_view']],
+			['permission.permission_set', ['ROLE_FORUM_POLLS', 'f_primepostrev_view']],
 
 			// Poster can delete revisions for their posts
-			array('permission.add', array('f_primepostrev_delete', false, 'f_delete')),	// Local
+			['permission.add', ['f_primepostrev_delete', false, 'f_delete']],	// Local
 
 			// Poster can restore revisions for their posts
-			array('permission.add', array('f_primepostrev_restore', false, 'f_edit')),	// Local
-	  );
+			['permission.add', ['f_primepostrev_restore', false, 'f_edit']],	// Local
+	  ];
 	}
 
 	/**

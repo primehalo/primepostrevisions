@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,11 +37,11 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Pode ver revisões de post',
 	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Pode excluir revisões de post',
 	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Pode restaurar revisões de post',
 	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Pode ver o próprio revisões de post',
 	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Pode excluir o próprio revisões de post',
 	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Pode restaurar o próprio revisões de post',
-));
+]);

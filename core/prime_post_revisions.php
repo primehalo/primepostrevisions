@@ -11,7 +11,7 @@
 namespace primehalo\primepostrevisions\core;
 
 use phpbb\auth\auth;
-use phpbb\db\driver\driver_interface;
+use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\user;
 
 /**
@@ -36,15 +36,15 @@ class prime_post_revisions
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth					$auth				Auth object
-	* @param \phpbb\db\driver\driver_interface	$db					Database connection
-	* @param \phpbb\user						$user				User object
-	* @param string								$revisions_table	Prime Post Revisions table
-	* @param $root_path							$root_path			phpBB root path
-	* @param $phpExt							$phpExt				php file extension
+	* @param auth			$auth				Auth object
+	* @param db_driver		$db					Database connection
+	* @param user			$user				User object
+	* @param string			$revisions_table	Prime Post Revisions table
+	* @param string			$root_path			phpBB root path
+	* @param string			$phpExt				php file extension
 	* @access public
 	*/
-	public function __construct(auth $auth, driver_interface $db, user $user, $revisions_table, $root_path, $phpExt)
+	public function __construct(auth $auth, db_driver $db, user $user, $revisions_table, $root_path, $phpExt)
 	{
 		$this->auth				= $auth;
 		$this->db				= $db;
@@ -76,7 +76,7 @@ class prime_post_revisions
 		$old_data = $this->db->sql_fetchrow($result = $this->db->sql_query($sql));
 		$this->db->sql_freeresult($result);
 
-		$sql_ary = array(
+		$sql_ary = [
 			'revision_time'			=> time(),
 			'post_id'				=> $post_id,
 			'post_subject'			=> $old_data['post_subject'],
@@ -90,7 +90,7 @@ class prime_post_revisions
 			'primepost_edit_time'	=> $old_data['primepost_edit_time'],
 			'primepost_edit_user'	=> $old_data['primepost_edit_user'],
 			'primepost_edit_count'	=> $old_data['primepost_edit_count'],
-		);
+		];
 
 		// Place the revision info into the database.
 		return $this->db->sql_query("INSERT INTO {$this->revisions_table} " . $this->db->sql_build_array('INSERT', $sql_ary));

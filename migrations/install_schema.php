@@ -10,11 +10,19 @@
 
 namespace primehalo\primepostrevisions\migrations;
 
-class install_schema extends \phpbb\db\migration\migration
+/**
+ * @ignore
+ */
+use phpbb\db\migration\migration;
+
+/**
+ * Migration stage : Install Schema
+ */
+class install_schema extends migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v31x\v313');
+		return ['\phpbb\db\migration\data\v31x\v313'];
 	}
 
 	/**
@@ -25,40 +33,40 @@ class install_schema extends \phpbb\db\migration\migration
 	*/
 	public function update_schema()
 	{
-		return array(
-			'add_columns'	=> array(
-				FORUMS_TABLE => array(
-					'primepostrev_enable'		=> array('BOOL', 1),
-					'primepostrev_autoprune'	=> array('UINT:8', 0),
-				),
-				POSTS_TABLE	=> array(
-					'primepost_edit_time'		=> array('TIMESTAMP', 0),
-					'primepost_edit_user'		=> array('UINT:10', 0),
-					'primepost_edit_count'		=> array('UINT:4', 0),
-				),
-			),
-			'add_tables'	=> array(
-				$this->table_prefix . 'primepostrev' => array(
-					'COLUMNS' => array(
-						'revision_id'			=> array('UINT', null, 'auto_increment'),
-						'revision_time'			=> array('TIMESTAMP', 0),
-						'post_id'				=> array('UINT', 0),
-						'post_subject'			=> array('VCHAR', ''),
-						'post_text'				=> array('TEXT', ''),
-						'bbcode_uid'			=> array('VCHAR:8', ''),
-						'bbcode_bitfield'		=> array('VCHAR:255', ''),
-						'post_edit_time'		=> array('TIMESTAMP', 0),
-						'post_edit_reason'		=> array('VCHAR:255', ''),
-						'post_edit_user'		=> array('UINT:10', 0),
-						'post_edit_count'		=> array('UINT:4', 0),
-						'primepost_edit_time'	=> array('TIMESTAMP', 0),
-						'primepost_edit_user'	=> array('UINT:10', 0),
-						'primepost_edit_count'	=> array('UINT:4', 0),
-					),
+		return [
+			'add_columns'	=> [
+				FORUMS_TABLE => [
+					'primepostrev_enable'		=> ['BOOL', 1],
+					'primepostrev_autoprune'	=> ['UINT:8', 0],
+				],
+				POSTS_TABLE	=> [
+					'primepost_edit_time'		=> ['TIMESTAMP', 0],
+					'primepost_edit_user'		=> ['UINT:10', 0],
+					'primepost_edit_count'		=> ['UINT:4', 0],
+				],
+			],
+			'add_tables'	=> [
+				$this->table_prefix . 'primepostrev' => [
+					'COLUMNS' => [
+						'revision_id'			=> ['UINT', null, 'auto_increment'],
+						'revision_time'			=> ['TIMESTAMP', 0],
+						'post_id'				=> ['UINT', 0],
+						'post_subject'			=> ['VCHAR', ''],
+						'post_text'				=> ['TEXT', ''],
+						'bbcode_uid'			=> ['VCHAR:8', ''],
+						'bbcode_bitfield'		=> ['VCHAR:255', ''],
+						'post_edit_time'		=> ['TIMESTAMP', 0],
+						'post_edit_reason'		=> ['VCHAR:255', ''],
+						'post_edit_user'		=> ['UINT:10', 0],
+						'post_edit_count'		=> ['UINT:4', 0],
+						'primepost_edit_time'	=> ['TIMESTAMP', 0],
+						'primepost_edit_user'	=> ['UINT:10', 0],
+						'primepost_edit_count'	=> ['UINT:4', 0],
+					],
 					'PRIMARY_KEY' => 'revision_id',
-				),
-			),
-		);
+				],
+			],
+		];
 	}
 
 	/**
@@ -69,21 +77,21 @@ class install_schema extends \phpbb\db\migration\migration
 	*/
 	public function revert_schema()
 	{
-		return array(
-			'drop_columns'	=> array(
-				FORUMS_TABLE => array(
+		return [
+			'drop_columns'	=> [
+				FORUMS_TABLE => [
 					'primepostrev_enable',
 					'primepostrev_autoprune',
-				),
-				POSTS_TABLE	=> array(
+				],
+				POSTS_TABLE	=> [
 					'primepost_edit_time',
 					'primepost_edit_user',
 					'primepost_edit_count',
-				),
-			),
-			'drop_tables'	=> array(
+				],
+			],
+			'drop_tables'	=> [
 				$this->table_prefix . 'primepostrev',
-			),
-		);
+			],
+		];
 	}
 }

@@ -12,8 +12,8 @@ namespace primehalo\primepostrevisions\cron\task;
 
 use phpbb\cron\task\base;
 use phpbb\config\config;
-use phpbb\db\driver\driver_interface;
-use phpbb\log\log_interface;
+use phpbb\db\driver\driver_interface as db_driver;
+use phpbb\log\log_interface as phpbb_log;
 use phpbb\user;
 
 /**
@@ -32,13 +32,13 @@ class prune_post_revisions extends base
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config 			Config object
-	* @param \phpbb\db\driver\driver_interface	$db					Database connection
-	* @param \phpbb\log\log_interface			$phpbb_log			Log
-	* @param \phpbb\user						$user				User object
-	* @param string								$revisions_table	Prime Post Revisions table
+	* @param config			$config 			Config object
+	* @param db_driver		$db					Database connection
+	* @param phpbb_log		$phpbb_log			Log
+	* @param user			$user				User object
+	* @param string			$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(config $config, driver_interface $db, log_interface $phpbb_log, user $user, $revisions_table)
+	public function __construct(config $config, db_driver $db, phpbb_log $phpbb_log, user $user, $revisions_table)
 	{
 		$this->config			= $config;
 		$this->db				= $db;
@@ -58,7 +58,7 @@ class prune_post_revisions extends base
 		$del_total	= 0;
 		$sql		= 'SELECT forum_id, forum_name, primepostrev_autoprune FROM ' . FORUMS_TABLE . ' WHERE primepostrev_autoprune > 0';
 		$result		= $this->db->sql_query($sql);
-		$log_forums	= array(); // Array of strings, each one indicating which forum had revisions pruned
+		$log_forums	= []; // Array of strings, each one indicating which forum had revisions pruned
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -75,7 +75,7 @@ class prune_post_revisions extends base
 		{
 			// Log the auto-pruning result
 			$this->user->add_lang_ext('primehalo/primepostrevisions', 'info_acp_main');
-			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, array($del_total, implode(', ', $log_forums)));
+			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, [$del_total, implode(', ', $log_forums)]);
 		}
 
 		// Update the cron task run time here if it hasn't already been done by your cron actions.
@@ -93,7 +93,7 @@ class prune_post_revisions extends base
 	{
 		if ($forum_id && $prune_days)
 		{
-			$rev_list	= array();
+			$rev_list	= [];
 			$prune_date	= time() - ($prune_days * 86400);	// 86400 seconds = 24 hours
 			$sql = 'SELECT r.revision_id
 					FROM ' . $this->revisions_table . ' r, ' . POSTS_TABLE . ' p

@@ -4,7 +4,7 @@
  * phpBB Forum Mapper. A helper class for the phpBB Forum Software package.
  *
  * @author Dark❶, https://dark1.tech
- * @version 1.0.0
+ * @version 1.0.3
  * @source https://github.com/dark-1/phpbbForumMap
  * @copyright (c) 2020, Dark❶, https://dark1.tech
  * @license GNU General Public License, version 2 (GPL-2.0)
@@ -23,7 +23,13 @@ use phpbb\db\driver\driver_interface as db_driver;
  */
 abstract class forum_map
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var string Default Padding Spacer */
+	const PADDING_SPACER	= '&nbsp; &nbsp; &nbsp;';
+
+	/** @var string Default Padding Symbol */
+	const PADDING_SYMBOL	= '&nbsp; &#8627; &nbsp;';
+
+	/** @var db_driver */
 	protected $db;
 
 	/** @var int Latest Right ID*/
@@ -44,22 +50,13 @@ abstract class forum_map
 	/** @var array All Forum Data */
 	private $forums;
 
-	/** @var array Forum SQL Column */
-	private $sql_col;
-
 	/** @var array Store Padding for each Forum */
 	private $padding_store;
-
-	/** @var string Default Padding Spacer */
-	const PADDING_SPACER	= '&nbsp; &nbsp; &nbsp;';
-
-	/** @var string Default Padding Symbol */
-	const PADDING_SYMBOL	= '&nbsp; &#8627; &nbsp;';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param \phpbb\db\driver\driver_interface		$db		Database object
+	 * @param db_driver		$db		Database object
 	 */
 	public function __construct(db_driver $db)
 	{
@@ -87,7 +84,6 @@ abstract class forum_map
 	{
 		$this->padding_spacer	= !empty($padding_spacer) ? $padding_spacer : self::PADDING_SPACER;
 		$this->padding_symbol	= !empty($padding_symbol) ? $padding_symbol : self::PADDING_SYMBOL;
-		$this->sql_col = $this->get_forums_cust_sql_col();
 
 		$this->get_forums();
 		$this->parse_forums();
@@ -103,13 +99,18 @@ abstract class forum_map
 	 */
 	private function get_forums()
 	{
-		$sql = 'SELECT forum_id, forum_type, forum_name, parent_id, left_id, right_id' . (!empty($this->sql_col) ? ', ' . implode(', ', $this->sql_col) : '') . ' FROM ' . FORUMS_TABLE . ' ORDER BY left_id ASC';
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$sql_ary = [
+			'SELECT'	=> 'f.forum_id, f.forum_type, f.forum_name, f.parent_id, f.left_id, f.right_id',
+			'FROM'		=> [FORUMS_TABLE => 'f'],
+			'ORDER_BY'	=> 'f.left_id ASC',
+		];
+		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $this->get_forums_cust_sql_ary($sql_ary)));
+		$forum_rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+		foreach ($forum_rows as $row)
 		{
 			$this->forums[] = $row;
 		}
-		$this->db->sql_freeresult($result);
 	}
 
 	/**
@@ -123,7 +124,7 @@ abstract class forum_map
 		foreach ($this->forums as $row)
 		{
 			$this->get_forum_padding($row['parent_id'], $row['left_id'], $row['right_id']);
-			$tpl_row = $this->get_forum_tpl_row($row) + $this->get_forum_cust_tpl_row($row);
+			$tpl_row = array_merge($this->get_forum_tpl_row($row), $this->get_forum_cust_tpl_row($row));
 
 			if (!empty($tpl_row))
 			{
@@ -192,19 +193,23 @@ abstract class forum_map
 	}
 
 	/**
-	 * Get forum custom SQL Column.
+	 * Get forum custom SQL Array.
+	 *
+	 * @param array		$sql_ary	Forum SQL Array
 	 *
 	 * @return array
 	 * @access protected
 	 */
-	abstract protected function get_forums_cust_sql_col();
+	abstract protected function get_forums_cust_sql_ary($sql_ary);
 	/** @example :
 	{
-		// For one forum table coloumn
-		return ['dark1_ext_enable'];
+		// For one forum table column
+		$sql_ary['SELECT'] .= ', f.vendor_ext_enable';
 		// OR
-		// For two or more forum table coloumn
-		return ['dark1_ext_enable', 'dark1_ext_value'];
+		// For two or more forum table columns
+		$sql_ary['SELECT'] .= ', f.vendor_ext_enable, f.vendor_ext_value';
+
+		return $sql_ary;
 	}
 	*/
 
@@ -224,9 +229,9 @@ abstract class forum_map
 		{
 			// Array to be joined with original $tpl_row
 			$tpl_row = [
-				'ENABLE'	=> $row['dark1_ext_enable'],
+				'ENABLE'	=> $row['vendor_ext_enable'],
 				// If more than one
-				'VALUE'		=> $row['dark1_ext_value'],
+				'VALUE'		=> $row['vendor_ext_value'],
 			];
 		}
 		return $tpl_row;

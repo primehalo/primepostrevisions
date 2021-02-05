@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_PRIMEPOSTREVISIONS_TITLE'						=> 'Prime Post Revisions',
 	'ACP_PRIMEPOSTREVISIONS_SETTINGS'					=> 'Extension Settings',
 	'ACP_PRIMEPOSTREVISIONS_BASIC_SETTINGS'				=> 'General Settings',
@@ -66,4 +66,4 @@ $lang = array_merge($lang, array(
 
 	// Cron Log
 	'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE'					=> '<strong>Auto-limpou revisões de post</strong><br />» Revisões excluidas: %d » %s',
-));
+]);

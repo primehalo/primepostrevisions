@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	// Viewing posts
 	'PRIMEPOSTREVISIONS_VIEW'				=> 'Zeige Beitragsversionen',	// Text for the link to view the revision history
 	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Do not save post history',	// Text for the checkbox to not save the revision history
@@ -83,4 +83,4 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'Sie besitzen nicht die erforderlichen Rechte zur Wiederherstellung dieser Beitragsversion.',
 	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Beim Versuch die Beitragsversion wiederherzustellen ist ein Fehler aufgetreten.',
 	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Die Beitragsversion wurde erfolgreich wiederhergestellt.',
-));
+]);

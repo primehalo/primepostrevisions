@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,11 +37,11 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Может просматривать версии сообщений',
 	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Может удалять версии сообщений',
 	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Может восстанавливать версии сообщений',
 	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Может просматривать версии своих сообщений',
 	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Может удалять версии своих сообщений',
 	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Может восстанавливать версии своих сообщений',
-));
+]);

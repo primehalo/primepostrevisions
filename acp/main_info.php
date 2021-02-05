@@ -17,16 +17,16 @@ class main_info
 {
 	public function module()
 	{
-		return array(
+		return [
 			'filename'	=> '\primehalo\primepostrevisions\acp\main_module',
 			'title'		=> 'ACP_PRIMEPOSTREVISIONS_TITLE',
-			'modes'		=> array(
-				'settings'	=> array(
+			'modes'		=> [
+				'settings'	=> [
 					'title'	=> 'ACP_PRIMEPOSTREVISIONS_SETTINGS',
 					'auth'	=> 'ext_primehalo/primepostrevisions && acl_a_board',
-					'cat'	=> array('ACP_PRIMEPOSTREVISIONS_TITLE')
-				),
-			),
-		);
+					'cat'	=> ['ACP_PRIMEPOSTREVISIONS_TITLE']
+				],
+			],
+		];
 	}
 }

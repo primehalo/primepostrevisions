@@ -12,9 +12,9 @@ namespace primehalo\primepostrevisions\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use phpbb\config\config;
-use phpbb\db\driver\driver_interface;
-use phpbb\controller\helper;
-use phpbb\request\request_interface;
+use phpbb\db\driver\driver_interface as db_driver;
+use phpbb\controller\helper as controller_helper;
+use phpbb\request\request_interface as request;
 use primehalo\primepostrevisions\core\prime_post_revisions as core;
 
 /**
@@ -26,11 +26,11 @@ class listener implements EventSubscriberInterface
 	/**
 	* Service Containers
 	*/
-	protected $config;		// @var \phpbb\config\config
-	protected $db;			// @var \phpbb\db\driver\driver_interface
-	protected $helper;		// @var \phpbb\controller\helper
-	protected $request;		// @var \phpbb\request\request_interface
-	protected $core;		// @var \primehalo\primepostrevisions\core\prime_post_revisions
+	protected $config;		// @var config
+	protected $db;			// @var db_driver
+	protected $helper;		// @var controller_helper
+	protected $request;		// @var request
+	protected $core;		// @var core
 
 	/**
 	* Variables
@@ -41,7 +41,7 @@ class listener implements EventSubscriberInterface
 
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.user_setup'								=> 'load_language_on_setup',			// 3.1.0-a1
 			'core.permissions'								=> 'set_permissions',					// 3.1.0-a1
 			'core.posting_modify_submit_post_before'		=> 'store_post_revision_info',			// 3.1.0-RC5
@@ -52,20 +52,20 @@ class listener implements EventSubscriberInterface
 			'core.delete_posts_in_transaction_before'		=> 'delete_revisions_for_posts',		// 3.1.0-a4
 			'core.acp_manage_forums_request_data'			=> 'acp_manage_forums_request_data',	// 3.1.0-a1
 			'core.acp_manage_forums_display_form'			=> 'acp_manage_forums_display_form',	// 3.1.0-a1
-		);
+		];
 	}
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config				Config object
-	* @param \phpbb\db\driver\driver_interface	$db					Database connection
-	* @param \phpbb\controller\helper			$controller_helper	Controller helper object
-	* @param \phpbb\request\request_interface	$request			Request object
-	* @param core								$core				Prime Post Revisions core
-	* @param string								$revisions_table	Prime Post Revisions table
+	* @param config					$config				Config object
+	* @param db_driver				$db					Database connection
+	* @param controller_helper		$controller_helper	Controller helper object
+	* @param request				$request			Request object
+	* @param core					$core				Prime Post Revisions core
+	* @param string					$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(config $config, driver_interface $db, helper $helper, request_interface $request, core $core, $revisions_table)
+	public function __construct(config $config, db_driver $db, controller_helper $helper, request $request, core $core, $revisions_table)
 	{
 		$this->config			= $config;
 		$this->db				= $db;
@@ -85,12 +85,12 @@ class listener implements EventSubscriberInterface
 	public function set_permissions($event)
 	{
 		$permissions = $event['permissions'];
-		$permissions['m_primepostrev_view']		= array('lang' => 'ACL_M_PRIMEPOSTREV_VIEW',	'cat' => 'actions');
-		$permissions['m_primepostrev_delete']	= array('lang' => 'ACL_M_PRIMEPOSTREV_DELETE',	'cat' => 'actions');
-		$permissions['m_primepostrev_restore']	= array('lang' => 'ACL_M_PRIMEPOSTREV_RESTORE',	'cat' => 'actions');
-		$permissions['f_primepostrev_view']		= array('lang' => 'ACL_F_PRIMEPOSTREV_VIEW',	'cat' => 'actions');
-		$permissions['f_primepostrev_delete']	= array('lang' => 'ACL_F_PRIMEPOSTREV_DELETE',	'cat' => 'actions');
-		$permissions['f_primepostrev_restore']	= array('lang' => 'ACL_F_PRIMEPOSTREV_RESTORE',	'cat' => 'actions');
+		$permissions['m_primepostrev_view']		= ['lang' => 'ACL_M_PRIMEPOSTREV_VIEW',	'cat' => 'actions'];
+		$permissions['m_primepostrev_delete']	= ['lang' => 'ACL_M_PRIMEPOSTREV_DELETE',	'cat' => 'actions'];
+		$permissions['m_primepostrev_restore']	= ['lang' => 'ACL_M_PRIMEPOSTREV_RESTORE',	'cat' => 'actions'];
+		$permissions['f_primepostrev_view']		= ['lang' => 'ACL_F_PRIMEPOSTREV_VIEW',	'cat' => 'actions'];
+		$permissions['f_primepostrev_delete']	= ['lang' => 'ACL_F_PRIMEPOSTREV_DELETE',	'cat' => 'actions'];
+		$permissions['f_primepostrev_restore']	= ['lang' => 'ACL_F_PRIMEPOSTREV_RESTORE',	'cat' => 'actions'];
 		$event['permissions'] = $permissions;
 	}
 
@@ -104,10 +104,10 @@ class listener implements EventSubscriberInterface
 	public function load_language_on_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
+		$lang_set_ext[] = [
 			'ext_name' => 'primehalo/primepostrevisions',
 			'lang_set' => 'common',
-		);
+		];
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
@@ -120,7 +120,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function get_posts_with_revisions($event)
 	{
-		$this->posts_with_revisions = array();
+		$this->posts_with_revisions = [];
 
 		if (!empty($event['post_list']))
 		{
@@ -151,7 +151,7 @@ class listener implements EventSubscriberInterface
 
 		if ($is_auth && in_array($row['post_id'], $this->posts_with_revisions))
 		{
-			$post_row['U_PRIMEPOSTREVISIONS'] = $this->helper->route('primehalo_primepostrevisions_view', array('post_id' => $row['post_id']));
+			$post_row['U_PRIMEPOSTREVISIONS'] = $this->helper->route('primehalo_primepostrevisions_view', ['post_id' => $row['post_id']]);
 		}
 		$event['post_row'] = $post_row;
 	}
@@ -191,7 +191,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function update_edit_data($event)
 	{
-		if (!$this->revision_saved || !in_array($event['post_mode'], array('edit', 'edit_first_post', 'edit_last_post', 'edit_topic')))
+		if (!$this->revision_saved || !in_array($event['post_mode'], ['edit', 'edit_first_post', 'edit_last_post', 'edit_topic']))
 		{
 			return;
 		}
@@ -199,11 +199,11 @@ class listener implements EventSubscriberInterface
 		$sql_data	= $event['sql_data'];
 		$data		= $event['data'];
 		$cur_time	= !empty($data['post_time']) ? $data['post_time'] : time();
-		$sql_data[POSTS_TABLE]['sql'] = empty($sql_data[POSTS_TABLE]['sql']) ? array() : $sql_data[POSTS_TABLE]['sql'];
-		$sql_data[POSTS_TABLE]['sql'] = array_merge($sql_data[POSTS_TABLE]['sql'], array(
+		$sql_data[POSTS_TABLE]['sql'] = empty($sql_data[POSTS_TABLE]['sql']) ? [] : $sql_data[POSTS_TABLE]['sql'];
+		$sql_data[POSTS_TABLE]['sql'] = array_merge($sql_data[POSTS_TABLE]['sql'], [
 			'primepost_edit_time' => $cur_time,
 			'primepost_edit_user' => (int) $data['post_edit_user']
-		));
+		]);
 		$sql_data[POSTS_TABLE]['stat'][] = 'primepost_edit_count = primepost_edit_count + 1';
 
 		$event['sql_data'] = $sql_data;

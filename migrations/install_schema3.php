@@ -10,14 +10,22 @@
 
 namespace primehalo\primepostrevisions\migrations;
 
-class install_schema3 extends \phpbb\db\migration\migration
+/**
+ * @ignore
+ */
+use phpbb\db\migration\migration;
+
+/**
+ * Migration stage : Install Schema 3
+ */
+class install_schema3 extends migration
 {
 	/**
 	 * (@inheritdoc)
 	 */
 	static public function depends_on()
 	{
-		return array('\primehalo\primepostrevisions\migrations\install_schema2');
+		return ['\primehalo\primepostrevisions\migrations\install_schema2'];
 	}
 
 	/**
@@ -28,13 +36,13 @@ class install_schema3 extends \phpbb\db\migration\migration
 	*/
 	public function update_schema()
 	{
-		return array(
-			'change_columns'	=> array(
-				$this->table_prefix . 'primepostrev' => array(
-					'revision_id'		=> array('UINT:10', null, 'auto_increment'),		// ULINT in phpBB3.2
-				),
-			),
-		);
+		return [
+			'change_columns'	=> [
+				$this->table_prefix . 'primepostrev' => [
+					'revision_id'		=> ['UINT:10', null, 'auto_increment'],		// ULINT in phpBB3.2
+				],
+			],
+		];
 	}
 
 	/**
@@ -45,6 +53,6 @@ class install_schema3 extends \phpbb\db\migration\migration
 	*/
 	public function revert_schema()
 	{
-		return array();
+		return [];
 	}
 }

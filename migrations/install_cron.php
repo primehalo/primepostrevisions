@@ -10,7 +10,15 @@
 
 namespace primehalo\primepostrevisions\migrations;
 
-class install_cron extends \phpbb\db\migration\migration
+/**
+ * @ignore
+ */
+use phpbb\db\migration\migration;
+
+/**
+ * Migration stage : Install Cron
+ */
+class install_cron extends migration
 {
 	public function effectively_installed()
 	{
@@ -19,13 +27,13 @@ class install_cron extends \phpbb\db\migration\migration
 
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v31x\v313');
+		return ['\phpbb\db\migration\data\v31x\v313'];
 	}
 
 	public function update_data()
 	{
-		return array(
-			array('config.add', array('primepostrev_cron_last_run', 0, true)),
-		);
+		return [
+			['config.add', ['primepostrev_cron_last_run', 0, true]],
+		];
 	}
 }

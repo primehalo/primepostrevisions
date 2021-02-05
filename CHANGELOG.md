@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0 RC4] - 2021-02-05
+### Changed
+- Moved from `array(...)` to `[...]` Structure (Thanks Dark❶!)
+- Updated "phpBB Forum Mapper" from v1.0.0 to v1.0.3 Structure (Thanks Dark❶!)
+
+### Fixed
+- GitHub Actions CI (Thanks Dark❶!)
+- Code sniff fixes (Thanks Dark❶!)
+
 ## [1.0.0 RC3] - 2020-05-29
 ### Added
 - Russian translations for previously untranslated text

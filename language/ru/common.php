@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	// Viewing posts
 	'PRIMEPOSTREVISIONS_VIEW'				=> 'История сообщения',	// Text for the link to view the revision history
 	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Не сохранять правку в истории',	// Text for the checkbox to not save the revision history
@@ -84,4 +84,4 @@ $lang = array_merge($lang, array(
 	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'У вас отсутствуют права доступа для восстановления этой версий.',
 	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Произошла ошибка при попытке восстановления версии сообщения.',
 	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Версия сообщения успешно восстановлена.',
-));
+]);

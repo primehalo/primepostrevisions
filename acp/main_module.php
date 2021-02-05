@@ -54,11 +54,11 @@ class main_module
 			$config->set('primepostrev_enable_autoprune', $request->variable('primepostrev_enable_autoprune', true));
 
 			// Get the individual forums settings
-			$primepostrev_enable_array = $request->variable('primepostrev_enable', array(0 => 0));
-			$primepostrev_autoprune_array = $request->variable('primepostrev_autoprune', array(0 => 0));
+			$primepostrev_enable_array = $request->variable('primepostrev_enable', [0 => 0]);
+			$primepostrev_autoprune_array = $request->variable('primepostrev_autoprune', [0 => 0]);
 
 			// Build the array for updating the forums
-			$forums_sql_array = array();
+			$forums_sql_array = [];
 			foreach ($primepostrev_enable_array as $forum_id => $value)
 			{
 				$forums_sql_array[$forum_id]['primepostrev_enable'] = (bool) $value;
@@ -84,10 +84,10 @@ class main_module
 			trigger_error($user->lang('ACP_PRIMEPOSTREVISIONS_SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
 
-		$template->assign_vars(array(
+		$template->assign_vars([
 			'PRIMEPOSTREVISIONS_ENABLE_GENERAL' 	=> $config['primepostrev_enable_general'],
 			'PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE'	=> $config['primepostrev_enable_autoprune'],
 			'U_ACTION'								=> $this->u_action,
-		));
+		]);
 	}
 }
