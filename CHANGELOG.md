@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - GitHub Actions CI (Thanks Dark❶!)
 - Code sniff fixes (Thanks Dark❶!)
+- Do not display checkbox for New Post in Editor (Thanks Dark❶!)
 
 ## [1.0.0 RC3] - 2020-05-29
 ### Added

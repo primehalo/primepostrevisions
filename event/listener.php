@@ -221,7 +221,8 @@ class listener implements EventSubscriberInterface
 	{
 		// Determine if we should allow user to not save the revision
 		$page_data = $event['page_data'];
-		$page_data['NO_POST_REV'] = $this->core->is_auth('delete', $event['forum_id'], $event['post_data']['poster_id']);
+		$new_post = in_array($event['mode'], ['post', 'reply', 'quote']);
+		$page_data['NO_POST_REV'] = !$new_post && $this->core->is_auth('delete', $event['forum_id'], $event['post_data']['poster_id']);
 		$event['page_data'] = $page_data;
 	}
 
