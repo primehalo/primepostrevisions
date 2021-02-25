@@ -5,7 +5,6 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@log'
-            - '@user'
             - '%primehalo.primepostrevisions.tables.primepostrev%'
         calls:
             - ['set_name', ['cron.task.primepostrevisions.prune']]
