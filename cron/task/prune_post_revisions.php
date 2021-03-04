@@ -14,7 +14,6 @@ use phpbb\cron\task\base;
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\log\log_interface as phpbb_log;
-use phpbb\user;
 
 /**
  * Prime Post Revisions cron task.
@@ -26,7 +25,6 @@ class prune_post_revisions extends base
 	protected $config;
 	protected $db;
 	protected $phpbb_log;
-	protected $user;
 	protected $revisions_table;
 
 	/**
@@ -35,15 +33,13 @@ class prune_post_revisions extends base
 	* @param config			$config 			Config object
 	* @param db_driver		$db					Database connection
 	* @param phpbb_log		$phpbb_log			Log
-	* @param user			$user				User object
 	* @param string			$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(config $config, db_driver $db, phpbb_log $phpbb_log, user $user, $revisions_table)
+	public function __construct(config $config, db_driver $db, phpbb_log $phpbb_log, $revisions_table)
 	{
 		$this->config			= $config;
 		$this->db				= $db;
 		$this->phpbb_log		= $phpbb_log;
-		$this->user				= $user;
 		$this->revisions_table	= $revisions_table;
 	}
 
@@ -74,8 +70,7 @@ class prune_post_revisions extends base
 		if ($del_total > 0)
 		{
 			// Log the auto-pruning result
-			$this->user->add_lang_ext('primehalo/primepostrevisions', 'info_acp_main');
-			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, [$del_total, implode(', ', $log_forums)]);
+			$this->phpbb_log->add('admin', ANONYMOUS, '127.0.0.1', 'LOG_PRIMEPOSTREVISIONS_AUTOPRUNE', false, [$del_total, implode(', ', $log_forums)]);
 		}
 
 		// Update the cron task run time here if it hasn't already been done by your cron actions.
