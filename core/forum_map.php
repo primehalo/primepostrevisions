@@ -5,7 +5,7 @@
  *
  * @author Dark❶, https://dark1.tech
  * @version 1.0.3
- * @source https://github.com/dark-1/phpbbForumMap
+ * @source https://github.com/Dark1z/phpbbForumMap
  * @copyright (c) 2020, Dark❶, https://dark1.tech
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
