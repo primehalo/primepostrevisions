@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.1 RC1] - 2021-04-01
+### Added
+- Pagination to post history (Thanks Dark❶!)
+
+### Changed
+- Split forum data into 50 chunks for SQL Update in ACP Settings (Thanks Dark❶!)
+
+### Fixed
+- Undefined index & variable while viewing post history (Thanks Dark❶!)
+
+## [1.0.0] - 2021-02-15
+- First release to phpBB Customization Database
+
 ## [1.0.0 RC4] - 2021-02-05
 ### Changed
 - Moved from `array(...)` to `[...]` Structure (Thanks Dark❶!)
@@ -23,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.0 RC2] - 2020-05-01
 ### Fixed
-- When comparing two post revisions, some reserved HTML characters would be displayed as encoded entities (such as & displaying as `&amp;`)
+- When comparing two post revisions, some reserved HTML characters would be displayed as encoded entities (such as `&` displaying as `&amp;`)
 
 ## [1.0.0 RC1] - 2020-04-26
 ### Added
@@ -31,7 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Ability to not save post history when editing a post (only for those with the permissions to delete the post history)
 
 ### Changed
-- SQL JOIN to SQL LEFT JOIN
+- SQL `JOIN` to SQL `LEFT JOIN`
 
 ### Fixed
 - Newline indicators failed to show properly on some Linux systems
@@ -49,7 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Minor styling changes
 
 ### Fixed
-- Unintentional dupicate HTML element IDs
+- Unintentional duplicate HTML element IDs
 
 ## [1.0.0 BETA 9] - 2020-04-14
 ### Added
@@ -59,14 +72,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - When compare revisions it now shows them as they would be seen when composing in an editor, with BBCodes instead of with HTML (Thanks Dark❶!)
-- Moved template files from "prosilver" to "all" to make compatiblity with prosilver-based themes simpler (Thanks Dark❶!)
-- Use the unicode character ↵ to represent line ending changes in comparisons (Thanks Dark❶!)
+- Moved template files from "prosilver" to "all" to make compatibility with prosilver-based themes simpler (Thanks Dark❶!)
+- Use the unicode character `↵` to represent line ending changes in comparisons (Thanks Dark❶!)
 - Changed "var" to "let" in the JavaScript
 - Minor code cleanup
 
 ## [1.0.0 BETA 8] - 2020-04-09
 ### Fixed
-- The cron job for removing old revisions would run too often because I failed to declare the primepostrev_cron_last_run config variable as Dynamic (Thanks Dark❶!)
+- The cron job for removing old revisions would run too often because I failed to declare the `primepostrev_cron_last_run` config variable as Dynamic (Thanks Dark❶!)
 
 ### Added
 - In the cron results log, list the forums from which revisions were deleted
@@ -100,7 +113,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.0 BETA 3] - 2018-06-05
 ### Fixed
-- Revisions would fail to save for very long messages due to different column types (using TEXT instead of MTEXT_UNI). I updated types for some other columns as well to keep them consistent with the posts table columns.
+- Revisions would fail to save for very long messages due to different column types (using `TEXT` instead of `MTEXT_UNI`). I updated types for some other columns as well to keep them consistent with the posts table columns.
 
 ## [1.0.0 BETA 2] - 2018-05-12
 ### Changed

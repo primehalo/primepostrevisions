@@ -13,6 +13,14 @@
 	{% endif %}
 </p>
 
+{% if loops.pagination|length %}
+	<div class="action-bar bar-top">
+		<div class="pagination top-pagination">
+			{% INCLUDE 'pagination.html' %}
+		</div>
+	</div>
+{% endif %}
+
 <form id="revisions_form" name="revisions_form" method="post" action="{{ S_FORM_ACTION }}">
 {% for postrow in loops.postrow %}
 	<div id="p{{ postrow.REVISION_ID }}" class="post has-profile {% if postrow.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
@@ -105,6 +113,14 @@
 	</div>
 	<hr class="divider" />
 {% endfor %}
+
+{% if loops.pagination|length %}
+	<div class="action-bar bar-bottom">
+		<div class="pagination top-pagination">
+			{% INCLUDE 'pagination.html' %}
+		</div>
+	</div>
+{% endif %}
 
 {% if SELECTABLE %}
 	<div class="action-bar bar-bottom">
