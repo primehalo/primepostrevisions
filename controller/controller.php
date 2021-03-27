@@ -141,7 +141,6 @@ class controller
 		$url_delim			= (strpos($base_url, '?') === false) ? '?' : ((strpos($base_url, '?') === strlen($base_url) - 1) ? '' : '&amp;');
 		$show_all_url		= $show_all ? '' : $base_url . $url_delim . 'start=-1';
 
-
 		// Compare or Delete button was pressed
 		$compare_submit = $this->request->is_set_post('compare') && !$comparing_selected && $can_view;
 		$delete_submit = $this->request->is_set_post('delete') && $can_delete;
