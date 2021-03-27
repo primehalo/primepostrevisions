@@ -127,6 +127,7 @@ class controller
 		// Prepare some variables that will be used for permission and deletion checks
 		$forum_id			= $post_data['forum_id'];
 		$start				= $this->request->variable('start', 0);
+		$show_all			= $start < 0;	// Negative value represents Show All
 		$posts_per_page		= $this->config['posts_per_page'] - 1;
 		$sql_start			= $start == 0 ? $start : $start - 1 ;
 		$sql_per_page		= $start == 0 ? $posts_per_page : $posts_per_page + 1 ;
@@ -137,6 +138,9 @@ class controller
 		$can_view			= $this->core->is_auth('view', $forum_id, $post_data['poster_id']);
 		$can_delete			= $this->core->is_auth('delete', $forum_id, $post_data['poster_id']);
 		$can_restore		= $this->core->is_auth('restore', $forum_id, $post_data['poster_id']);
+		$url_delim			= (strpos($base_url, '?') === false) ? '?' : ((strpos($base_url, '?') === strlen($base_url) - 1) ? '' : '&amp;');
+		$show_all_url		= $show_all ? '' : $base_url . $url_delim . 'start=-1';
+
 
 		// Compare or Delete button was pressed
 		$compare_submit = $this->request->is_set_post('compare') && !$comparing_selected && $can_view;
@@ -217,7 +221,7 @@ class controller
 			'ORDER_BY'	=> 'r.revision_id DESC',
 		];
 		$sql		= $this->db->sql_build_query('SELECT', $sql_ary);
-		$result		= $this->db->sql_query_limit($sql, $sql_per_page, $sql_start);
+		$result		= empty($show_all) ? $this->db->sql_query_limit($sql, $sql_per_page, $sql_start) : $this->db->sql_query($sql);
 		$revisions	= $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
@@ -227,10 +231,11 @@ class controller
 		$sql				= $this->db->sql_build_query('SELECT', $sql_ary);
 		$result				= $this->db->sql_query($sql);
 		$total_rev_cnt		= $this->db->sql_fetchfield('total_rev_cnt');
+		$show_all_url		= $total_rev_cnt <= $posts_per_page ? '' : $show_all_url; // Don't need a show all link when all revisions are already being shown
 		$this->db->sql_freeresult($result);
 
 		// Add the current version of the post to the list
-		if ((!$comparing_selected && $start == 0) || ($comparing_selected && in_array(0, $rev_list)))
+		if ((!$comparing_selected && ($start == 0 || $show_all)) || ($comparing_selected && in_array(0, $rev_list)))
 		{
 			array_unshift($revisions, $post_data);
 		}
@@ -367,6 +372,7 @@ class controller
 			'REVISION_CNT'		=> $revision_cnt,
 			'TOTAL_REV_CNT'		=> $total_rev_cnt,
 			'SELECTABLE'		=> $deletable_cnt > 1 || (!$comparing_selected && $revision_cnt > 2),	// Do we need checkboxes for selecting revisions?
+			'SHOW_ALL_URL'		=> $show_all_url,
 		]);
 
 		// Generate Breadcrumbs
