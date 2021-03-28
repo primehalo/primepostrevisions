@@ -17,7 +17,13 @@
 	{% endif %}
 		<div class="pagination top-pagination">
 			{% if SHOW_ALL_URL %}
-			<a href="{{ SHOW_ALL_URL }}" class="button button-secondary">{{ lang('SEE_ALL') }}</a>
+				<ul>
+					<li>
+						<a class="button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
+							<i class="icon fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
+						</a>
+					</li>
+				</ul>
 			{% endif %}
 			{% INCLUDE 'pagination.html' %}
 		</div>
@@ -122,21 +128,26 @@
 		<div class="left-box">
 			{% if DELETABLE_CNT > 1 %}<input class="button" type="submit" name="delete" value="{{ lang('PRIMEPOSTREVISIONS_DELETES') }}" />{% endif %}
 			{% if COMPARISONS and REVISION_CNT > 2 %}<input class="button button-secondary" type="submit" name="compare" value="{{ lang('PRIMEPOSTREVISIONS_COMPARES') }}" />{% endif %}
+			<br />
+			<a href="#" onclick="marklist('revisions_form', 'revision_list[]', true); updatePrimePostRevActionBtn(); return false;">{{ lang('MARK_ALL') }}</a>
+			&nbsp;{{ lang('COLON') ~ lang('COLON') }}&nbsp;
+			<a href="#" onclick="marklist('revisions_form', 'revision_list[]', false); updatePrimePostRevActionBtn(); return false;">{{ lang('UNMARK_ALL') }}</a>
 		</div>
 		{% if loops.pagination|length %}
 		<div class="pagination top-pagination">
 			{% if SHOW_ALL_URL %}
-			<a href="{{ SHOW_ALL_URL }}" class="button button-secondary">{{ lang('SEE_ALL') }}</a>
+				<ul>
+					<li>
+						<a class="button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
+							<i class="icon fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
+						</a>
+					</li>
+				</ul>
 			{% endif %}
 			{% INCLUDE 'pagination.html' %}
 		</div>
 		<p class="clear"></p>
 		{% endif %}
-		<div class="right-box">
-			<a href="#" onclick="marklist('revisions_form', 'revision_list[]', true); updatePrimePostRevActionBtn(); return false;">{{ lang('MARK_ALL') }}</a>
-			&nbsp;{{ lang('COLON') ~ lang('COLON') }}&nbsp;
-			<a href="#" onclick="marklist('revisions_form', 'revision_list[]', false); updatePrimePostRevActionBtn(); return false;">{{ lang('UNMARK_ALL') }}</a>
-		</div>
 	</div>
 {% endif %}
 	<div id="ppr-post-delete-notice" class="rules" style="display:none;">
