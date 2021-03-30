@@ -58,24 +58,30 @@ class main_module
 			$primepostrev_autoprune_array = $request->variable('primepostrev_autoprune', [0 => 0]);
 
 			// Build the array for updating the forums
-			$forums_sql_array = [];
+			$forums_ary = [];
 			foreach ($primepostrev_enable_array as $forum_id => $value)
 			{
-				$forums_sql_array[$forum_id]['primepostrev_enable'] = (bool) $value;
+				$forums_ary[$forum_id]['primepostrev_enable'] = (bool) $value;
 			}
 			foreach ($primepostrev_autoprune_array as $forum_id => $value)
 			{
-				$forums_sql_array[$forum_id]['primepostrev_autoprune'] = (int) $value;
+				$forums_ary[$forum_id]['primepostrev_autoprune'] = (int) $value;
 			}
 
+			// Split array into 50 size chunks
+			$forums_ary = array_chunk($forums_ary, 50, true);
+
 			// Execute the SQL to update the forum settings
-			$db->sql_transaction('begin');
-			foreach ($forums_sql_array as $forum_id => $sql_array)
+			foreach ($forums_ary as $forums_chunk)
 			{
-				$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_array) . ' WHERE forum_id = ' . (int) $forum_id;
-				$db->sql_query($sql);
+				$db->sql_transaction('begin');
+				foreach ($forums_chunk as $forum_id => $sql_ary)
+				{
+					$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE forum_id = ' . (int) $forum_id;
+					$db->sql_query($sql);
+				}
+				$db->sql_transaction('commit');
 			}
-			$db->sql_transaction('commit');
 
 			// Log action
 			$log = $phpbb_container->get('log');

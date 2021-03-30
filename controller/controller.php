@@ -19,6 +19,7 @@ use phpbb\template\template;
 use phpbb\user;
 use phpbb\cache\driver\driver_interface as cache_driver;
 use primehalo\primepostrevisions\core\prime_post_revisions as core;
+use phpbb\pagination;
 
 /**
 * Class declaration
@@ -37,6 +38,7 @@ class controller
 	protected $user;
 	protected $cache;
 	protected $core;
+	protected $pagination;
 
 	/**
 	* Constant variables
@@ -62,12 +64,13 @@ class controller
 	* @param user					$user				User object
 	* @param cache_driver			$cache				Cache object
 	* @param core					$core				Prime Post Revisions core
+	* @param pagination				$pagination			Pagination object
 	* @param string					$revisions_table	Prime Post Revisions table
 	* @param string					$root_path			phpBB root path
 	* @param string					$phpExt				php file extension
 	* @access public
 	*/
-	public function __construct(auth $auth, config $config, db_driver $db, controller_helper $helper, request $request, template $template, user $user, cache_driver $cache, core $core, $revisions_table, $root_path, $phpExt)
+	public function __construct(auth $auth, config $config, db_driver $db, controller_helper $helper, request $request, template $template, user $user, cache_driver $cache, core $core, pagination $pagination, $revisions_table, $root_path, $phpExt)
 	{
 		$this->auth				= $auth;
 		$this->config			= $config;
@@ -78,6 +81,7 @@ class controller
 		$this->user				= $user;
 		$this->cache			= $cache;
 		$this->core				= $core;
+		$this->pagination		= $pagination;
 		$this->revisions_table	= $revisions_table;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $phpExt;
@@ -122,12 +126,20 @@ class controller
 
 		// Prepare some variables that will be used for permission and deletion checks
 		$forum_id			= $post_data['forum_id'];
+		$start				= $this->request->variable('start', 0);
+		$show_all			= $start < 0;	// Negative value represents Show All
+		$posts_per_page		= $this->config['posts_per_page'] - 1;
+		$sql_start			= $start == 0 ? $start : $start - 1 ;
+		$sql_per_page		= $start == 0 ? $posts_per_page : $posts_per_page + 1 ;
+		$base_url			= $this->helper->route('primehalo_primepostrevisions_view', ['post_id' => $post_id]);
 		$post_url			= $this->core->build_post_url($post_id);
 		$post_link			= "<a href=\"{$post_url}\">{$this->user->lang['VIEW_LATEST_POST']}</a>";
 		$page_name			= $comparing_selected ? $this->user->lang['PRIMEPOSTREVISIONS_COMPARING'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'];
 		$can_view			= $this->core->is_auth('view', $forum_id, $post_data['poster_id']);
 		$can_delete			= $this->core->is_auth('delete', $forum_id, $post_data['poster_id']);
 		$can_restore		= $this->core->is_auth('restore', $forum_id, $post_data['poster_id']);
+		$url_delim			= (strpos($base_url, '?') === false) ? '?' : ((strpos($base_url, '?') === strlen($base_url) - 1) ? '' : '&amp;');
+		$show_all_url		= $show_all ? '' : $base_url . $url_delim . 'start=-1';
 
 		// Compare or Delete button was pressed
 		$compare_submit = $this->request->is_set_post('compare') && !$comparing_selected && $can_view;
@@ -195,7 +207,7 @@ class controller
 		$revision_cnt	= 0;	// Total number of revisions that can be displayed
 
 		// Get data about the list of revisions and the users that edited them
-		$sql = $this->db->sql_build_query('SELECT', [
+		$sql_ary = [
 			'SELECT'	=> 'r.*, u.*',
 			'FROM'		=> [$this->revisions_table => 'r'],
 			'LEFT_JOIN'	=> [
@@ -206,23 +218,30 @@ class controller
 			],
 			'WHERE'		=> "r.post_id = {$post_id}" . ($comparing_selected ? ' AND ' . $this->db->sql_in_set('r.revision_id', $rev_list) : ''),
 			'ORDER_BY'	=> 'r.revision_id DESC',
-		]);
-		$result		= $this->db->sql_query($sql);
+		];
+		$sql		= $this->db->sql_build_query('SELECT', $sql_ary);
+		$result		= empty($show_all) ? $this->db->sql_query_limit($sql, $sql_per_page, $sql_start) : $this->db->sql_query($sql);
 		$revisions	= $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
+		// Get total count about the list of revisions
+		unset($sql_ary['LEFT_JOIN']);
+		$sql_ary['SELECT']	= 'COUNT(*) as total_rev_cnt';
+		$sql				= $this->db->sql_build_query('SELECT', $sql_ary);
+		$result				= $this->db->sql_query($sql);
+		$total_rev_cnt		= $this->db->sql_fetchfield('total_rev_cnt');
+		$show_all_url		= $total_rev_cnt <= $posts_per_page ? '' : $show_all_url; // Don't need a show all link when all revisions are already being shown
+		$this->db->sql_freeresult($result);
+
 		// Add the current version of the post to the list
-		if (!$comparing_selected || ($comparing_selected && in_array(0, $rev_list)))
+		if ((!$comparing_selected && ($start == 0 || $show_all)) || ($comparing_selected && in_array(0, $rev_list)))
 		{
 			array_unshift($revisions, $post_data);
 		}
 
 		// Include the file necessary for obtaining user rank & also for generation of text for display & edit
-		if (!function_exists('phpbb_get_user_rank') || !function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit'))
-		{
-			include_once($this->root_path . 'includes/functions_display.' . $this->php_ext);
-			include_once($this->root_path . 'includes/functions_content.' . $this->php_ext);
-		}
+		include_once($this->root_path . 'includes/functions_display.' . $this->php_ext);
+		include_once($this->root_path . 'includes/functions_content.' . $this->php_ext);
 
 		// Loop through the revisions and generate the template variables
 		foreach ($revisions as $row)
@@ -277,28 +296,25 @@ class controller
 			$delete_url		= ($can_delete && !empty($post_rev_id)) ? $this->helper->route('primehalo_primepostrevisions_delete', ['revision_id' => $post_rev_id]) : false;
 			$restore_url	= ($can_restore && !empty($post_rev_id)) ? $this->helper->route('primehalo_primepostrevisions_restore', ['revision_id' => $post_rev_id]) : false;
 			$reason			= $row['post_edit_reason'];
-			$edit_count_str	= sprintf($this->user->lang['PRIMEPOSTREVISIONS_COUNT'], $row['primepost_edit_count']);
-			$edit_count_str	= empty($row['primepost_edit_count']) ? $this->user->lang['PRIMEPOSTREVISIONS_FIRST'] : $edit_count_str;
+			$edit_count		= (!isset($row['primepost_edit_count']) || empty($row['primepost_edit_count'])) ? 0 : $row['primepost_edit_count'];
+			$edit_count_str	= sprintf($this->user->lang['PRIMEPOSTREVISIONS_COUNT'], $edit_count);
+			$edit_count_str	= empty($edit_count) ? $this->user->lang['PRIMEPOSTREVISIONS_FIRST'] : $edit_count_str;
 			$edit_count_str	= empty($post_rev_id) ? $this->user->lang['PRIMEPOSTREVISIONS_FINAL'] : $edit_count_str;
 			$bbcode_text	= generate_text_for_edit($row['post_text'], $row['bbcode_uid'], 0)['text'];
 			$deletable_cnt	+= $delete_url ? 1 : 0;
-			$contact_fields	= [
-				[
-					'ID'		=> 'pm',
-					'NAME' 		=> $this->user->lang['SEND_PRIVATE_MESSAGE'],
-					'U_CONTACT'	=> $user_cache[$poster_id]['pm'],
-				],
-				[
-					'ID'		=> 'email',
-					'NAME'		=> $this->user->lang['SEND_EMAIL'],
-					'U_CONTACT'	=> $user_cache[$poster_id]['email'],
-				],
-				[
-					'ID'		=> 'jabber',
-					'NAME'		=> $this->user->lang['JABBER'],
-					'U_CONTACT'	=> $user_cache[$poster_id]['jabber'],
-				],
-			];
+			$contact_fields	= [[
+				'ID'		=> 'pm',
+				'NAME' 		=> $this->user->lang['SEND_PRIVATE_MESSAGE'],
+				'U_CONTACT'	=> $user_cache[$poster_id]['pm'],
+			], [
+				'ID'		=> 'email',
+				'NAME'		=> $this->user->lang['SEND_EMAIL'],
+				'U_CONTACT'	=> $user_cache[$poster_id]['email'],
+			], [
+				'ID'		=> 'jabber',
+				'NAME'		=> $this->user->lang['JABBER'],
+				'U_CONTACT'	=> $user_cache[$poster_id]['jabber'],
+			],];
 
 			$this->template->assign_block_vars('postrow',[
 				'REVISION_ID'		=> $post_rev_id,
@@ -309,7 +325,7 @@ class controller
 				'U_RESTORE'			=> $restore_url,
 				'U_DELETE'			=> $delete_url,
 				'U_POST'			=> $post_url,
-				'EDIT_COUNT'		=> empty($row['primepost_edit_count']) ? 0 : $row['primepost_edit_count'],
+				'EDIT_COUNT'		=> $edit_count,
 				'EDIT_REASON'		=> $reason,
 				'EDIT_COUNT_STR'	=> $edit_count_str,
 				'REVISION_CNT'		=> $revision_cnt,
@@ -338,8 +354,10 @@ class controller
 				}
 			}
 
-			$revision_cnt += 1;
+			$revision_cnt++;
 		}
+
+		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_rev_cnt, $posts_per_page, $start);
 
 		// Assign some global template variables
 		$this->template->assign_vars([
@@ -348,11 +366,12 @@ class controller
 			'POST_SUBJECT'		=> $post_data['post_subject'],
 			'U_POST'			=> $post_url,
 			'POST_ID'			=> $post_id,
-			'S_FORM_ACTION'		=> $this->helper->route('primehalo_primepostrevisions_view', ['post_id' => $post_id]),
-			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
+			'S_FORM_ACTION'		=> $base_url,
 			'DELETABLE_CNT'		=> $deletable_cnt,
 			'REVISION_CNT'		=> $revision_cnt,
+			'TOTAL_REV_CNT'		=> $total_rev_cnt,
 			'SELECTABLE'		=> $deletable_cnt > 1 || (!$comparing_selected && $revision_cnt > 2),	// Do we need checkboxes for selecting revisions?
+			'SHOW_ALL_URL'		=> $show_all_url,
 		]);
 
 		// Generate Breadcrumbs
@@ -376,7 +395,7 @@ class controller
 		]);
 		$this->template->assign_block_vars('navlinks', [
 			'BREADCRUMB_NAME'	=> $comparing_selected ? $this->user->lang['PRIMEPOSTREVISIONS_VIEW'] : $this->user->lang['PRIMEPOSTREVISIONS_VIEWING'],
-			'U_BREADCRUMB'		=> $this->helper->route('primehalo_primepostrevisions_view', ['post_id' => $post_id]),
+			'U_BREADCRUMB'		=> $base_url,
 		]);
 
 		return $this->helper->render('body.html', $page_name);

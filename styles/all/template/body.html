@@ -3,6 +3,10 @@
 <h2>{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_TITLE') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING') }}{% endif %}</h2>
 <p>
 	{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_VIEWING_EXPLAIN') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING_EXPLAIN') }}{% endif %}<br>
+</p>
+
+{% if loops.pagination|length or U_POST or (S_FORM_ACTION and not COMPARISONS) %}
+	<div class="action-bar bar-top">
 	{% if U_POST %}
 		<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
 		<a href="{{ U_POST }}" title="{{ lang('VIEW_LATEST_POST') }}"><strong><em>{{ lang('VIEW_LATEST_POST') }}</em></strong></a>
@@ -11,7 +15,20 @@
 		<i class="icon fa-chevron-left fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
 		<a href="{{ S_FORM_ACTION }}" title="{{ lang('PRIMEPOSTREVISIONS_VIEW') }}"><strong><em>{{ lang('PRIMEPOSTREVISIONS_VIEW') }}</em></strong></a>
 	{% endif %}
-</p>
+		<div class="pagination top-pagination">
+			{% if SHOW_ALL_URL %}
+				<ul>
+					<li>
+						<a class="button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
+							<i class="icon fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
+						</a>
+					</li>
+				</ul>
+			{% endif %}
+			{% INCLUDE 'pagination.html' %}
+		</div>
+	</div>
+{% endif %}
 
 <form id="revisions_form" name="revisions_form" method="post" action="{{ S_FORM_ACTION }}">
 {% for postrow in loops.postrow %}
@@ -107,16 +124,30 @@
 {% endfor %}
 
 {% if SELECTABLE %}
-	<div class="action-bar bar-bottom">
+	<div class="action-bar bar-bottom ppr-action-bar">
 		<div class="left-box">
 			{% if DELETABLE_CNT > 1 %}<input class="button" type="submit" name="delete" value="{{ lang('PRIMEPOSTREVISIONS_DELETES') }}" />{% endif %}
 			{% if COMPARISONS and REVISION_CNT > 2 %}<input class="button button-secondary" type="submit" name="compare" value="{{ lang('PRIMEPOSTREVISIONS_COMPARES') }}" />{% endif %}
-		</div>
-		<div class="right-box">
+
 			<a href="#" onclick="marklist('revisions_form', 'revision_list[]', true); updatePrimePostRevActionBtn(); return false;">{{ lang('MARK_ALL') }}</a>
 			&nbsp;{{ lang('COLON') ~ lang('COLON') }}&nbsp;
 			<a href="#" onclick="marklist('revisions_form', 'revision_list[]', false); updatePrimePostRevActionBtn(); return false;">{{ lang('UNMARK_ALL') }}</a>
 		</div>
+		{% if loops.pagination|length %}
+		<div class="pagination top-pagination">
+			{% if SHOW_ALL_URL %}
+				<ul>
+					<li>
+						<a class="button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
+							<i class="icon fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
+						</a>
+					</li>
+				</ul>
+			{% endif %}
+			{% INCLUDE 'pagination.html' %}
+		</div>
+		<p class="clear"></p>
+		{% endif %}
 	</div>
 {% endif %}
 	<div id="ppr-post-delete-notice" class="rules" style="display:none;">

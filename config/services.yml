@@ -31,6 +31,7 @@ services:
             - '@user'
             - '@cache.driver'
             - '@primehalo.primepostrevisions.core'
+            - '@pagination'
             - '%primehalo.primepostrevisions.tables.primepostrev%'
             - '%core.root_path%'
             - '%core.php_ext%'
