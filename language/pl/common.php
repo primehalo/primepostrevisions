@@ -40,7 +40,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	// Viewing posts
 	'PRIMEPOSTREVISIONS_VIEW'				=> 'Zobacz historię postu.',	// Text for the link to view the revision history
-	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Do not save post history',	// Text for the checkbox to not save the revision history
+	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Nie zapisuj historii postu',	// Text for the checkbox to not save the revision history
 
 	// Viewing revisions
 	'PRIMEPOSTREVISIONS_VIEWING'			=> 'Przeglądanie historii postu',
@@ -48,39 +48,39 @@ $lang = array_merge($lang, [
 	'PRIMEPOSTREVISIONS_TITLE'				=> 'Przeglądanie historii postu',
 	'PRIMEPOSTREVISIONS_FIRST'				=> 'Oryginalny post',
 	'PRIMEPOSTREVISIONS_FINAL'				=> 'Aktualny post',
-	'PRIMEPOSTREVISIONS_COUNT'				=> 'Zmiana %d',
+	'PRIMEPOSTREVISIONS_COUNT'				=> 'Wersja %d',
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Zmieniony przez',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[bez tematu]',
-	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Compare',
-	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'You lack the necessary permissions to view these post revisions.',
-	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
-	'PRIMEPOSTREVISIONS_DELETE_POST_NOTICE'	=> 'Notice: The current version of the post cannot be deleted here. Any attempt to do so will be ignored.',
+	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Porównaj',
+	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'Nie masz wymaganych uprawnień do przeglądania wersji tego postu.',
+	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Porównanie',
+	'PRIMEPOSTREVISIONS_DELETE_POST_NOTICE'	=> 'Uwaga: Nie można usunąć bieżącej wersji postu w tym miejscu. Wszelkie próby będą ignorowane.',
 
 	// Compare selected revisions
-	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
-	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
-	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Porównanie historii postu',
+	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'Ta strona pokazuje porównanie pomiędzy wersjami postu.',
+	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Porównaj wybrane wersje',
 
 	// Delete a revision
-	'PRIMEPOSTREVISIONS_DELETE'				=> 'Usuń zmianę',
-	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> 'Jesteś pewny(a), że chcesz usunąć tą zmianę?',
-	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'Nie masz niezbędnych uprawnień, by usunąć tą zmianę.',
-	'PRIMEPOSTREVISIONS_DELETE_FAILED'		=> 'Wystąpił błąd podczas próby usunięcia tej zmiany.',
-	'PRIMEPOSTREVISIONS_DELETE_SUCCESS'		=> 'Zmiana została pomyślnie usunięta.',
-	'PRIMEPOSTREVISIONS_DELETE_INVALID'		=> 'Nie została wybrana żadna zmiana do usunięcia.',
+	'PRIMEPOSTREVISIONS_DELETE'				=> 'Usuń wersję',
+	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> 'Jesteś pewny(a), że chcesz usunąć tę wersję?',
+	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'Nie masz wymaganych uprawnień aby usunąć tę wersję.',
+	'PRIMEPOSTREVISIONS_DELETE_FAILED'		=> 'Wystąpił błąd podczas próby usunięcia tej wersji.',
+	'PRIMEPOSTREVISIONS_DELETE_SUCCESS'		=> 'Wersja została pomyślnie usunięta.',
+	'PRIMEPOSTREVISIONS_DELETE_INVALID'		=> 'Nie została wybrana żadna wersja do usunięcia.',
 
 	// Delete all revisions
-	'PRIMEPOSTREVISIONS_DELETES'			=> 'Usuń wybrane zmiany',
+	'PRIMEPOSTREVISIONS_DELETES'			=> 'Usuń wybrane wersje',
 	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> 'Jesteś pewny(a), że chcesz usunąć te zmiany?',
-	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Nie masz niezbędnych uprawnień, by usunąć te zmiany.',
-	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Wystąpił błąd podczas próby usunięcia tych zmian.',
-	'PRIMEPOSTREVISIONS_DELETES_SUCCESS'	=> 'Zmiany zostały pomyślnie usunięte.',
-	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Nie została wybrana żadna zmiana do usunięcia.',
+	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'Nie masz wymaganych uprawnień do usunięcia tych wersji.',
+	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Wystąpił błąd podczas próby usunięcia tych wersji.',
+	'PRIMEPOSTREVISIONS_DELETES_SUCCESS'	=> 'Wersje zostały pomyślnie usunięte.',
+	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Nie wybrano żadnej wersji do usunięcia.',
 
 	// Restore a revision
-	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restore Revision',
-	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Are you sure you want to restore this revision?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'You lack the necessary permissions to restore this revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'An error occurred while attempting to restore the revision.',
-	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'The post has been successfully restored.',
+	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Przywróć Wersję',
+	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> 'Jesteś pewny(a), że chcesz przywrócić tę wersję?',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'Nie masz wymaganych uprawnień do przywrócenia tej wersji.',
+	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Wystąpił błąd podczas próby przywrócenia wersji.',
+	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'Wersja postu została pomyślnie przywrócona.',
 ]);
