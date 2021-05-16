@@ -398,7 +398,7 @@ class controller
 			'U_BREADCRUMB'		=> $base_url,
 		]);
 
-		return $this->helper->render('body.html', $page_name);
+		return $this->helper->render('primepostrevisions_body.html', $page_name);
 	}
 
 	/**
@@ -458,7 +458,6 @@ class controller
 		}
 
 		redirect($view_url);
-		return $this->helper->message($view_link); // Safety net in case redirection isn't possible
 	}
 
 	/**
@@ -532,7 +531,7 @@ class controller
 		}
 		else
 		{
-			confirm_box(false, $this->user->lang['PRIMEPOSTREVISIONS_RESTORE_CONFIRM'], '', 'confirm_restore.html');
+			confirm_box(false, $this->user->lang['PRIMEPOSTREVISIONS_RESTORE_CONFIRM'], '', 'primepostrevisions_confirm_restore.html');
 		}
 
 		redirect($view_url);

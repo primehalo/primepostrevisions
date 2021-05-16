@@ -6,7 +6,7 @@
 </p>
 
 {% if loops.pagination|length or U_POST or (S_FORM_ACTION and not COMPARISONS) %}
-	<div class="action-bar bar-top">
+	<div class="action-bar bar-top ppr-action-bar">
 	{% if U_POST %}
 		<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
 		<a href="{{ U_POST }}" title="{{ lang('VIEW_LATEST_POST') }}"><strong><em>{{ lang('VIEW_LATEST_POST') }}</em></strong></a>

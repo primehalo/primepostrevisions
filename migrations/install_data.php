@@ -85,17 +85,4 @@ class install_data extends migration
 				WHERE post_edit_time != 0 OR post_edit_user != 0 OR post_edit_count != 0";
 		$this->sql_query($sql);
 	}
-
-	/**
-	*/
-	/*
-	public function import_30_table($value)
-	{
-		if ($this->sql_table_exists($this->table_prefix . 'post_revisions'))
-		{
-
-
-		}
-	}
-	*/
 }

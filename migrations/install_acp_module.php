@@ -20,14 +20,6 @@ use phpbb\db\migration\migration;
  */
 class install_acp_module extends migration
 {
-	static private function get_default_settings()
-	{
-		return [
-			'primepostrev_enable_general'	=> true,
-			'primepostrev_enable_autoprune'	=> true,
-		];
-	}
-
 	public function effectively_installed()
 	{
 		return isset($this->config['primepostrev_enable_general']);
@@ -40,31 +32,28 @@ class install_acp_module extends migration
 
 	public function update_data()
 	{
-		$return_ary = [];
+		return [
+			'config.add', ['primepostrev_enable_general'	=> true],
+			'config.add', ['primepostrev_enable_autoprune'	=> true],
 
-		$settings_ary = $this->get_default_settings();
-		foreach ($settings_ary as $setting_key => $setting_val)
-		{
-			$return_ary[] = ['config.add', [$setting_key, $setting_val]];
-		}
-
-		// Add a parent module (ACP_PRIMEPOSTREVISIONS_TITLE) to the Extensions tab (ACP_CAT_DOT_MODS)
-		$return_ary[] = ['module.add', [
-			'acp',
-			'ACP_CAT_DOT_MODS',
-			'ACP_PRIMEPOSTREVISIONS_TITLE'
-		]];
-
-		// Add our main_module to the parent module (ACP_PRIMEPOSTREVISIONS_TITLE)
-		$return_ary[] = ['module.add', [
-			'acp',
-			'ACP_PRIMEPOSTREVISIONS_TITLE',
+			// Add a parent module (ACP_PRIMEPOSTREVISIONS_TITLE) to the Extensions tab (ACP_CAT_DOT_MODS)
+			'module.add',
 			[
-				'module_basename'	=> '\primehalo\primepostrevisions\acp\main_module',
-				'modes' 			=> ['settings'],
+				'acp',
+				'ACP_CAT_DOT_MODS',
+				'ACP_PRIMEPOSTREVISIONS_TITLE'
 			],
-		]];
 
-		return $return_ary;
+			// Add our main_module to the parent module (ACP_PRIMEPOSTREVISIONS_TITLE)
+			'module.add',
+			[
+				'acp',
+				'ACP_PRIMEPOSTREVISIONS_TITLE',
+				[
+					'module_basename'	=> '\primehalo\primepostrevisions\acp\main_module',
+					'modes' 			=> ['settings'],
+				],
+			],
+		];
 	}
 }

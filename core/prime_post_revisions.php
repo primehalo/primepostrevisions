@@ -121,19 +121,6 @@ class prime_post_revisions
 	}
 
 	/**
-	* Build a link for a post
-	*
-	* @param	int $post_id	The post ID
-	* @return	string			An HTML link for the post
-	* @access	public
-	*/
-	public function build_post_link($post_id)
-	{
-		$post_url = $this->build_post_url($post_id);
-		return "<a href=\"{$post_url}\">{$this->user->lang['VIEW_LATEST_POST']}</a>";
-	}
-
-	/**
 	* Check for proper permissions
 	*
 	* @param	string $action	The action to check
