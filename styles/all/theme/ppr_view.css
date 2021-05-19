@@ -29,8 +29,8 @@ label.ppr-post-checkbox i.icon {
 }
 
 .ppr-action-bar .left-box {
-	display:flex;
-	align-items:center;
+	display: flex;
+	align-items: center;
 }
 
 #revisions_form .post-buttons ul.dropdown-contents .clone a.button-icon-only label {
