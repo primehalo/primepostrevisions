@@ -4,14 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.0.2] - 2021-05-20
-### Added
-- Update Polish language files
-
+## [1.0.2] - 2021-05-27
 ### Changed
+- Updated Polish language files
 - Renamed `body.html` to `primepostrevisions_body.html`
 - Renamed `confirm_restore.html` to `primepostrevisions_confirm_restore.html`
-- Replaced with non-minified version of `diff_match_patch.js` which contains the copyright header
+- Added copyright header to minified version of `diff_match_patch.js`
 
 ### Removed
 - Empty methods, unused methods, and commented out code
