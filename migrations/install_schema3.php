@@ -29,7 +29,7 @@ class install_schema3 extends migration
 	}
 
 	/**
-	* Add the primepostrev table to the database
+	* Update columns in the primepostrev database table
 	*
 	* @return array Array of table schema
 	* @access public
@@ -37,11 +37,22 @@ class install_schema3 extends migration
 	public function update_schema()
 	{
 		return [
-			'change_columns'	=> [
+			'change_columns' => [
 				$this->table_prefix . 'primepostrev' => [
-					'revision_id'		=> ['UINT:10', null, 'auto_increment'],		// ULINT in phpBB3.2
+					'revision_id' => ['UINT:10', null, 'auto_increment'],		// ULINT in phpBB3.2
 				],
 			],
 		];
+	}
+
+	/**
+	* Do nothing. Required for the phpBB Extension Pre-Validator
+	*
+	* @return array Array of table schema
+	* @access public
+	*/
+	public function revert_schema()
+	{
+		return [];
 	}
 }

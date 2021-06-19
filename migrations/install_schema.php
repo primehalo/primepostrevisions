@@ -34,18 +34,18 @@ class install_schema extends migration
 	public function update_schema()
 	{
 		return [
-			'add_columns'	=> [
+			'add_columns' => [
 				FORUMS_TABLE => [
 					'primepostrev_enable'		=> ['BOOL', 1],
 					'primepostrev_autoprune'	=> ['UINT:8', 0],
 				],
-				POSTS_TABLE	=> [
+				POSTS_TABLE => [
 					'primepost_edit_time'		=> ['TIMESTAMP', 0],
 					'primepost_edit_user'		=> ['UINT:10', 0],
 					'primepost_edit_count'		=> ['UINT:4', 0],
 				],
 			],
-			'add_tables'	=> [
+			'add_tables' => [
 				$this->table_prefix . 'primepostrev' => [
 					'COLUMNS' => [
 						'revision_id'			=> ['UINT', null, 'auto_increment'],
@@ -78,18 +78,18 @@ class install_schema extends migration
 	public function revert_schema()
 	{
 		return [
-			'drop_columns'	=> [
+			'drop_columns' => [
 				FORUMS_TABLE => [
 					'primepostrev_enable',
 					'primepostrev_autoprune',
 				],
-				POSTS_TABLE	=> [
+				POSTS_TABLE => [
 					'primepost_edit_time',
 					'primepost_edit_user',
 					'primepost_edit_count',
 				],
 			],
-			'drop_tables'	=> [
+			'drop_tables' => [
 				$this->table_prefix . 'primepostrev',
 			],
 		];
