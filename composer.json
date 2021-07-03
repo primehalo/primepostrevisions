@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Keeps a revision history of all post edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions.",
 	"homepage": "https://github.com/primehalo/primepostrevisions",
-	"version": "1.0.2",
-	"time": "2021-06-19",
+	"version": "1.0.3",
+	"time": "2021-07-03",
 	"license": "GPL-2.0-only",
 	"authors": [
 		{

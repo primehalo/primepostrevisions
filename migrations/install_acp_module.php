@@ -3,7 +3,7 @@
  *
 * Prime Post Revisions extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2018, Ken F. Innes IV, https://www.absoluteanime.com
+ * @copyright (c) 2021, Ken F. Innes IV, https://www.absoluteanime.com
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -33,27 +33,25 @@ class install_acp_module extends migration
 	public function update_data()
 	{
 		return [
-			'config.add', ['primepostrev_enable_general'	=> true],
-			'config.add', ['primepostrev_enable_autoprune'	=> true],
+			['config.add', ['primepostrev_enable_general', true]],
+			['config.add', ['primepostrev_enable_autoprune', true]],
 
 			// Add a parent module (ACP_PRIMEPOSTREVISIONS_TITLE) to the Extensions tab (ACP_CAT_DOT_MODS)
-			'module.add',
-			[
+			['module.add', [
 				'acp',
 				'ACP_CAT_DOT_MODS',
 				'ACP_PRIMEPOSTREVISIONS_TITLE'
-			],
+			]],
 
 			// Add our main_module to the parent module (ACP_PRIMEPOSTREVISIONS_TITLE)
-			'module.add',
-			[
+			['module.add', [
 				'acp',
 				'ACP_PRIMEPOSTREVISIONS_TITLE',
 				[
 					'module_basename'	=> '\primehalo\primepostrevisions\acp\main_module',
 					'modes' 			=> ['settings'],
 				],
-			],
+			]],
 		];
 	}
 }
