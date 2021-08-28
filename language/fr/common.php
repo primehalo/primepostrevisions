@@ -39,8 +39,8 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	// Viewing posts
-	'PRIMEPOSTREVISIONS_VIEW'				=> 'Voir l’historique.',	// Text for the link to view the revision history
-	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Do not save post history',	// Text for the checkbox to not save the revision history
+	'PRIMEPOSTREVISIONS_VIEW'				=> 'Voir l’historique.',	// Texte du lien pour afficher l'historique des révisions
+	'PRIMEPOSTREVISIONS_NO_POST_REV'		=> 'Ne pas enregistrer l‘historique',	// Texte pour la case à cocher pour ne pas enregistrer l'historique des révisions
 
 	// Viewing revisions
 	'PRIMEPOSTREVISIONS_VIEWING'			=> 'Voir l’historique des éditions',
@@ -53,13 +53,13 @@ $lang = array_merge($lang, [
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[sans sujet]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Comparer',
 	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'Vous ne disposez pas des autorisations nécessaires pour afficher ces révisions post.',
-	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparison',
-	'PRIMEPOSTREVISIONS_DELETE_POST_NOTICE'	=> 'Notice: The current version of the post cannot be deleted here. Any attempt to do so will be ignored.',
+	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparaison',
+	'PRIMEPOSTREVISIONS_DELETE_POST_NOTICE'	=> 'Remarque : La version actuelle du message ne peut pas être supprimée ici. Toute tentative de le faire sera ignorée.',
 
 	// Compare selected revisions
-	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparing post history',
-	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'This page shows comparison between versions of the post.',
-	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Compare selected revisions',
+	'PRIMEPOSTREVISIONS_COMPARING'			=> 'Comparer l‘historique des publications',
+	'PRIMEPOSTREVISIONS_COMPARING_EXPLAIN'	=> 'Cette page montre une comparaison entre les versions de du message.',
+	'PRIMEPOSTREVISIONS_COMPARES'			=> 'Comparer les révisions sélectionnées',
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Effacer édition',

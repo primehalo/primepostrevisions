@@ -239,9 +239,16 @@ class controller
 			array_unshift($revisions, $post_data);
 		}
 
-		// Include the file necessary for obtaining user rank & also for generation of text for display & edit
-		include_once($this->root_path . 'includes/functions_display.' . $this->php_ext);
-		include_once($this->root_path . 'includes/functions_content.' . $this->php_ext);
+		// Include the file necessary for obtaining user rank
+		if (!function_exists('phpbb_get_user_rank'))
+		{
+			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
+		}
+		// Include the file necessary for generating text to display & edit
+		if (!function_exists('generate_text_for_display') || !function_exists('generate_text_for_edit'))
+		{
+			include($this->root_path . 'includes/functions_content.' . $this->php_ext);
+		}
 
 		// Loop through the revisions and generate the template variables
 		foreach ($revisions as $row)
@@ -398,7 +405,7 @@ class controller
 			'U_BREADCRUMB'		=> $base_url,
 		]);
 
-		return $this->helper->render('primepostrevisions_body.html', $page_name);
+		return $this->helper->render('@primehalo_primepostrevisions/primepostrevisions_body.html', $page_name);
 	}
 
 	/**
@@ -535,6 +542,5 @@ class controller
 		}
 
 		redirect($view_url);
-		return $this->helper->message($view_link); // Safety net in case redirection isn't possible
 	}
 }

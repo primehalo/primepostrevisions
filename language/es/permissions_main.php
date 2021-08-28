@@ -38,10 +38,10 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Can view post revisions',
-	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Can delete post revisions',
-	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Can restore post revisions',
-	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Can view own post’s revisions',
-	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Can delete own post’s revisions',
-	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Can restore own post’s revisions',
+	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Puede ver revisiones de mensajes',
+	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Puede borrar revisiones de mensajes',
+	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Puede restaurar revisiones de mensajes',
+	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Puede ver sus propias revisiones de mensajes',
+	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Puede borrar sus propias revisiones de mensajes',
+	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Puede restaurar sus propias revisiones de mensajes',
 ]);

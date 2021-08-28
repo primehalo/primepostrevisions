@@ -1,8 +1,6 @@
 <?php
 /**
 *
-* prime_post_revisions [French]
-*
 * Prime Post Revisions extension for the phpBB Forum Software package.
 *
 * @copyright (c) 2018 Ken F. Innes IV <https://www.absoluteanime.com>
@@ -40,10 +38,10 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Peut voir les révisions des messages',
-	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Peut supprimer les révisions de message',
-	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Peut restaurer les révisions de message',
-	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Peut voir les révisions de son propre message',
-	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Peut supprimer les révisions de son propre message',
-	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Peut restaurer les révisions de son propre message',
+	'ACL_M_PRIMEPOSTREV_VIEW'		=> 'Puedes ver revisiones de mensajes',
+	'ACL_M_PRIMEPOSTREV_DELETE'		=> 'Puedes borrar revisiones de mensajes',
+	'ACL_M_PRIMEPOSTREV_RESTORE'	=> 'Puedes restaurar revisiones de mensajes',
+	'ACL_F_PRIMEPOSTREV_VIEW'		=> 'Puedes ver tus propias revisiones de mensajes',
+	'ACL_F_PRIMEPOSTREV_DELETE'		=> 'Puedes borrar tus propias revisiones de mensajes',
+	'ACL_F_PRIMEPOSTREV_RESTORE'	=> 'Puedes restaurar tus propias revisiones de mensajes',
 ]);

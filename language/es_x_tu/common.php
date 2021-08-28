@@ -53,7 +53,7 @@ $lang = array_merge($lang, [
 	'PRIMEPOSTREVISIONS_EDIT_BY'			=> 'Editado por',
 	'PRIMEPOSTREVISIONS_NO_SUBJECT'			=> '[sin asunto]',
 	'PRIMEPOSTREVISIONS_COMPARE'			=> 'Comparar',
-	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'No tiene los permisos necesarios para ver estas revisiones de mensajes.',
+	'PRIMEPOSTREVISIONS_VIEW_DENIED'		=> 'No tienes los permisos necesarios para ver estas revisiones de mensajes.',
 	'PRIMEPOSTREVISIONS_COMPARISON'			=> 'Comparación',
 	'PRIMEPOSTREVISIONS_DELETE_POST_NOTICE'	=> 'Aviso: La versión actual del mensaje no se puede eliminar aquí. Cualquier intento de hacerlo será ignorado.',
 
@@ -64,24 +64,24 @@ $lang = array_merge($lang, [
 
 	// Delete a revision
 	'PRIMEPOSTREVISIONS_DELETE'				=> 'Eliminar revisión',
-	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> '¿Está seguro de querer eliminar esta revisión?',
-	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'No tiene los permisos necesarios para eliminar esta revisión.',
+	'PRIMEPOSTREVISIONS_DELETE_CONFIRM'		=> '¿Estas seguro de querer eliminar esta revisión?',
+	'PRIMEPOSTREVISIONS_DELETE_DENIED'		=> 'No tienes los permisos necesarios para eliminar esta revisión.',
 	'PRIMEPOSTREVISIONS_DELETE_FAILED'		=> 'Se produjo un error al intentar eliminar la revisión.',
 	'PRIMEPOSTREVISIONS_DELETE_SUCCESS'		=> 'La revisión ha sido eliminada correctamente.',
 	'PRIMEPOSTREVISIONS_DELETE_INVALID'		=> 'Ninguna revisión ha sido seleccionada para ser eliminada.',
 
 	// Delete all revisions
 	'PRIMEPOSTREVISIONS_DELETES'			=> 'Eliminar las revisiones seleccionadas',
-	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> '¿Está seguro de querer eliminar estas revisiones?',
-	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'No tiene los permisos necesarios para eliminar estas revisiones.',
+	'PRIMEPOSTREVISIONS_DELETES_CONFIRM'	=> '¿Estas seguro de querer eliminar estas revisiones?',
+	'PRIMEPOSTREVISIONS_DELETES_DENIED'		=> 'No tienes los permisos necesarios para eliminar estas revisiones.',
 	'PRIMEPOSTREVISIONS_DELETES_FAILED'		=> 'Se produjo un error al intentar eliminar la revisión.',
 	'PRIMEPOSTREVISIONS_DELETES_SUCCESS'	=> 'Las revisiones se han eliminado correctamente.',
 	'PRIMEPOSTREVISIONS_DELETES_INVALID'	=> 'Ninguna revisión ha sido seleccionada para ser eliminada.',
 
 	// Restore a revision
 	'PRIMEPOSTREVISIONS_RESTORE'			=> 'Restaurar revisión',
-	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> '¿Está seguro de querer restaurar esta revisión?',
-	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'No tiene los permisos necesarios para restaurar esta revisión.',
+	'PRIMEPOSTREVISIONS_RESTORE_CONFIRM'	=> '¿Estas seguro de querer restaurar esta revisión?',
+	'PRIMEPOSTREVISIONS_RESTORE_DENIED'		=> 'No tienes los permisos necesarios para restaurar esta revisión.',
 	'PRIMEPOSTREVISIONS_RESTORE_FAILED'		=> 'Se produjo un error al intentar restaurar la revisión.',
 	'PRIMEPOSTREVISIONS_RESTORE_SUCCESS'	=> 'El mensajes se ha restaurado correctamente.',
 ]);

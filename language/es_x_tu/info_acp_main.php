@@ -49,7 +49,7 @@ $lang = array_merge($lang, [
 	'ACP_PRIMEPOSTREVISIONS_ENABLE_AUTOPRUNE_EXPLAIN'	=> 'Habilita la capacidad de purgar automáticamente las revisiones. La frecuencia de purga debe establecerse por foro.',
 
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS'				=> 'Ajustes del foro',
-	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN'		=> 'Mantenga un historial de revisión de todas las ediciones de los mensajes. Auto-purga eliminará automáticamente las revisiones anteriores al número de días especificado. Establecer en 0 para deshabilitar.',
+	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_EXPLAIN'		=> 'Ten un historial de revisión de todas las ediciones de los mensajes. Auto-purga eliminará automáticamente las revisiones anteriores al número de días especificado. Establecer en 0 para deshabilitar.',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_SETTINGS_AUTOPRUNE'	=> 'Auto-purga',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_NAME'					=> 'Nombre del foro',
 	'ACP_PRIMEPOSTREVISIONS_FORUM_ENABLE'				=> 'Habilitar',
