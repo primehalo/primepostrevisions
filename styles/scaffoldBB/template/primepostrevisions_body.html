@@ -7,7 +7,7 @@
 
 {% if loops.pagination|length or U_POST or (S_FORM_ACTION and not COMPARISONS) %}
 	<div class="action-bar bar-top ppr-action-bar d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-		<div class="left-box d-flex flex-wrap gap-2">
+		<div class="left-box d-flex flex-wrap align-items-center">
 			{% if U_POST %}
 				<i class="icon fa fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
 				<a class="text-decoration-none" href="{{ U_POST }}" title="{{ lang('VIEW_LATEST_POST') }}"><strong><em>{{ lang('VIEW_LATEST_POST') }}</em></strong></a>
@@ -19,13 +19,9 @@
 		</div>
 		<div class="pagination top-pagination align-items-center p-1 p-md-0 gap-2">
 			{% if SHOW_ALL_URL %}
-				<ul class="list-unstyled">
-					<li>
 						<a class="btn btn-primary btn-sm button fw-bold button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
 							<i class="icon fa fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
 						</a>
-					</li>
-				</ul>
 			{% endif %}
 			{% INCLUDE 'pagination.html' %}
 		</div>
@@ -108,7 +104,7 @@
 					</ul>
 
 					<div class="content">{{ postrow.POST_TEXT }}</div>
-					<textarea class="ppr-post-bbcode form-control form-control-sm">{{ postrow.BBCODE_TEXT }}</textarea>
+					<textarea class="ppr-post-bbcode form-control form-control-sm" style="display: none;">{{ postrow.BBCODE_TEXT }}</textarea>
 
 					{% if postrow.EDIT_REASON %}
 						<div class="notice alert alert-warning">
@@ -123,7 +119,7 @@
 
 {% if SELECTABLE %}
 	<div class="action-bar bar-bottom ppr-action-bar d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-		<div class="left-box d-flex flex-wrap gap-2">
+		<div class="left-box d-flex flex-wrap gap-2 align-items-center">
 			{% if DELETABLE_CNT > 1 %}<input class="btn btn-sm btn-secondary fw-bold" type="submit" name="delete" value="{{ lang('PRIMEPOSTREVISIONS_DELETES') }}" />{% endif %}
 			{% if COMPARISONS and REVISION_CNT > 2 %}<input class="btn btn-secondary btn-sm" type="submit" name="compare" value="{{ lang('PRIMEPOSTREVISIONS_COMPARES') }}" />{% endif %}
 
@@ -133,17 +129,12 @@
 		{% if loops.pagination|length %}
 		<div class="pagination top-pagination align-items-center p-1 p-md-0 gap-2">
 			{% if SHOW_ALL_URL %}
-				<ul>
-					<li>
 						<a class="btn btn-primary btn-sm button fw-bold button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
 							<i class="icon fa fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
 						</a>
-					</li>
-				</ul>
 			{% endif %}
 			{% INCLUDE 'pagination.html' %}
 		</div>
-		<p class="clear"></p>
 		{% endif %}
 	</div>
 {% endif %}
