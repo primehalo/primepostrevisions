@@ -198,7 +198,7 @@ class listener implements EventSubscriberInterface
 
 		$sql_data	= $event['sql_data'];
 		$data		= $event['data'];
-		$cur_time	= !empty($data['post_time']) ? $data['post_time'] : time();
+		$cur_time	= !empty($data['post_edit_time']) ? $data['post_edit_time'] : time();
 		$sql_data[POSTS_TABLE]['sql'] = empty($sql_data[POSTS_TABLE]['sql']) ? [] : $sql_data[POSTS_TABLE]['sql'];
 		$sql_data[POSTS_TABLE]['sql'] = array_merge($sql_data[POSTS_TABLE]['sql'], [
 			'primepost_edit_time' => $cur_time,
