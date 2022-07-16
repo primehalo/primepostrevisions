@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2022-07-16
+### Changed
+- Fixed a bug where the post edit time could set incorrectly
+- Added scaffoldBB support
+
 ## [1.0.4] - 2021-08-27
 ### Changed
 - Updated French & Spanish translations
