@@ -1,0 +1,97 @@
+{% if REVISIONS %}
+<script id="ppr-cmpout-tpl" type="text/x-jsrender">
+<div class="post has-profile bg3 bg-primary bg-opacity-10 p-2 mb-2 rounded-3 comparison row gx-0 flex-row-reverse" id="<<:cmpId>>" style="display:none;">
+		<div class="col-md-3 fs-1 text-center">
+			<i class="fa fa-arrow-up"></i>
+		</div>
+		<div class="col-md-8 flex-grow-1">
+			<h3 class="fs-5">{{ lang('PRIMEPOSTREVISIONS_COMPARISON') ~ lang('COLON') }} <a class="text-decoration-none" href="#<<:cmpId>>"><<:cmpSubj>></a></h3>
+			<div class="content"><<:cmpText>></div>
+		</div>
+</div>
+</script>
+
+<script id="ppr-cmpbtn-tpl" type="text/x-jsrender">
+<li data-skip-responsive="true">
+	<a class="button btn btn-sm bg-gradient btn-secondary rounded-3 shadow-sm icon-button compare" data-cmp="<<:cmpId>>" title="{{ lang('PRIMEPOSTREVISIONS_COMPARE') }}">
+		<i class="icon fa fa-balance-scale fa-fw"></i>
+		<span class="visually-hidden">{{ lang('PRIMEPOSTREVISIONS_COMPARE') }}</span>
+	</a>
+</li>
+</script>
+
+{% INCLUDEJS '@primehalo_primepostrevisions/diff_match_patch.js' %}
+
+<script>
+/**
+ * Prime Post Revisions, JavaScript for revision comparison.
+ */
+
+// Compare 2 revisions
+function cmpData($textA, $textB) {
+	let dmp		= new diff_match_patch();
+	let diffs	= dmp.diff_main($textA, $textB);
+	let cmpText	= dmp.diff_prettyHtml(diffs).replace(/&lt;(img.*)&gt;/g, '<$1>');
+	let matches = cmpText.match(/<ins [^>]+>(.*?)<\/ins>|<del [^>]+>(.*?)<\/del>/g)
+	if (matches != null) {
+		matches.map(function(val) {
+			cmpText = cmpText.replace(val, val.replace(/&para;/g, '&crarr;'));
+		});
+	}
+	return cmpText.replace(/&para;/g, '');
+}
+
+// Compare all revisions with the adjacent post
+$postList = $('#revisions_form div.post');
+for (let i = 0, len = $postList.length; i < len - 1; i++) {
+	let $postA	= $postList.eq(i);
+	let $postB	= $postList.eq(i + 1);
+	let $subjA	= $('h3 a', $postA).text();
+	let $subjB	= $('h3 a', $postB).text();
+	let $textA	= $('textarea.ppr-post-bbcode', $postA).val();
+	let $textB	= $('textarea.ppr-post-bbcode', $postB).val();
+	let cmpSubj	= cmpData($subjB, $subjA);
+	let cmpText	= cmpData($textB, $textA);
+	let cmpId	= 'cmp-' + i + '-' + (i + 1);
+	let cmpBtn	= $('#ppr-cmpbtn-tpl').html().replace(/<<:cmpId>>/g, cmpId);
+	let cmpOut	= $('#ppr-cmpout-tpl').html().replace(/<<:cmpId>>/g, cmpId).replace(/<<:cmpSubj>>/g, cmpSubj).replace(/<<:cmpText>>/g, cmpText);
+	$postA.after(cmpOut);
+	$postB.find('.post-buttons').prepend(cmpBtn);
+}
+
+// Toggle Diff post on click of compare button
+$('div.post').on('click', 'a.compare', function() {
+	let cmpId = $(this).data('cmp');
+	$('#' + cmpId).slideToggle();
+});
+
+// Enable or disable the action buttons depending on if any of the checkboxes are checked
+function updatePrimePostRevActionBtn() {
+	let checkedCnt = $('#revisions_form input[name="revision_list[]"]:checkbox:checked').length;
+	let $btns = $('#revisions_form input[type="submit"]');
+	if (checkedCnt > 0) {
+		$btns.removeAttr('disabled').removeClass('disabled');
+	} else {
+		$btns.attr('disabled', 'disabled').addClass('disabled');
+	}
+
+	// Disable the delete button if only the current version of the post is selected
+	if (checkedCnt == 1 && $('#revision_list_0').is(':checked')) {
+		$btns.filter('[name="delete"]').attr('disabled', 'disabled').addClass('disabled');
+	}
+
+	// If a delete button exists and the current version of the post is selected then show the notice about not being able to delete the post
+	if ($btns.filter('[name="delete"]').length && $('#revision_list_0').is(':checked')) {
+		$('#ppr-post-delete-notice:hidden').show('fast');	// If it's hidden then show it
+	} else {
+		$('#ppr-post-delete-notice:visible').hide('fast');	// If it's visible then hide it
+	}
+}
+
+// Watch each checkbox to update the select action button status when a change occurs
+$('#revisions_form').on('change', 'input[name="revision_list[]"]', function() {
+	updatePrimePostRevActionBtn();
+});
+updatePrimePostRevActionBtn();
+</script>
+{% endif %}

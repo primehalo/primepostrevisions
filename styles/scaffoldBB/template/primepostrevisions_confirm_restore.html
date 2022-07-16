@@ -1,0 +1,50 @@
+{% if S_AJAX_REQUEST %}
+<form action="{{ S_CONFIRM_ACTION }}" method="post">
+	<h3 class="fs-5">{{ MESSAGE_TITLE }}</h3>
+	<p>{{ MESSAGE_TEXT }}</p>
+
+	<fieldset class="fields1">
+		<dl class="row gx-0">
+			<dt class="col-md-3"><label for="post_edit_reason">{{ lang('EDIT_REASON') ~ lang('COLON') }}</label></dt>
+			<dd class="col-md-auto"><input type="text" name="post_edit_reason" id="post_edit_reason" value="{{ POST_EDIT_REASON }}" class="inputbox autowidth form-control form-control-sm" maxlength="120" size="45" /></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="submit-buttons d-flex justify-content-center">
+		{{ S_HIDDEN_FIELDS }}
+		<input type="button" name="confirm" value="{{ lang('YES') }}" class="btn btn-success btn-sm button button2" />&nbsp;
+		<input type="button" name="cancel" value="{{ lang('NO') }}" class="btn btn-danger btn-sm button button2" />
+	</fieldset>
+</form>
+
+{% else %}
+
+{% INCLUDE 'overall_header.html' %}
+
+<form id="confirm" action="{{ S_CONFIRM_ACTION }}" method="post">
+<div class="panel bg-secondary bg-opacity-25 rounded-3 p-2 mb-2">
+	<div class="inner">
+
+	<h2 class="message-title fs-4">{{ MESSAGE_TITLE }}</h2>
+	<p>{{ MESSAGE_TEXT }}</p>
+
+	<fieldset class="fields1">
+		<dl class="row gx-0">
+			<dt class="col-md-3"><label for="post_edit_reason">{{ lang('EDIT_REASON') ~ lang('COLON') }}</label></dt>
+			<dd class="col-md-auto"><input type="text" name="post_edit_reason" id="post_edit_reason" value="{{ POST_EDIT_REASON }}" class="inputbox autowidth form-control form-control-sm" maxlength="120" size="45" /></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="submit-buttons d-flex justify-content-center">
+		{{ S_HIDDEN_FIELDS }}
+		<input type="submit" name="confirm" value="{{ lang('YES') }}" class="btn btn-success btn-sm button button2" />&nbsp;
+		<input type="submit" name="cancel" value="{{ lang('NO') }}" class="btn btn-danger btn-sm button button2" />
+	</fieldset>
+
+	</div>
+</div>
+</form>
+
+{% INCLUDE 'overall_footer.html' %}
+
+{% endif %}

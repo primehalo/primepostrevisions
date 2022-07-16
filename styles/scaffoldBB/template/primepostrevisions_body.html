@@ -1,0 +1,148 @@
+{% INCLUDE 'overall_header.html' %}
+
+<h2 class="fs-4">{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_TITLE') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING') }}{% endif %}</h2>
+<p>
+	{% if COMPARISONS %}{{ lang('PRIMEPOSTREVISIONS_VIEWING_EXPLAIN') }}{% else %}{{ lang('PRIMEPOSTREVISIONS_COMPARING_EXPLAIN') }}{% endif %}<br>
+</p>
+
+{% if loops.pagination|length or U_POST or (S_FORM_ACTION and not COMPARISONS) %}
+	<div class="action-bar bar-top ppr-action-bar d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+		<div class="left-box d-flex flex-wrap align-items-center">
+			{% if U_POST %}
+				<i class="icon fa fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
+				<a class="text-decoration-none" href="{{ U_POST }}" title="{{ lang('VIEW_LATEST_POST') }}"><strong><em>{{ lang('VIEW_LATEST_POST') }}</em></strong></a>
+			{% endif %}
+			{% if S_FORM_ACTION and not COMPARISONS %}
+				<i class="icon fa fa-chevron-left fa-fw icon-lightgray icon-md" aria-hidden="true"></i>
+				<a class="text-decoration-none" href="{{ S_FORM_ACTION }}" title="{{ lang('PRIMEPOSTREVISIONS_VIEW') }}"><strong><em>{{ lang('PRIMEPOSTREVISIONS_VIEW') }}</em></strong></a>
+			{% endif %}
+		</div>
+		<div class="pagination top-pagination align-items-center p-1 p-md-0 gap-2">
+			{% if SHOW_ALL_URL %}
+						<a class="btn btn-primary btn-sm button fw-bold button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
+							<i class="icon fa fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
+						</a>
+			{% endif %}
+			{% INCLUDE 'pagination.html' %}
+		</div>
+	</div>
+{% endif %}
+
+<form id="revisions_form" name="revisions_form" method="post" action="{{ S_FORM_ACTION }}">
+{% for postrow in loops.postrow %}
+	<div id="p{{ postrow.REVISION_ID }}" class="post row gx-0 p-2 mb-2 flex-row-reverse rounded-3 position-relative has-profile {% if postrow.S_ROW_COUNT is odd %}bg1 bg-secondary bg-opacity-10{% else %}bg2 bg-secondary bg-opacity-25{% endif %}">
+	
+			<ul class="border-start postprofile  col-md-3 d-md-flex flex-md-column align-items-md-start flex-shrink-0 mb-2 mb-md-0 p-0 p-md-2 list-unstyled" id="profile{{ postrow.REVISION_ID }}">
+				<li class="d-flex flex-md-column {% if postrow.RANK_TITLE or postrow.RANK_IMG %}has-profile-rank{% else %}no-profile-rank{% endif %} {% if postrow.POSTER_AVATAR %}has-avatar{% else %}no-avatar{% endif %}">
+
+					<div class="avatar-container ms-1">
+						{% if postrow.POSTER_AVATAR %}
+							{% if postrow.U_POST_AUTHOR %}<a href="{{ postrow.U_POST_AUTHOR }}" class="avatar">{{ postrow.POSTER_AVATAR }}</a>{% else %}<span class="avatar">{{ postrow.POSTER_AVATAR }}</span>{% endif %}
+						{% endif %}
+					</div>
+				</li>
+				<li class="ms-1 ms-md-0">
+					{% if not postrow.U_POST_AUTHOR %}<strong>{{ postrow.POST_AUTHOR_FULL }}</strong>{% else %}{{ postrow.POST_AUTHOR_FULL }}{% endif %}					
+				</li>
+				{% if postrow.RANK_TITLE or postrow.RANK_IMG %}<li class="profile-rank ms-1 ms-md-0">{{ postrow.RANK_TITLE }}{% if postrow.RANK_TITLE and postrow.RANK_IMG %}<br />{% endif %}{{ postrow.RANK_IMG }}</li>{% endif %}
+				{% if not S_IS_BOT and postrow.contact|length %}
+					<li class="profile-contact d-none d-md-block">
+						<strong>{{ lang('CONTACT') ~ lang('COLON') }}</strong>
+							<button type="button" class="btn btn-sm p-0 fs-5" style="position: relative; top: -3px;" data-bs-toggle="dropdown" aria-expanded="false" title="{postrow.CONTACT_USER}">
+								<i class="fa fa-commenting-o fa-fw icon-lg" aria-hidden="true"></i><span class="visually-hidden">{postrow.CONTACT_USER}</span>
+							</button>
+							<ul class="dropdown-menu contact-icons">
+									{% for contact in postrow.contact %}
+										{% set REMAINDER = contact.S_ROW_COUNT % 4 %}
+										{% DEFINE S_LAST_CELL = ((REMAINDER eq 3) or (contact.S_LAST_ROW and contact.S_NUM_ROWS < 4)) %}
+										{% if REMAINDER eq 0 %}
+											<li class="d-flex">
+										{% endif %}
+											<a style="flex: 0 0 0" class="dropdown-item p-2<!-- IF $S_LAST_CELL --> last-cell<!-- ENDIF --> href="{% if contact.U_CONTACT %}{{ contact.U_CONTACT }}{% else %}{{ postrow.U_POST_AUTHOR }}{% endif %}" title="{{ contact.NAME }}"{% if contact.ID eq 'jabber' %} onclick="popup(this.href, 750, 320); return false;"{% endif %}>
+												<span class="contact-icon {{ contact.ID }}-icon">{{ contact.NAME }}</span>
+											</a>
+										{% if REMAINDER eq 3 or contact.S_LAST_ROW %}
+											</li>
+										{% endif %}
+									{% endfor %}
+							</ul>
+					
+					</li>
+				{% endif %}
+			</ul>
+			<div class="postbody col-md-9" id="revision_row{{ postrow.REVISION_CNT }}">
+				<div id="post_content{{ postrow.REVISION_ID }}">
+					<h3 class="fw-bold {% if postrow.S_FIRST_ROW %}first fs-5 {% else %} fs-6 {% endif %}">{{ postrow.EDIT_COUNT_STR }}: <a class="text-decoration-none" href="#p{{ postrow.REVISION_ID }}">{{ postrow.POST_SUBJECT }}</a></h3>
+					<p class="author mb-1">
+						<span class="responsive-hide d-none d-md-inline-block">{% if postrow.EDIT_COUNT > 0 %}{{ lang('PRIMEPOSTREVISIONS_EDIT_BY') }}{% else %}{{ lang('POST_BY_AUTHOR') }}{% endif %} <strong>{{ postrow.POST_AUTHOR_FULL }}</strong> &raquo; </span>{{ postrow.POST_DATE }}
+					</p>					
+					<ul class="post-buttons d-flex flex-wrap gap-1 m-1 justify-content-center justify-content-md-end list-unstyled">
+						{% if postrow.U_RESTORE %}
+							<li>
+								<a href="{{ postrow.U_RESTORE }}" title="{{ lang('PRIMEPOSTREVISIONS_RESTORE') }}" class="bg-gradient btn-secondary btn btn-sm button button-icon-only rounded-3 shadow-sm">
+									<i class="icon fa fa-undo fa-fw"></i>
+									<span class="visually-hidden">{{ lang('PRIMEPOSTREVISIONS_RESTORE') }}</span>
+								</a>
+							</li>
+						{% endif %}
+						{% if postrow.U_DELETE %}
+							<li>
+								<a href="{{ postrow.U_DELETE }}" title="{{ lang('PRIMEPOSTREVISIONS_DELETE') }}" class="bg-gradient btn-secondary btn btn-sm button button-icon-only rounded-3 shadow-sm">
+									<i class="icon fa fa-trash fa-fw"></i>
+									<span class="visually-hidden">{{ lang('PRIMEPOSTREVISIONS_DELETE') }}</span>
+								</a>
+							</li>
+						{% endif %}
+						{% if SELECTABLE %}
+							<li data-skip-responsive="true">
+								<label class="bg-gradient btn-secondary btn btn-sm button button-icon-only rounded-3 shadow-sm ppr-post-checkbox" title="{{ lang('SELECT') }}">
+									<i class="icon fa fa-check fa-fw"></i>
+									<input class="form-check-input" type="checkbox" id="revision_list_{{ postrow.REVISION_ID }}" name="revision_list[]" value="{{ postrow.REVISION_ID }}"{% if postrow.S_CHECKED %} checked="checked"{% endif %} />			
+								</label>
+							</li>
+						{% endif %}
+					</ul>
+
+					<div class="content">{{ postrow.POST_TEXT }}</div>
+					<textarea class="ppr-post-bbcode form-control form-control-sm" style="display: none;">{{ postrow.BBCODE_TEXT }}</textarea>
+
+					{% if postrow.EDIT_REASON %}
+						<div class="notice alert alert-warning">
+							<strong>{{ lang('REASON') ~ lang('COLON') }}</strong> <em>{{ postrow.EDIT_REASON }}</em>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		
+	</div>
+{% endfor %}
+
+{% if SELECTABLE %}
+	<div class="action-bar bar-bottom ppr-action-bar d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+		<div class="left-box d-flex flex-wrap gap-2 align-items-center">
+			{% if DELETABLE_CNT > 1 %}<input class="btn btn-sm btn-secondary fw-bold" type="submit" name="delete" value="{{ lang('PRIMEPOSTREVISIONS_DELETES') }}" />{% endif %}
+			{% if COMPARISONS and REVISION_CNT > 2 %}<input class="btn btn-secondary btn-sm" type="submit" name="compare" value="{{ lang('PRIMEPOSTREVISIONS_COMPARES') }}" />{% endif %}
+
+			<a class="btn btn-sm btn-outline-secondary" href="#" onclick="marklist('revisions_form', 'revision_list[]', true); updatePrimePostRevActionBtn(); return false;">{{ lang('MARK_ALL') }}</a>
+			<a class="btn btn-sm btn-outline-secondary" href="#" onclick="marklist('revisions_form', 'revision_list[]', false); updatePrimePostRevActionBtn(); return false;">{{ lang('UNMARK_ALL') }}</a>
+		</div>
+		{% if loops.pagination|length %}
+		<div class="pagination top-pagination align-items-center p-1 p-md-0 gap-2">
+			{% if SHOW_ALL_URL %}
+						<a class="btn btn-primary btn-sm button fw-bold button" href="{{ SHOW_ALL_URL }}" rel="all" role="button">
+							<i class="icon fa fa-eye fa-fw" aria-hidden="true"></i>&nbsp;{{ lang('SEE_ALL') }}
+						</a>
+			{% endif %}
+			{% INCLUDE 'pagination.html' %}
+		</div>
+		{% endif %}
+	</div>
+{% endif %}
+	<div id="ppr-post-delete-notice" class="rules alert alert-warning" style="display:none;">
+		<div class="inner">
+			{{ lang('PRIMEPOSTREVISIONS_DELETE_POST_NOTICE') }}
+		</div>
+	</div>
+</form>
+
+{% INCLUDE 'overall_footer.html' %}
