@@ -5,9 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [1.0.5] - 2022-07-16
-### Changed
-- Fixed a bug where the post edit time could set incorrectly
-- Added scaffoldBB support
+### Added
+- Support for scaffoldBB
+
+### Fixed
+- Post edit time could be incorrect
 
 ## [1.0.4] - 2021-08-27
 ### Changed
