@@ -43,6 +43,7 @@ services:
             - '@dbal.conn'
             - '@controller.helper'
             - '@request'
+            - '@cache.driver'
             - '@primehalo.primepostrevisions.core'
             - '%primehalo.primepostrevisions.tables.primepostrev%'
         tags:

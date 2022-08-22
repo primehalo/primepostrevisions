@@ -4,7 +4,7 @@
 	"description": "Keeps a revision history of all post edits. These revisions can be viewed, deleted, and restored only by users with the necessary permissions.",
 	"homepage": "https://github.com/primehalo/primepostrevisions",
 	"version": "1.0.5",
-	"time": "2022-07-16",
+	"time": "2022-08-21",
 	"license": "GPL-2.0-only",
 	"authors": [
 		{

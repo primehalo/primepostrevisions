@@ -100,7 +100,7 @@ class prime_post_revisions
 	* Build the URL for a post
 	*
 	* @param	int $post_id	The post ID
-	* @return	string			An URL for the post
+	* @return	string			A URL for the post
 	* @access	public
 	*/
 	public function build_post_url($post_id)
@@ -112,7 +112,7 @@ class prime_post_revisions
 	* Build the URL for a topic
 	*
 	* @param	int $topic_id	The topic ID
-	* @return	string			An URL for the topic
+	* @return	string			A URL for the topic
 	* @access	public
 	*/
 	public function build_topic_url($topic_id)

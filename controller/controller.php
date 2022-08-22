@@ -58,7 +58,7 @@ class controller
 	* @param auth					$auth				Auth object
 	* @param config					$config				Config object
 	* @param db_driver				$db					Database connection
-	* @param controller_helper		$controller_helper	Controller helper object
+	* @param controller_helper		$helper				Controller helper object
 	* @param request				$request			Request object
 	* @param template				$template			Template object
 	* @param user					$user				User object
@@ -98,7 +98,7 @@ class controller
 	public function view($post_id, $revision_id = false)
 	{
 		$comparing_selected = false;	// Are we comparing selected revisions?
-		$rev_list = [];			// List of revision IDs to compare
+		$rev_list = [];					// List of revision IDs to compare
 
 		if ($revision_id !== false)
 		{
@@ -151,10 +151,7 @@ class controller
 			{
 				return ($compare_submit) ? $this->view($post_id, $revision_list) : $this->delete($revision_list);
 			}
-			else
-			{
-				trigger_error('FORM_INVALID', E_USER_WARNING);
-			}
+			trigger_error('FORM_INVALID', E_USER_WARNING);
 		}
 
 		// Check if user is allowed to view these revisions
@@ -450,19 +447,13 @@ class controller
 				meta_refresh(3, $view_url);
 				return $this->helper->message($this->user->lang[$msg_prefix . 'SUCCESS'] . "<br /><br />{$view_link}");
 			}
-			else
-			{
-				return $this->helper->message($this->user->lang[$msg_prefix . 'FAILED'] . "<br /><br />{$view_link}");
-			}
+			return $this->helper->message($this->user->lang[$msg_prefix . 'FAILED'] . "<br /><br />{$view_link}");
 		}
-		else
-		{
-			$s_hidden_fields	= build_hidden_fields([
-				'delete'		=> true,
-				'revision_list'	=> $rev_list,
-			]);
-			confirm_box(false, $this->user->lang[$msg_prefix . 'CONFIRM'], $s_hidden_fields);
-		}
+		$s_hidden_fields	= build_hidden_fields([
+			'delete'		=> true,
+			'revision_list'	=> $rev_list,
+		]);
+		confirm_box(false, $this->user->lang[$msg_prefix . 'CONFIRM'], $s_hidden_fields);
 
 		redirect($view_url);
 	}
@@ -531,15 +522,9 @@ class controller
 				meta_refresh(3, $post_url);
 				return $this->helper->message($this->user->lang['PRIMEPOSTREVISIONS_RESTORE_SUCCESS'] . "<br /><br />{$post_link}");
 			}
-			else
-			{
-				return $this->helper->message($this->user->lang['PRIMEPOSTREVISIONS_RESTORE_FAILURE'] . "<br /><br />{$post_link}");
-			}
+			return $this->helper->message($this->user->lang['PRIMEPOSTREVISIONS_RESTORE_FAILURE'] . "<br /><br />{$post_link}");
 		}
-		else
-		{
-			confirm_box(false, $this->user->lang['PRIMEPOSTREVISIONS_RESTORE_CONFIRM'], '', 'primepostrevisions_confirm_restore.html');
-		}
+		confirm_box(false, $this->user->lang['PRIMEPOSTREVISIONS_RESTORE_CONFIRM'], '', 'primepostrevisions_confirm_restore.html');
 
 		redirect($view_url);
 	}

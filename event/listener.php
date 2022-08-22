@@ -15,6 +15,7 @@ use phpbb\config\config;
 use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\controller\helper as controller_helper;
 use phpbb\request\request_interface as request;
+use phpbb\cache\driver\driver_interface as cache_driver;
 use primehalo\primepostrevisions\core\prime_post_revisions as core;
 
 /**
@@ -30,6 +31,7 @@ class listener implements EventSubscriberInterface
 	protected $db;			// @var db_driver
 	protected $helper;		// @var controller_helper
 	protected $request;		// @var request
+	protected $cache;
 	protected $core;		// @var core
 
 	/**
@@ -39,7 +41,12 @@ class listener implements EventSubscriberInterface
 	protected $revisions_table;
 	protected $revision_saved;
 
-	static public function getSubscribedEvents()
+	/**
+	 * Cache Key
+	 */
+	protected const PPR_USER_CACHE_KEY = '_prime_post_revisions_user_cache';
+
+	public static function getSubscribedEvents()
 	{
 		return [
 			'core.user_setup'								=> 'load_language_on_setup',			// 3.1.0-a1
@@ -52,7 +59,15 @@ class listener implements EventSubscriberInterface
 			'core.delete_posts_in_transaction_before'		=> 'delete_revisions_for_posts',		// 3.1.0-a4
 			'core.acp_manage_forums_request_data'			=> 'acp_manage_forums_request_data',	// 3.1.0-a1
 			'core.acp_manage_forums_display_form'			=> 'acp_manage_forums_display_form',	// 3.1.0-a1
+			'core.ucp_profile_avatar_sql'					=> 'clear_cache',	// 3.1.11-RC1
+			'core.avatar_manager_avatar_delete_after'		=> 'clear_cache',	// 3.2.4-RC1
+			'core.ucp_profile_reg_details_sql_ary'			=> 'clear_cache',	// 3.1.4-RC1
 		];
+	}
+
+	public function clear_cache()
+	{
+		$this->cache->destroy(self::PPR_USER_CACHE_KEY);
 	}
 
 	/**
@@ -60,17 +75,19 @@ class listener implements EventSubscriberInterface
 	*
 	* @param config					$config				Config object
 	* @param db_driver				$db					Database connection
-	* @param controller_helper		$controller_helper	Controller helper object
+	* @param controller_helper		$helper				Controller helper object
 	* @param request				$request			Request object
+	* @param cache_driver			$cache				Cache object
 	* @param core					$core				Prime Post Revisions core
 	* @param string					$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(config $config, db_driver $db, controller_helper $helper, request $request, core $core, $revisions_table)
+	public function __construct(config $config, db_driver $db, controller_helper $helper, request $request, cache_driver $cache, core $core, $revisions_table)
 	{
 		$this->config			= $config;
 		$this->db				= $db;
 		$this->helper			= $helper;
 		$this->request			= $request;
+		$this->cache			= $cache;
 		$this->core				= $core;
 		$this->revisions_table	= $revisions_table;
 	}
