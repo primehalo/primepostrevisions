@@ -50,7 +50,7 @@ class controller
 	/**
 	 * Cache Key
 	 */
-	protected const PPR_USER_CACHE_KEY = '_prime_post_revisions_user_cache';
+	const PPR_USER_CACHE_KEY = '_prime_post_revisions_user_cache';
 
 	/**
 	* Constructor

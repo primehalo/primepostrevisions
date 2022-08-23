@@ -44,7 +44,7 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Cache Key
 	 */
-	protected const PPR_USER_CACHE_KEY = '_prime_post_revisions_user_cache';
+	const PPR_USER_CACHE_KEY = '_prime_post_revisions_user_cache';
 
 	public static function getSubscribedEvents()
 	{
@@ -59,9 +59,10 @@ class listener implements EventSubscriberInterface
 			'core.delete_posts_in_transaction_before'		=> 'delete_revisions_for_posts',		// 3.1.0-a4
 			'core.acp_manage_forums_request_data'			=> 'acp_manage_forums_request_data',	// 3.1.0-a1
 			'core.acp_manage_forums_display_form'			=> 'acp_manage_forums_display_form',	// 3.1.0-a1
-			'core.ucp_profile_avatar_sql'					=> 'clear_cache',	// 3.1.11-RC1
-			'core.avatar_manager_avatar_delete_after'		=> 'clear_cache',	// 3.2.4-RC1
-			'core.ucp_profile_reg_details_sql_ary'			=> 'clear_cache',	// 3.1.4-RC1
+			'core.ucp_profile_avatar_sql'					=> 'clear_cache',						// 3.1.11-RC1 Avatar is updated in UCP
+			'core.avatar_manager_avatar_delete_after'		=> 'clear_cache',						// 3.2.4-RC1 Avatar is deleted
+			'core.ucp_profile_reg_details_sql_ary'			=> 'clear_cache',						// 3.1.4-RC1 In case username is changed
+			'core.acp_users_avatar_sql'						=> 'clear_cache',						// 3.2.4-RC1 Avatar is updated in ACP
 		];
 	}
 
