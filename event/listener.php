@@ -32,7 +32,7 @@ class listener implements EventSubscriberInterface
 	protected $db;			// @var db_driver
 	protected $helper;		// @var controller_helper
 	protected $request;		// @var request
-	protected $cache;		// @var db_driver
+	protected $cache;		// @var cache_driver
 	protected $user;		// @var user
 	protected $core;		// @var core
 
