@@ -16,6 +16,7 @@ use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\controller\helper as controller_helper;
 use phpbb\request\request_interface as request;
 use phpbb\cache\driver\driver_interface as cache_driver;
+use phpbb\user;
 use primehalo\primepostrevisions\core\prime_post_revisions as core;
 
 /**
@@ -31,7 +32,8 @@ class listener implements EventSubscriberInterface
 	protected $db;			// @var db_driver
 	protected $helper;		// @var controller_helper
 	protected $request;		// @var request
-	protected $cache;
+	protected $cache;		// @var db_driver
+	protected $user;		// @var user
 	protected $core;		// @var core
 
 	/**
@@ -59,16 +61,11 @@ class listener implements EventSubscriberInterface
 			'core.delete_posts_in_transaction_before'		=> 'delete_revisions_for_posts',		// 3.1.0-a4
 			'core.acp_manage_forums_request_data'			=> 'acp_manage_forums_request_data',	// 3.1.0-a1
 			'core.acp_manage_forums_display_form'			=> 'acp_manage_forums_display_form',	// 3.1.0-a1
-			'core.ucp_profile_avatar_sql'					=> 'clear_cache',						// 3.1.11-RC1 Avatar is updated in UCP
-			'core.avatar_manager_avatar_delete_after'		=> 'clear_cache',						// 3.2.4-RC1 Avatar is deleted
-			'core.ucp_profile_reg_details_sql_ary'			=> 'clear_cache',						// 3.1.4-RC1 In case username is changed
-			'core.acp_users_avatar_sql'						=> 'clear_cache',						// 3.2.4-RC1 Avatar is updated in ACP
+			'core.ucp_profile_avatar_sql'					=> 'clear_cache',						// 3.1.11-RC1	- Avatar is updated in UCP
+			'core.avatar_manager_avatar_delete_after'		=> 'clear_cache',						// 3.2.4-RC1	- Avatar is deleted
+			'core.ucp_profile_reg_details_sql_ary'			=> 'clear_cache',						// 3.1.4-RC1	- In case username is changed
+			'core.acp_users_avatar_sql'						=> 'clear_cache',						// 3.2.4-RC1	- Avatar is updated in ACP
 		];
-	}
-
-	public function clear_cache()
-	{
-		$this->cache->destroy(self::PPR_USER_CACHE_KEY);
 	}
 
 	/**
@@ -79,16 +76,18 @@ class listener implements EventSubscriberInterface
 	* @param controller_helper		$helper				Controller helper object
 	* @param request				$request			Request object
 	* @param cache_driver			$cache				Cache object
+	* @param user					$user				User object
 	* @param core					$core				Prime Post Revisions core
 	* @param string					$revisions_table	Prime Post Revisions table
 	*/
-	public function __construct(config $config, db_driver $db, controller_helper $helper, request $request, cache_driver $cache, core $core, $revisions_table)
+	public function __construct(config $config, db_driver $db, controller_helper $helper, request $request, cache_driver $cache, user $user, core $core, $revisions_table)
 	{
 		$this->config			= $config;
 		$this->db				= $db;
 		$this->helper			= $helper;
 		$this->request			= $request;
 		$this->cache			= $cache;
+		$this->user				= $user;
 		$this->core				= $core;
 		$this->revisions_table	= $revisions_table;
 	}
@@ -110,6 +109,28 @@ class listener implements EventSubscriberInterface
 		$permissions['f_primepostrev_delete']	= ['lang' => 'ACL_F_PRIMEPOSTREV_DELETE',	'cat' => 'actions'];
 		$permissions['f_primepostrev_restore']	= ['lang' => 'ACL_F_PRIMEPOSTREV_RESTORE',	'cat' => 'actions'];
 		$event['permissions'] = $permissions;
+	}
+
+	/**
+	* Clear Cache
+	*
+	* @param	\phpbb\event\data	$event	The event object from core.permissions
+	* @return	void
+	* @access	public
+	*/
+	public function clear_cache($event)
+	{
+		$user_id = isset($event['user_row']['user_id']) ? $event['user_row']['user_id']	// core.acp_users_avatar_sql				- Avatar is updated in ACP
+				: (isset($event['user']) ? $event['user']->data['user_id']				// core.avatar_manager_avatar_delete_after	- Avatar is deleted
+				: (isset($event['data']['user_id']) ? $event['data']['user_id']			// core.ucp_profile_reg_details_sql_ary		- In case username is changed
+				: $this->user->data['user_id']));										// core.ucp_profile_avatar_sql				- Avatar is updated in UCP
+
+		if ($user_id)
+		{
+			$user_cache = $this->cache->get(self::PPR_USER_CACHE_KEY);
+			unset($user_cache[$user_id]);
+			$this->cache->put(self::PPR_USER_CACHE_KEY, $user_cache);
+		}
 	}
 
 	/**
