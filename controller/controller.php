@@ -222,7 +222,7 @@ class controller
 		$this->db->sql_freeresult($result);
 
 		// Get total count about the list of revisions
-		unset($sql_ary['LEFT_JOIN']);
+		unset($sql_ary['LEFT_JOIN'], $sql_ary['ORDER_BY']);
 		$sql_ary['SELECT']	= 'COUNT(*) as total_rev_cnt';
 		$sql				= $this->db->sql_build_query('SELECT', $sql_ary);
 		$result				= $this->db->sql_query($sql);
