@@ -97,6 +97,12 @@ class controller
 	*/
 	public function view($post_id, $revision_id = false)
 	{
+		// Force absolute URLs for avatars and other assets when in route context
+		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
+		{
+			define('PHPBB_USE_BOARD_URL_PATH', true);
+		}
+
 		$comparing_selected = false;	// Are we comparing selected revisions?
 		$rev_list = [];					// List of revision IDs to compare
 
