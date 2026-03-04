@@ -3,10 +3,10 @@
  *
  * phpBB Forum Mapper. A helper class for the phpBB Forum Software package.
  *
- * @author Dark❶, https://dark1.tech
- * @version 1.0.3
+ * @author Dark❶
+ * @version 1.0.4
  * @source https://github.com/Dark1z/phpbbForumMap
- * @copyright (c) 2020, Dark❶, https://dark1.tech
+ * @copyright (c) 2020, Dark❶
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
