@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.9] - 2026-11-14
+### Fixed
+- Enabling the extension or deleting its data could time out on boards with a large number of posts
+- Existing post edit info was not copied into the extension's edit info columns during installation
+- An enable that previously timed out can now be completed by enabling the extension again
+
+### Added
+- An index on post_id in the revisions table, to speed up revision lookups when viewing topics
+
 ## [1.0.8] - 2025-11-23
 ### Fixed
 - The Avatar image path would be incorrect when controllers were accessed via routes
