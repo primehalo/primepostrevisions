@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.10] - 2026-11-23
+### Fixed
+- Deleting the extension's data could run until it timed out, without removing anything, if an earlier enable had not finished
+
 ## [1.0.9] - 2026-11-14
 ### Fixed
 - Enabling the extension or deleting its data could time out on boards with a large number of posts
