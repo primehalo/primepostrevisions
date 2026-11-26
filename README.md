@@ -13,9 +13,11 @@ A phpBB 3.2/3.3 extension that keeps a revision history of all posts edits. Thes
 
 ### Large boards
 
-This extension adds three columns to the posts table. On MySQL 8.0.12+ and MariaDB 10.3+ this is instant. On older versions MySQL has to rebuild the whole posts table, which on a board with a very large number of posts can take longer than your web server allows for a single request.
+This extension adds three columns to the posts table. On MySQL 8.0.12+ and MariaDB 10.3+ this is usually instant. On older versions, or when the posts table has a FULLTEXT index (used by phpBB's MySQL fulltext search), MySQL has to rebuild the whole posts table, which on a board with a very large number of posts can take longer than your web server allows for a single request. Removing the columns when deleting the extension's data works the same way (instant removal needs MySQL 8.0.29+ or MariaDB 10.4+).
 
-If that applies to your board, you can add the columns yourself from phpMyAdmin or the MySQL command line before enabling the extension (replace `phpbb_` with your table prefix):
+On boards with 100,000 or more posts, the extension checks this for you: if the columns can't be added or removed instantly, enabling the extension or deleting its data stops with an error message showing the SQL to run.
+
+You can also add the columns yourself from phpMyAdmin or the MySQL command line before enabling the extension (replace `phpbb_` with your table prefix):
 
 ```sql
 ALTER TABLE phpbb_posts
@@ -24,7 +26,7 @@ ALTER TABLE phpbb_posts
   ADD COLUMN primepost_edit_count int(4) UNSIGNED DEFAULT '0' NOT NULL;
 ```
 
-The extension will see that the columns already exist and skip that step. The same applies when deleting the extension's data, where you can remove the columns yourself first:
+Running it from the MySQL command line avoids any web server time limit. It may take a while, and new posts may be blocked until it finishes. The extension will see that the columns already exist and skip that step. The same applies when deleting the extension's data, where you can remove the columns yourself first:
 
 ```sql
 ALTER TABLE phpbb_posts

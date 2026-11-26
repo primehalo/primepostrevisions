@@ -15,6 +15,35 @@ namespace primehalo\primepostrevisions;
  */
 class ext extends \phpbb\extension\base
 {
+	/** @var string The migration that adds this extension's columns to the posts table */
+	const POSTS_COLUMNS_MIGRATION = '\primehalo\primepostrevisions\migrations\install_schema';
+
+	/**
+	* Enable the extension, after first adding this extension's columns to the posts table.
+	*
+	* On large boards adding the columns can fail with an error asking the admin to add them manually (see
+	* install_schema::run_mysql_alter). If that error came from inside the migration, phpBB would partly
+	* revert the migration and leave it in a state that crashes the next attempt to enable. Adding the
+	* columns here, before any migration runs, means the error leaves nothing to clean up. The migration
+	* then finds the columns already there and skips adding them.
+	*
+	* @param mixed $old_state The return value of the previous call of this method, or false on the first call
+	* @return mixed Returns false after the last step, otherwise temporary state which is passed as an argument to the next step
+	* @throws \phpbb\db\migration\exception When the posts table must be altered manually
+	* @access public
+	*/
+	public function enable_step($old_state)
+	{
+		$this->get_migration_file_list();
+		$state = $this->migrator->migration_state(self::POSTS_COLUMNS_MIGRATION);
+		if ($state === false || !$state['migration_data_done'])
+		{
+			$this->migrator->get_migration(self::POSTS_COLUMNS_MIGRATION)->add_post_columns();
+		}
+
+		return parent::enable_step($old_state);
+	}
+
 	/**
 	* Delete the extension's data, after first repairing any migration that was left half installed.
 	*
