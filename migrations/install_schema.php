@@ -20,6 +20,9 @@ use phpbb\db\migration\migration;
  */
 class install_schema extends migration
 {
+	/** @var int Boards with at least this many posts are asked to alter the posts table themselves when it can't be done instantly */
+	const MANUAL_ALTER_MIN_POSTS = 100000;
+
 	static public function depends_on()
 	{
 		return ['\phpbb\db\migration\data\v31x\v313'];
@@ -205,8 +208,27 @@ class install_schema extends migration
 	}
 
 	/**
-	* Run a combined ALTER TABLE on MySQL, first trying ALGORITHM=INSTANT (MySQL 8.0.12+, MariaDB 10.3+)
-	* and falling back to a regular ALTER TABLE on servers that don't support it.
+	* Load the language file holding this migration's error messages. The extension isn't enabled while it is
+	* being installed or its data deleted, so phpBB hasn't loaded any of its language files.
+	*
+	* @access protected
+	*/
+	protected function load_language()
+	{
+		global $phpbb_container;
+
+		if (isset($phpbb_container) && $phpbb_container->has('language'))
+		{
+			$phpbb_container->get('language')->add_lang('migrations', 'primehalo/primepostrevisions');
+		}
+	}
+
+	/**
+	* Run a combined ALTER TABLE on MySQL, first trying ALGORITHM=INSTANT (MySQL 8.0.12+, MariaDB 10.3+).
+	* On servers that can't do it instantly, small boards fall back to a regular ALTER TABLE, while large
+	* boards get an error asking the admin to run the statement themselves.
+	*
+	* @throws \phpbb\db\migration\exception When the posts table is too large to rebuild within one request
 	*
 	* @param string	$table_name	The table to alter
 	* @param array	$alter		The individual ADD/DROP clauses
@@ -222,6 +244,17 @@ class install_schema extends migration
 
 		if ($result === false)
 		{
+			// The server can't make this change instantly (for example on older MySQL/MariaDB versions, or
+			// because the posts table has a FULLTEXT index), so it has to rebuild the whole posts table. On
+			// large boards that takes longer than the web server allows for a single request, and the killed
+			// request can leave the ALTER TABLE running in the database, blocking the next attempt. So rather
+			// than hang until the request times out, stop and tell the admin to run the statement themselves.
+			if ((int) $this->config['num_posts'] >= self::MANUAL_ALTER_MIN_POSTS)
+			{
+				$this->load_language();
+				throw new \phpbb\db\migration\exception('PRIMEPOSTREV_ALTER_POSTS_MANUALLY', htmlspecialchars($sql . ';', ENT_COMPAT, 'UTF-8'));
+			}
+
 			// A regular ALTER TABLE can take a while on large boards
 			if (function_exists('set_time_limit'))
 			{
