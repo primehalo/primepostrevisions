@@ -59,26 +59,36 @@ class v109_copy_edit_info extends migration
 	*/
 	public function copy_edit_info($start = 0)
 	{
-		$start = (int) $start;
-
 		// Find the last post ID of this batch
 		$sql = 'SELECT post_id
 				FROM ' . POSTS_TABLE . '
-				WHERE post_id > ' . $start . '
+				WHERE post_id > ' . (int) $start . '
 				ORDER BY post_id ASC';
 		$result = $this->db->sql_query_limit($sql, 1, self::BATCH_SIZE - 1);
 		$end = (int) $this->db->sql_fetchfield('post_id');
 		$this->db->sql_freeresult($result);
 
+		// Fewer than a full batch of posts remain, so this is the last batch: run it up to the highest post ID
+		$last_batch = !$end;
+		if ($last_batch)
+		{
+			$sql = 'SELECT MAX(post_id) AS max_post_id
+					FROM ' . POSTS_TABLE;
+			$result = $this->db->sql_query($sql);
+			$end = (int) $this->db->sql_fetchfield('max_post_id');
+			$this->db->sql_freeresult($result);
+		}
+
 		$sql = 'UPDATE ' . POSTS_TABLE . '
 				SET primepost_edit_time = post_edit_time,
 					primepost_edit_user = post_edit_user,
 					primepost_edit_count = post_edit_count
-				WHERE post_id > ' . $start . ($end ? ' AND post_id <= ' . $end : '') . '
+				WHERE post_id > ' . (int) $start . '
+					AND post_id <= ' . (int) $end . '
 					AND primepost_edit_time = 0
 					AND (post_edit_time <> 0 OR post_edit_user <> 0 OR post_edit_count <> 0)';
 		$this->db->sql_query($sql);
 
-		return $end ? $end : true;
+		return $last_batch ? true : $end;
 	}
 }

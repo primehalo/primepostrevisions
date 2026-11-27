@@ -252,7 +252,7 @@ class install_schema extends migration
 			if ((int) $this->config['num_posts'] >= self::MANUAL_ALTER_MIN_POSTS)
 			{
 				$this->load_language();
-				throw new \phpbb\db\migration\exception('PRIMEPOSTREV_ALTER_POSTS_MANUALLY', htmlspecialchars($sql . ';', ENT_COMPAT, 'UTF-8'));
+				throw new \phpbb\db\migration\exception('PRIMEPOSTREV_ALTER_POSTS_MANUALLY', utf8_htmlspecialchars($sql . ';'));
 			}
 
 			// A regular ALTER TABLE can take a while on large boards

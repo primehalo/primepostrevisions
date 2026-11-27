@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.12] - 2026-11-27
+### Fixed
+- Issues reported by the phpBB extension validator in the install migrations
+
+### Added
+- Translations of the manual SQL message for all included languages
+
 ## [1.0.11] - 2026-11-26
 ### Changed
 - On large boards where the database can't add or remove the posts table columns instantly, enabling the extension or deleting its data now stops straight away with the SQL to run manually, instead of running until the server times out
